@@ -11,6 +11,10 @@ namespace Artefact
             X = x;
             Y = y;
         }
+        public Vector2i(Vector2i copy):this(copy.X, copy.Y)
+        {
+
+        }
 
         public int X { get; set; }
         public int Y { get; set; }

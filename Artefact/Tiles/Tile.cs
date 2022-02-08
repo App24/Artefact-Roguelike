@@ -1,20 +1,25 @@
-﻿using System;
+﻿using Artefact.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Artefact.Tiles
 {
-    class Tile : IPrototype<Tile>
+    abstract class Tile : IPrototype<Tile>
     {
-        public static Tile GrassTile { get; } = new Tile(".", ConsoleColor.DarkGreen, false);
-        public static Tile SandTile { get; } = new Tile(",", ConsoleColor.Yellow, false);
-        public static Tile WaterTile { get; } = new Tile("#", ConsoleColor.Blue, true);
-        public static Tile DeepWaterTile { get; } = new Tile("#", ConsoleColor.DarkBlue, true);
-        public static Tile MountainTile { get; } = new Tile("#", ConsoleColor.Gray, true);
-        public static Tile DeepMountainTile { get; } = new Tile("#", ConsoleColor.DarkGray, true);
-        public static Tile RoseFlowerTile { get; } = new Tile("#", ConsoleColor.DarkGreen, ConsoleColor.Red, false);
-        public static Tile BluebellFlowerTile { get; } = new Tile("#", ConsoleColor.DarkGreen, ConsoleColor.Blue, false);
-        public static Tile TreeBarkTile { get; } = new Tile("#", ConsoleColor.DarkYellow, true);
+        public static BaseTile GrassTile { get; } = new BaseTile(".", ConsoleColor.Green, false);
+        public static BaseTile SandTile { get; } = new BaseTile(",", ConsoleColor.Yellow, false);
+        public static BaseTile WaterTile { get; } = new BaseTile("#", ConsoleColor.Blue, true);
+        public static BaseTile DeepWaterTile { get; } = new BaseTile("#", ConsoleColor.DarkBlue, true);
+        public static BaseTile MountainTile { get; } = new BaseTile("#", ConsoleColor.Gray, true);
+        public static BaseTile DeepMountainTile { get; } = new BaseTile("#", ConsoleColor.DarkGray, true);
+        public static BaseTile StoneTile { get; } = new BaseTile("#", ConsoleColor.Gray, false);
+        public static FlowerTile RoseFlowerTile { get; } = new FlowerTile("#", ConsoleColor.Red);
+        public static FlowerTile BluebellFlowerTile { get; } = new FlowerTile("#", ConsoleColor.Blue);
+        public static FlowerTile GrassFlowerTile { get; } = new FlowerTile("#", ConsoleColor.DarkGreen);
+        public static BaseTile TreeBarkTile { get; } = new BaseTile("#", ConsoleColor.DarkYellow, true);
+        public static CaveTile CaveTile { get; } = new CaveTile();
+        public static LadderTile LadderTile { get; } = new LadderTile();
         public static List<Tile> Tiles { get; private set; }
 
         public int ID { get; }
@@ -40,6 +45,8 @@ namespace Artefact.Tiles
             Collidable = collidable;
             Tiles.Add(this);
         }
+
+        public abstract void OnCollide(Entity entity);
 
         public Tile Clone()
         {

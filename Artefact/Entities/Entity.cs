@@ -9,7 +9,7 @@ namespace Artefact.Entities
         public int Health { get; }
         public int MaxHealth { get; }
 
-        public Vector2i Position { get; protected set; }
+        public Vector2i Position { get; set; }
 
         public abstract string Representation { get; }
 
@@ -19,5 +19,7 @@ namespace Artefact.Entities
         }
 
         public abstract void Move();
+
+        public abstract void Update();
     }
 }

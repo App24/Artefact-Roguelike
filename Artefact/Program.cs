@@ -1,4 +1,6 @@
-﻿using Artefact.Tiles;
+﻿using Artefact.Entities;
+using Artefact.Tiles;
+using Artefact.Worlds;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -26,6 +28,8 @@ namespace Artefact
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
 
+        public static ConsoleKeyInfo KeyInfo { get; private set; }
+
         static void Main(string[] args)
         {
             IntPtr handle = GetConsoleWindow();
@@ -38,11 +42,15 @@ namespace Artefact
                 DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
             }
 
-            World world = new World();
+            new PlayerEntity();
+            new OverworldWorld(80, 60);
+
+            World.Instance = OverworldWorld.OverworldInstance;
             while (true)
             {
-                world.PrintTiles();
-                world.Update();
+                World.Instance.PrintTiles();
+                KeyInfo = Console.ReadKey(true);
+                World.Instance.Update();
             }
         }
     }
