@@ -14,6 +14,7 @@ namespace Artefact.Tiles
         public static Tile DeepMountainTile { get; } = new Tile("#", ConsoleColor.DarkGray, true);
         public static Tile RoseFlowerTile { get; } = new Tile("#", ConsoleColor.DarkGreen, ConsoleColor.Red, false);
         public static Tile BluebellFlowerTile { get; } = new Tile("#", ConsoleColor.DarkGreen, ConsoleColor.Blue, false);
+        public static Tile TreeBarkTile { get; } = new Tile("#", ConsoleColor.DarkYellow, true);
         public static List<Tile> Tiles { get; private set; }
 
         public int ID { get; }
@@ -24,7 +25,7 @@ namespace Artefact.Tiles
 
         public bool Collidable { get; }
 
-        public Tile(string representation, ConsoleColor color, bool collidable):this(representation, color, color, collidable)
+        public Tile(string representation, ConsoleColor color, bool collidable) : this(representation, color, color, collidable)
         {
         }
 
@@ -54,7 +55,7 @@ namespace Artefact.Tiles
 
         public override bool Equals(object obj)
         {
-            if(obj is Tile tile)
+            if (obj is Tile tile)
             {
                 return tile.ID == ID;
             }
@@ -66,7 +67,8 @@ namespace Artefact.Tiles
             if (a is null && b is null)
             {
                 return true;
-            }else if(a is null)
+            }
+            else if (a is null)
             {
                 return false;
             }

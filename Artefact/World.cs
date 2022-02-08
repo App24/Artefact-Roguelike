@@ -13,7 +13,7 @@ namespace Artefact
 
         Tile[] tiles;
 
-        PlayerEntity player;
+        List<Entity> entities = new List<Entity>();
 
         public static World Instance { get; private set; }
 
@@ -30,8 +30,8 @@ namespace Artefact
             Width = 60;
             Height = 60;
             tiles = new Tile[Width * Height];
-            player = new PlayerEntity();
             SpawnTiles();
+            SpawnPlayer();
         }
 
         void PlaceGrass()
@@ -68,11 +68,14 @@ namespace Artefact
 
         public void Update()
         {
-            Vector2i previousPlayerPosition = player.Position;
-            player.Move();
-            if (player.Position != previousPlayerPosition)
+            foreach (Entity entity in entities)
             {
-                PrintTile(previousPlayerPosition.X, previousPlayerPosition.Y);
+                Vector2i previousPosition = entity.Position;
+                entity.Move();
+                if (entity.Position != previousPosition)
+                {
+                    PrintTile(previousPosition.X, previousPosition.Y);
+                }
             }
         }
 
@@ -114,16 +117,17 @@ namespace Artefact
         void PlaceFeatures()
         {
             PlaceFlowers();
+            PlaceTrees();
         }
 
         void PlaceFlowers()
         {
             Random random = new Random();
-            for (int y = 0; y < Height; y+=5)
+            for (int y = 0; y < Height; y += 5)
             {
-                for (int x = 0; x < Width; x+=5)
+                for (int x = 0; x < Width; x += 5)
                 {
-                    if(GetTile(x, y) == Tile.GrassTile)
+                    if (GetTile(x, y) == Tile.GrassTile)
                     {
                         if (random.NextDouble() < 0.3f)
                         {
@@ -139,6 +143,37 @@ namespace Artefact
             }
         }
 
+        void PlaceTrees()
+        {
+            Random random = new Random();
+            int amountTrees = random.Next(15, 25);
+            int i = 0;
+            while (i < amountTrees)
+            {
+                Vector2i pos = GetRandomTilePos(Tile.GrassTile);
+                int size = random.Next(2, 4);
+                bool cont = false;
+                for (int j = 0; j < size * size; j++)
+                {
+                    Tile tile = GetTile(pos.X + (j % size), pos.Y + (j / size));
+                    if (tile != Tile.GrassTile)
+                    {
+                        cont = true;
+                        break;
+                    }
+                }
+
+                if (cont) continue;
+
+                for (int j = 0; j < size * size; j++)
+                {
+                    SetTile(pos.X + (j % size), pos.Y + (j / size), Tile.TreeBarkTile);
+                }
+
+                i++;
+            }
+        }
+
         public void PrintTiles()
         {
             for (int y = 0; y < Height; y++)
@@ -146,15 +181,18 @@ namespace Artefact
                 for (int x = 0; x < Width; x++)
                 {
                     PrintTile(x, y);
-                    if (player.Position == new Vector2i(x, y))
+                    foreach (Entity entity in entities)
                     {
-                        Console.CursorLeft = x * 2;
-                        Console.CursorTop = y;
-                        if (lightColors.Contains(GetTile(x, y).BackgroundColor))
-                            Console.ForegroundColor = ConsoleColor.Black;
-                        else
-                            Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write(player.Representation);
+                        if (entity.Position == new Vector2i(x, y))
+                        {
+                            Console.CursorLeft = x * 2;
+                            Console.CursorTop = y;
+                            if (lightColors.Contains(GetTile(x, y).BackgroundColor))
+                                Console.ForegroundColor = ConsoleColor.Black;
+                            else
+                                Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write(entity.Representation);
+                        }
                     }
                 }
             }
@@ -204,9 +242,10 @@ namespace Artefact
                         {
                             SetTile(x, y, Tile.WaterTile);
                         }
-                    }else if (currentTile == Tile.MountainTile)
+                    }
+                    else if (currentTile == Tile.MountainTile)
                     {
-                        if(AreTilesAroundSame(x, y, true, Tile.MountainTile, Tile.DeepMountainTile))
+                        if (AreTilesAroundSame(x, y, true, Tile.MountainTile, Tile.DeepMountainTile))
                         {
                             SetTile(x, y, Tile.DeepMountainTile);
                         }
@@ -219,6 +258,24 @@ namespace Artefact
         {
             return x + Width * y;
         }
+        public void AddEntity(Entity entity)
+        {
+            entities.Add(entity);
+        }
+
+        void SpawnPlayer()
+        {
+            PlayerEntity playerEntity = new PlayerEntity();
+            Tile tile = GetTile(playerEntity.Position.X, playerEntity.Position.Y);
+            while (tile.Collidable)
+            {
+                playerEntity.Position.X++;
+                tile = GetTile(playerEntity.Position.X, playerEntity.Position.Y);
+            }
+            entities.Add(playerEntity);
+        }
+
+        #region Tile Related
 
         void SetTile(int x, int y, Tile tile)
         {
@@ -331,5 +388,7 @@ namespace Artefact
 
             return new Vector2i(x, y);
         }
+
+        #endregion
     }
 }

@@ -8,6 +8,13 @@ namespace Artefact.Entities
     {
         public override string Representation => "PL";
 
+        public static PlayerEntity Instance { get; private set; }
+
+        public PlayerEntity()
+        {
+            Instance = this;
+        }
+
         public override void Move()
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -41,7 +48,7 @@ namespace Artefact.Entities
             Position.Y = Math.Clamp(Position.Y, 0, World.Instance.Height);
             Position.X = Math.Clamp(Position.X, 0, World.Instance.Width);
 
-            if(World.Instance.GetTile(Position.X, Position.Y).Collidable)
+            if (World.Instance.GetTile(Position.X, Position.Y).Collidable)
             {
                 Position = previousPos;
             }

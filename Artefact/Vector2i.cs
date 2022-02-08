@@ -17,10 +17,11 @@ namespace Artefact
 
         public static bool operator ==(Vector2i a, Vector2i b)
         {
-            if(a is null && b is null)
+            if (a is null && b is null)
             {
                 return true;
-            }else if(a is null || b is null)
+            }
+            else if (a is null || b is null)
             {
                 return false;
             }
