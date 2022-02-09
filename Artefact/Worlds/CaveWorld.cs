@@ -8,14 +8,14 @@ namespace Artefact.Worlds
 {
     internal class CaveWorld : World
     {
-        List<LadderTile> exitLadders = new List<LadderTile>();
+        public List<LadderTile> ExitLadders { get; } = new List<LadderTile>();
 
         public CaveWorld(int width, int height, int checkTilesAmount, World world) : base(width, height, checkTilesAmount)
         {
-            exitLadders.ForEach(t =>
-              {
-                  t.WorldToGo = world;
-              });
+            ExitLadders.ForEach(t =>
+            {
+                t.WorldToGo = world;
+            });
         }
 
         protected override void SpawnTiles()
@@ -49,13 +49,20 @@ namespace Artefact.Worlds
             for (int i = 0; i < 2; i++)
             {
                 LadderTile ladderTile = SetTile(i, 0, Tile.LadderTile);
-                ladderTile.PlayerPosWorld = new Vector2i(PlayerEntity.Instance.Position);
-                exitLadders.Add(ladderTile);
+                ExitLadders.Add(ladderTile);
             }
-            Instance.QuitUpdate = true;
+            Random rand = new Random();
+            if (rand.NextDouble() < 0.2f)
+            {
+                CaveWorld caveWorld = new CaveWorld(20, 20, 3, this);
+                for (int i = 0; i < 2; i++)
+                {
+                    SetTile(Width - 1 - i, Height - 1, Tile.LadderTile).WorldToGo = caveWorld;
+                }
+            }
         }
 
-        protected override void SpawnPlayer()
+        public override void PlacePlayer()
         {
             PlayerEntity.Instance.Position = new Vector2i(0, 1);
         }

@@ -43,16 +43,13 @@ namespace Artefact.Worlds
 
             SpawnFeatures();
 
-            SpawnPlayer();
             AddEntity(PlayerEntity.Instance);
-
-            PrintTiles();
         }
 
         protected abstract void SpawnTiles();
         protected abstract void CheckTiles();
         protected abstract void SpawnFeatures();
-        protected abstract void SpawnPlayer();
+        public abstract void PlacePlayer();
 
         public void PrintTiles()
         {

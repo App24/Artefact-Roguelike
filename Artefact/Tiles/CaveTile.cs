@@ -8,6 +8,8 @@ namespace Artefact.Tiles
 {
     internal class CaveTile : Tile
     {
+        public CaveWorld CaveWorld { get; set; }
+
         public CaveTile() : base("#", ConsoleColor.DarkMagenta, true)
         {
         }
@@ -17,8 +19,14 @@ namespace Artefact.Tiles
             if (entity is PlayerEntity player)
             {
                 Console.Clear();
-                World currentWorld = World.Instance;
-                World.Instance = new CaveWorld(20, 20, 3, currentWorld);
+                CaveWorld.ExitLadders.ForEach(t =>
+                {
+                    t.PlayerPosWorld = new Vector2i(PlayerEntity.Instance.Position);
+                });
+                World.Instance.QuitUpdate = true;
+                World.Instance = CaveWorld;
+                World.Instance.PlacePlayer();
+                World.Instance.PrintTiles();
             }
         }
     }

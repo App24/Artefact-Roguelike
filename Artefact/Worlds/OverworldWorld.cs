@@ -133,9 +133,9 @@ namespace Artefact.Worlds
         void PlaceCaves()
         {
             Random random = new Random();
-            int amountTrees = random.Next(5, 10);
+            int amountCaves = random.Next(5, 10);
             int i = 0;
-            while (i < amountTrees)
+            while (i < amountCaves)
             {
                 Vector2i pos = GetRandomTilePos(Tile.GrassTile);
                 int size = 2;
@@ -151,9 +151,13 @@ namespace Artefact.Worlds
 
                 if (cont) continue;
 
+                CaveWorld caveWorld = new CaveWorld(20, 20, 3, this);
+
                 for (int j = 0; j < size * size; j++)
                 {
-                    SetTile(pos.X + (j % size), pos.Y + (j / size), Tile.CaveTile);
+                    CaveTile caveTile=SetTile(pos.X + (j % size), pos.Y + (j / size), Tile.CaveTile);
+                    if (caveTile != null)
+                        caveTile.CaveWorld = caveWorld;
                 }
 
                 i++;
@@ -209,7 +213,7 @@ namespace Artefact.Worlds
             }
         }
 
-        protected override void SpawnPlayer()
+        public override void PlacePlayer()
         {
             PlayerEntity playerEntity = PlayerEntity.Instance;
             playerEntity.Position = new Vector2i(0, 0);
