@@ -41,6 +41,8 @@ namespace Artefact.Worlds
 
             SpawnPlayer();
             AddEntity(PlayerEntity.Instance);
+
+            PrintTiles();
         }
 
         protected abstract void SpawnTiles();
@@ -59,13 +61,7 @@ namespace Artefact.Worlds
                     {
                         if (entity.Position == new Vector2i(x, y))
                         {
-                            Console.CursorLeft = x * 2;
-                            Console.CursorTop = y;
-                            if (lightColors.Contains(GetTile(x, y).BackgroundColor))
-                                Console.ForegroundColor = ConsoleColor.Black;
-                            else
-                                Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write(entity.Representation);
+                            PrintEntity(entity);
                         }
                     }
                 }
@@ -86,11 +82,15 @@ namespace Artefact.Worlds
                 GetTile(entity.Position.X, entity.Position.Y).OnCollide(entity);
                 if (GetTile(entity.Position.X, entity.Position.Y).Collidable)
                     entity.Position = previousPosition;
+
                 if (entity.Position != previousPosition)
                 {
                     PrintTile(previousPosition.X, previousPosition.Y);
                 }
+
+                PrintEntity(entity);
             }
+            Console.CursorLeft = Width * 2;
         }
 
         void PrintTile(int x, int y)
@@ -102,6 +102,23 @@ namespace Artefact.Worlds
             Console.ForegroundColor = tile.ForegroundColor;
             Console.Write(tile.Representation);
             Console.Write(tile.Representation);
+            Console.ResetColor();
+        }
+
+        void PrintEntity(Entity entity)
+        {
+            Tile tile = GetTile(entity.Position.X, entity.Position.Y);
+
+            Console.CursorLeft = entity.Position.X * 2;
+            Console.CursorTop = entity.Position.Y;
+
+            if (lightColors.Contains(tile.BackgroundColor))
+                Console.ForegroundColor = ConsoleColor.Black;
+            else
+                Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = tile.BackgroundColor;
+            Console.Write(entity.Representation);
+            Console.ResetColor();
         }
 
         protected int GetIndex(int x, int y)

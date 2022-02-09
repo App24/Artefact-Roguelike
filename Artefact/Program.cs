@@ -48,7 +48,6 @@ namespace Artefact
             World.Instance = OverworldWorld.OverworldInstance;
             while (true)
             {
-                World.Instance.PrintTiles();
                 KeyInfo = Console.ReadKey(true);
                 World.Instance.Update();
             }

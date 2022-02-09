@@ -8,11 +8,9 @@ namespace Artefact.Worlds
 {
     internal class CaveWorld : World
     {
-        public Vector2i PlayerOverworldPos { get; }
-
-        public CaveWorld(int width, int height, int checkTilesAmount, Vector2i playerOverworldPos) : base(width, height, checkTilesAmount)
+        public CaveWorld(int width, int height, int checkTilesAmount) : base(width, height, checkTilesAmount)
         {
-            PlayerOverworldPos = playerOverworldPos;
+
         }
 
         protected override void SpawnTiles()
@@ -43,9 +41,9 @@ namespace Artefact.Worlds
 
         void SpawnLadder()
         {
-            LadderTile ladderTile=SetTile(0, 0, Tile.LadderTile);
+            LadderTile ladderTile = SetTile(0, 0, Tile.LadderTile);
+            ladderTile.PlayerPosWorld = new Vector2i(PlayerEntity.Instance.Position);
             ladderTile.WorldToGo = OverworldWorld.OverworldInstance;
-            ladderTile.PlayerPosWorld = PlayerOverworldPos;
         }
 
         protected override void SpawnPlayer()

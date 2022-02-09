@@ -196,6 +196,9 @@ namespace Artefact.Worlds
                         if (AreTilesAroundSame(x, y, true, Tile.WaterTile, Tile.DeepWaterTile))
                         {
                             SetTile(x, y, Tile.WaterTile);
+                        }else if(AreTilesAroundSame(x, y, true, Tile.DeepMountainTile, Tile.MountainTile))
+                        {
+                            SetTile(x, y, Tile.MountainTile);
                         }
                     }
                     else if (currentTile == Tile.MountainTile)
