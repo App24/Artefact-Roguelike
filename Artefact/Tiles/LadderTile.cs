@@ -18,6 +18,7 @@ namespace Artefact.Tiles
         public override void OnCollide(Entity entity)
         {
             Console.Clear();
+            World.Instance.QuitUpdate = true;
             World.Instance = WorldToGo;
             PlayerEntity.Instance.Position = PlayerPosWorld;
             World.Instance.PrintTiles();

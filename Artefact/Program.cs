@@ -43,9 +43,8 @@ namespace Artefact
             }
 
             new PlayerEntity();
-            new OverworldWorld(80, 60);
 
-            World.Instance = OverworldWorld.OverworldInstance;
+            World.Instance = new OverworldWorld(80, 60);
             while (true)
             {
                 KeyInfo = Console.ReadKey(true);

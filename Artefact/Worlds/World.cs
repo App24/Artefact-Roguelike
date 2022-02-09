@@ -13,9 +13,13 @@ namespace Artefact.Worlds
 
         Tile[] tiles;
 
+        public List<Tile> Tiles { get { return new List<Tile>(tiles); } }
+
         List<Entity> entities = new List<Entity>();
 
         public static World Instance { get; set; }
+
+        public bool QuitUpdate { get; set; }
 
 
         static List<ConsoleColor> lightColors = new List<ConsoleColor>()
@@ -57,15 +61,13 @@ namespace Artefact.Worlds
                 for (int x = 0; x < Width; x++)
                 {
                     PrintTile(x, y);
-                    foreach (Entity entity in entities)
-                    {
-                        if (entity.Position == new Vector2i(x, y))
-                        {
-                            PrintEntity(entity);
-                        }
-                    }
                 }
             }
+            foreach (Entity entity in entities)
+            {
+                PrintEntity(entity);
+            }
+            Console.CursorLeft = Width * 2;
             Console.ResetColor();
         }
 
@@ -79,9 +81,16 @@ namespace Artefact.Worlds
             {
                 Vector2i previousPosition = new Vector2i(entity.Position);
                 entity.Move();
-                GetTile(entity.Position.X, entity.Position.Y).OnCollide(entity);
-                if (GetTile(entity.Position.X, entity.Position.Y).Collidable)
+                Tile tile = GetTile(entity.Position.X, entity.Position.Y);
+                if (tile.Collidable)
                     entity.Position = previousPosition;
+                tile.OnCollide(entity);
+
+                if (QuitUpdate)
+                {
+                    QuitUpdate = false;
+                    break;
+                }
 
                 if (entity.Position != previousPosition)
                 {
@@ -91,6 +100,7 @@ namespace Artefact.Worlds
                 PrintEntity(entity);
             }
             Console.CursorLeft = Width * 2;
+            Console.ResetColor();
         }
 
         void PrintTile(int x, int y)

@@ -8,11 +8,8 @@ namespace Artefact.Worlds
 {
     internal class OverworldWorld : World
     {
-        public static OverworldWorld OverworldInstance { get; private set; }
-
         public OverworldWorld(int width, int height):base(width, height, 5)
         {
-            OverworldInstance = this;
         }
 
         #region World Gen

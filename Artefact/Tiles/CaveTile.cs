@@ -17,7 +17,8 @@ namespace Artefact.Tiles
             if (entity is PlayerEntity player)
             {
                 Console.Clear();
-                World.Instance = new CaveWorld(20, 20, 3);
+                World currentWorld = World.Instance;
+                World.Instance = new CaveWorld(20, 20, 3, currentWorld);
             }
         }
     }
