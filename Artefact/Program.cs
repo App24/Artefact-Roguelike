@@ -1,4 +1,5 @@
-﻿using Artefact.Entities;
+﻿#define CUSTOM_SEED
+using Artefact.Entities;
 using Artefact.Tiles;
 using Artefact.Worlds;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Artefact
 {
-    class Program
+    internal class Program
     {
         // https://stackoverflow.com/questions/22053112/maximizing-console-window-c-sharp/22053200
         // Châu Nguyễn
@@ -30,7 +31,7 @@ namespace Artefact
 
         public static ConsoleKeyInfo KeyInfo { get; private set; }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             IntPtr handle = GetConsoleWindow();
             ShowWindow(handle, 3);
@@ -44,7 +45,12 @@ namespace Artefact
 
             new PlayerEntity();
 
-            World.Instance = new OverworldWorld(80, 60);
+            int seed = -1;
+#if DEBUG && CUSTOM_SEED
+            seed = 0;
+#endif
+
+            World.Instance = new OverworldWorld(80, 60, seed);
             World.Instance.PlacePlayer();
             World.Instance.PrintTiles();
             while (true)

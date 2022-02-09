@@ -11,6 +11,8 @@ namespace Artefact.Tiles
         public World WorldToGo { get; set; }
         public Vector2i PlayerPosWorld { get; set; }
 
+        public bool GoingDown { get; set; }
+
         public LadderTile() : base("#", ConsoleColor.Gray, ConsoleColor.DarkYellow, true)
         {
         }
@@ -19,13 +21,20 @@ namespace Artefact.Tiles
         {
             if (!(entity is PlayerEntity)) return;
             Console.Clear();
-            World.Instance.QuitUpdate = true;
 
             if (WorldToGo is CaveWorld caveWorld)
             {
-                caveWorld.ExitLadders.ForEach(ladder => ladder.PlayerPosWorld = PlayerEntity.Instance.Position);
+                if (GoingDown)
+                {
+                    caveWorld.ExitLadders.ForEach(ladder => ladder.PlayerPosWorld = new Vector2i(PlayerEntity.Instance.Position));
+                }
+                else
+                {
+                    caveWorld.NextLadders.ForEach(ladder => ladder.PlayerPosWorld = new Vector2i(PlayerEntity.Instance.Position));
+                }
             }
 
+            World.Instance.QuitUpdate = true;
             World.Instance = WorldToGo;
             PlayerEntity.Instance.Position = PlayerPosWorld;
             World.Instance.PrintTiles();

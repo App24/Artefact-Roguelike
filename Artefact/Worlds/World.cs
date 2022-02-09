@@ -6,49 +6,71 @@ using System.Text;
 
 namespace Artefact.Worlds
 {
-    abstract class World
+    internal abstract class World
     {
         public int Width { get; }
         public int Height { get; }
 
-        Tile[] tiles;
+        private Tile[] tiles;
 
         public List<Tile> Tiles { get { return new List<Tile>(tiles); } }
 
-        List<Entity> entities = new List<Entity>();
+        private List<Entity> entities = new List<Entity>();
 
         public static World Instance { get; set; }
 
         public bool QuitUpdate { get; set; }
 
-
-        static List<ConsoleColor> lightColors = new List<ConsoleColor>()
+        private static List<ConsoleColor> lightColors = new List<ConsoleColor>()
         {
             ConsoleColor.White,
             ConsoleColor.Yellow,
             ConsoleColor.Gray,
+            ConsoleColor.Cyan
         };
 
-        public World(int width, int height, int checkTilesAmount)
+        protected Random Random { get; }
+
+        protected int seed;
+
+        public World(int width, int height, int checkTilesAmount) : this(width, height, checkTilesAmount, -1)
+        {
+        }
+
+        public World(int width, int height, int checkTilesAmount, int seed)
         {
             Width = width;
             Height = height;
             tiles = new Tile[Width * Height];
-            SpawnTiles();
+            if (seed >= 0)
+            {
+                Random = new Random(seed);
+            }
+            else
+            {
+                Random = new Random();
+            }
+            this.seed = seed;
+            GenerateWorld(checkTilesAmount);
+        }
+
+        private void GenerateWorld(int checkTilesAmount)
+        {
+            GenerateTiles();
 
             for (int i = 0; i < checkTilesAmount; i++)
             {
                 CheckTiles();
             }
 
-            SpawnFeatures();
+            GenerateFeatures();
 
             AddEntity(PlayerEntity.Instance);
         }
 
-        protected abstract void SpawnTiles();
+        protected abstract void GenerateTiles();
         protected abstract void CheckTiles();
-        protected abstract void SpawnFeatures();
+        protected abstract void GenerateFeatures();
         public abstract void PlacePlayer();
 
         public void PrintTiles()
@@ -100,7 +122,7 @@ namespace Artefact.Worlds
             Console.ResetColor();
         }
 
-        void PrintTile(int x, int y)
+        private void PrintTile(int x, int y)
         {
             Tile tile = GetTile(x, y);
             Console.CursorLeft = x * 2;
@@ -112,7 +134,7 @@ namespace Artefact.Worlds
             Console.ResetColor();
         }
 
-        void PrintEntity(Entity entity)
+        private void PrintEntity(Entity entity)
         {
             Tile tile = GetTile(entity.Position.X, entity.Position.Y);
 
@@ -218,7 +240,6 @@ namespace Artefact.Worlds
 
         protected void ReplaceTilesInRange(int x, int y, int radius, bool variantion, Tile[] tilesToReplace, Tile[] tiles)
         {
-            Random random = new Random();
             List<Tile> tilesToReplaceList = new List<Tile>(tilesToReplace);
             for (int replaceY = -radius; replaceY < radius; replaceY++)
             {
@@ -226,10 +247,10 @@ namespace Artefact.Worlds
                 {
                     if (tilesToReplaceList.Contains(GetTile(x + replaceX, y + replaceY)))
                     {
-                        float variant = variantion ? (float)Math.Clamp(random.NextDouble(), 0.25f, 1f) : 1;
+                        float variant = variantion ? (float)Math.Clamp(Random.NextDouble(), 0.25f, 1f) : 1;
                         if ((replaceX * replaceX + replaceY * replaceY) <= radius * variant)
                         {
-                            SetTile(x + replaceX, y + replaceY, tiles[random.Next(tiles.Length)]);
+                            SetTile(x + replaceX, y + replaceY, tiles[Random.Next(tiles.Length)]);
                         }
                     }
                 }
@@ -239,14 +260,13 @@ namespace Artefact.Worlds
         protected Vector2i GetRandomTilePos(params Tile[] tiles)
         {
             List<Tile> tilesList = new List<Tile>(tiles);
-            Random random = new Random();
             int x = 0;
             int y = 0;
 
             while (true)
             {
-                x = random.Next(Width);
-                y = random.Next(Height);
+                x = Random.Next(Width);
+                y = Random.Next(Height);
                 if (tilesList.Contains(GetTile(x, y)))
                     break;
             }

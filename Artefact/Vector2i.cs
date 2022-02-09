@@ -4,14 +4,14 @@ using System.Text;
 
 namespace Artefact
 {
-    class Vector2i
+    internal class Vector2i
     {
         public Vector2i(int x, int y)
         {
             X = x;
             Y = y;
         }
-        public Vector2i(Vector2i copy):this(copy.X, copy.Y)
+        public Vector2i(Vector2i copy) : this(copy.X, copy.Y)
         {
 
         }

@@ -12,7 +12,7 @@ namespace Artefact.Tiles
         }
 
 
-        public BaseTile(string representation, ConsoleColor backgroundColor, ConsoleColor foregroundColor, bool collidable):base(representation, backgroundColor, foregroundColor, collidable)
+        public BaseTile(string representation, ConsoleColor backgroundColor, ConsoleColor foregroundColor, bool collidable) : base(representation, backgroundColor, foregroundColor, collidable)
         {
 
         }

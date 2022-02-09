@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Artefact.Entities
 {
-    abstract class Entity
+    internal abstract class Entity
     {
         public int Health { get; }
         public int MaxHealth { get; }

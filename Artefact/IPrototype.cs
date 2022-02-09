@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Artefact
 {
-    interface IPrototype<T>
+    internal interface IPrototype<T>
     {
         T Clone();
     }

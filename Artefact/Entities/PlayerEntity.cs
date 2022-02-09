@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Artefact.Entities
 {
-    class PlayerEntity : Entity
+    internal class PlayerEntity : Entity
     {
         public override string Representation => "PL";
 

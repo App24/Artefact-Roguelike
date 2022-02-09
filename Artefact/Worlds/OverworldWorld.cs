@@ -8,19 +8,23 @@ namespace Artefact.Worlds
 {
     internal class OverworldWorld : World
     {
-        public OverworldWorld(int width, int height):base(width, height, 5)
+        public OverworldWorld(int width, int height) : this(width, height, -1)
+        {
+        }
+
+        public OverworldWorld(int width, int height, int seed) : base(width, height, 5, seed)
         {
         }
 
         #region World Gen
-        protected override void SpawnTiles()
+        protected override void GenerateTiles()
         {
-            PlaceGrass();
-            PlaceWater();
-            PlaceMountains();
+            GenerateGrass();
+            GenerateWater();
+            GenerateMountains();
         }
 
-        void PlaceGrass()
+        private void GenerateGrass()
         {
             for (int y = 0; y < Height; y++)
             {
@@ -31,58 +35,55 @@ namespace Artefact.Worlds
             }
         }
 
-        void PlaceWater()
+        private void GenerateWater()
         {
-            Random random = new Random();
-            int amount = random.Next(10, 15);
+            int amount = Random.Next(10, 15);
             for (int i = 0; i < amount; i++)
             {
-                int waterX = random.Next(Width);
-                int waterY = random.Next(Height);
-                int radius = random.Next(10, 15);
+                int waterX = Random.Next(Width);
+                int waterY = Random.Next(Height);
+                int radius = Random.Next(10, 15);
 
                 for (int y = -radius; y < radius; y++)
                 {
                     for (int x = -radius; x < radius; x++)
                     {
-                        if ((x * x + y * y) <= radius * Math.Clamp(random.NextDouble(), 0.5f, 1f))
+                        if ((x * x + y * y) <= radius * Math.Clamp(Random.NextDouble(), 0.5f, 1f))
                             SetTile(waterX + x, waterY + y, Tile.WaterTile);
                     }
                 }
             }
         }
 
-        void PlaceMountains()
+        private void GenerateMountains()
         {
-            Random random = new Random();
-            int amount = random.Next(5, 8);
+            int amount = Random.Next(5, 8);
             for (int i = 0; i < amount; i++)
             {
-                int waterX = random.Next(Width);
-                int waterY = random.Next(Height);
-                int radius = random.Next(20, 25);
+                int waterX = Random.Next(Width);
+                int waterY = Random.Next(Height);
+                int radius = Random.Next(20, 25);
 
                 for (int y = -radius; y < radius; y++)
                 {
                     for (int x = -radius; x < radius; x++)
                     {
-                        if ((x * x + y * y) <= radius * Math.Clamp(random.NextDouble(), 0.5f, 1f))
+                        if ((x * x + y * y) <= radius * Math.Clamp(Random.NextDouble(), 0.5f, 1f))
                             SetTile(waterX + x, waterY + y, Tile.MountainTile);
                     }
                 }
             }
         }
 
-        protected override void SpawnFeatures()
+        protected override void GenerateFeatures()
         {
-            PlaceFlowers();
-            PlaceTrees();
-            PlaceCaves();
+            GenerateFlowers();
+            GenerateTrees();
+            GenerateCaves();
         }
 
-        void PlaceFlowers()
+        private void GenerateFlowers()
         {
-            Random random = new Random();
             List<Tile> flowerTiles = Tile.Tiles.FindAll(t => t is FlowerTile);
             for (int y = 0; y < Height; y += 5)
             {
@@ -90,9 +91,9 @@ namespace Artefact.Worlds
                 {
                     if (GetTile(x, y) == Tile.GrassTile)
                     {
-                        if (random.NextDouble() < 0.3f)
+                        if (Random.NextDouble() < 0.3f)
                         {
-                            Tile tile = flowerTiles[random.Next(flowerTiles.Count)];
+                            Tile tile = flowerTiles[Random.Next(flowerTiles.Count)];
                             ReplaceTilesInRange(x, y, 5, true, Tile.GrassTile, tile);
                         }
                     }
@@ -100,15 +101,14 @@ namespace Artefact.Worlds
             }
         }
 
-        void PlaceTrees()
+        private void GenerateTrees()
         {
-            Random random = new Random();
-            int amountTrees = random.Next(20, 30);
+            int amountTrees = Random.Next(20, 30);
             int i = 0;
             while (i < amountTrees)
             {
                 Vector2i pos = GetRandomTilePos(Tile.GrassTile);
-                int size = random.Next(1, 3);
+                int size = Random.Next(1, 3);
                 bool cont = false;
                 for (int j = 0; j < size * size; j++)
                 {
@@ -130,10 +130,9 @@ namespace Artefact.Worlds
             }
         }
 
-        void PlaceCaves()
+        private void GenerateCaves()
         {
-            Random random = new Random();
-            int amountCaves = random.Next(5, 10);
+            int amountCaves = Random.Next(5, 10);
             int i = 0;
             while (i < amountCaves)
             {
@@ -151,11 +150,11 @@ namespace Artefact.Worlds
 
                 if (cont) continue;
 
-                CaveWorld caveWorld = new CaveWorld(20, 20, 3, this);
+                CaveWorld caveWorld = new CaveWorld(20, 20, 3, this, seed);
 
                 for (int j = 0; j < size * size; j++)
                 {
-                    CaveTile caveTile=SetTile(pos.X + (j % size), pos.Y + (j / size), Tile.CaveTile);
+                    CaveTile caveTile = SetTile(pos.X + (j % size), pos.Y + (j / size), Tile.CaveTile);
                     if (caveTile != null)
                         caveTile.CaveWorld = caveWorld;
                 }
@@ -197,7 +196,8 @@ namespace Artefact.Worlds
                         if (AreTilesAroundSame(x, y, true, Tile.WaterTile, Tile.DeepWaterTile))
                         {
                             SetTile(x, y, Tile.WaterTile);
-                        }else if(AreTilesAroundSame(x, y, true, Tile.DeepMountainTile, Tile.MountainTile))
+                        }
+                        else if (AreTilesAroundSame(x, y, true, Tile.DeepMountainTile, Tile.MountainTile))
                         {
                             SetTile(x, y, Tile.MountainTile);
                         }
