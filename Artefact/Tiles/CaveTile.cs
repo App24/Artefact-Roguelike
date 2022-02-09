@@ -16,18 +16,16 @@ namespace Artefact.Tiles
 
         public override void OnCollide(Entity entity)
         {
-            if (entity is PlayerEntity player)
+            if (!(entity is PlayerEntity)) return;
+            Console.Clear();
+            CaveWorld.ExitLadders.ForEach(t =>
             {
-                Console.Clear();
-                CaveWorld.ExitLadders.ForEach(t =>
-                {
-                    t.PlayerPosWorld = new Vector2i(PlayerEntity.Instance.Position);
-                });
-                World.Instance.QuitUpdate = true;
-                World.Instance = CaveWorld;
-                World.Instance.PlacePlayer();
-                World.Instance.PrintTiles();
-            }
+                t.PlayerPosWorld = new Vector2i(PlayerEntity.Instance.Position);
+            });
+            World.Instance.QuitUpdate = true;
+            World.Instance = CaveWorld;
+            World.Instance.PlacePlayer();
+            World.Instance.PrintTiles();
         }
     }
 }

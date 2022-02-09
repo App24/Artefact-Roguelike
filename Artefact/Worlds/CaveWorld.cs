@@ -10,12 +10,15 @@ namespace Artefact.Worlds
     {
         public List<LadderTile> ExitLadders { get; } = new List<LadderTile>();
 
+        Vector2i origPlayerPos;
+
         public CaveWorld(int width, int height, int checkTilesAmount, World world) : base(width, height, checkTilesAmount)
         {
             ExitLadders.ForEach(t =>
             {
                 t.WorldToGo = world;
             });
+            origPlayerPos = new Vector2i(0, 1);
         }
 
         protected override void SpawnTiles()
@@ -52,19 +55,21 @@ namespace Artefact.Worlds
                 ExitLadders.Add(ladderTile);
             }
             Random rand = new Random();
-            if (rand.NextDouble() < 0.2f)
+            if (rand.NextDouble() < 0.5f)
             {
                 CaveWorld caveWorld = new CaveWorld(20, 20, 3, this);
                 for (int i = 0; i < 2; i++)
                 {
-                    SetTile(Width - 1 - i, Height - 1, Tile.LadderTile).WorldToGo = caveWorld;
+                    LadderTile ladderTile = SetTile(Width - 1 - i, Height - 1, Tile.LadderTile);
+                    ladderTile.WorldToGo = caveWorld;
+                    ladderTile.PlayerPosWorld = caveWorld.origPlayerPos;
                 }
             }
         }
 
         public override void PlacePlayer()
         {
-            PlayerEntity.Instance.Position = new Vector2i(0, 1);
+            PlayerEntity.Instance.Position = new Vector2i(origPlayerPos);
         }
     }
 }
