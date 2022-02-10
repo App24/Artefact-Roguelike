@@ -1,4 +1,5 @@
 ﻿using Artefact.Entities;
+using Artefact.Utils;
 using Artefact.Worlds;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Artefact.Tiles
 {
-    internal class LadderTile : Tile
+    internal class LadderTile : ReplaceBackgroundTile
     {
         public World WorldToGo { get; set; }
         public Vector2i PlayerPosWorld { get; set; }

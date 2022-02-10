@@ -1,5 +1,6 @@
 ﻿using Artefact.Entities;
 using Artefact.Tiles;
+using Artefact.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -89,7 +90,7 @@ namespace Artefact.Worlds
 
         private void GenerateFlowers()
         {
-            List<Tile> flowerTiles = Tile.Tiles.FindAll(t => t is FlowerTile);
+            List<Tile> flowerTiles = Tile.FlowerTiles;
             for (int i = 0; i < Random.Next(40, 50); i++)
             {
                 Vector2i pos = GetRandomTilePos(Tile.GrassTiles.ToArray());
@@ -167,7 +168,7 @@ namespace Artefact.Worlds
             }
         }
 
-        void SpawnEnemies()
+        private void SpawnEnemies()
         {
             Vector2i pos = Random.NextVector2i(Vector2i.Zero, new Vector2i(Width, Height));
             TestEnemy enemy = new TestEnemy();
@@ -206,11 +207,11 @@ namespace Artefact.Worlds
                     }
                     else if (Tile.GrassTiles.Contains(currentTile))
                     {
-                        if (CheckTilesAroundSame(position, true, Tile.WaterTile, Tile.DeepWaterTile))
+                        if (CheckTilesDirectAroundSame(position, true, Tile.WaterTile, Tile.DeepWaterTile))
                         {
                             SetTile(position, Tile.WaterTile);
                         }
-                        else if (CheckTilesAroundSame(position, true, Tile.DeepMountainTile, Tile.MountainTile))
+                        else if (CheckTilesDirectAroundSame(position, true, Tile.DeepMountainTile, Tile.MountainTile))
                         {
                             SetTile(position, Tile.MountainTile);
                         }

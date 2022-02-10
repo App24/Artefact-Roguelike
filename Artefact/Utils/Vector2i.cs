@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Artefact
+namespace Artefact.Utils
 {
     internal class Vector2i
     {

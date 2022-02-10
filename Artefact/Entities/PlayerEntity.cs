@@ -1,4 +1,5 @@
-﻿using Artefact.Worlds;
+﻿using Artefact.Utils;
+using Artefact.Worlds;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,35 +19,22 @@ namespace Artefact.Entities
 
         public override void Move()
         {
-            switch (Program.KeyInfo.Key)
+            if (Input.IsKeyHeld(ConsoleKey.RightArrow, ConsoleKey.D))
             {
-                case ConsoleKey.RightArrow:
-                case ConsoleKey.D:
-                    {
-                        Position.X++;
-                    }
-                    break;
+                Position.X++;
+            }
+            else if (Input.IsKeyHeld(ConsoleKey.LeftArrow, ConsoleKey.A))
+            {
+                Position.X--;
+            }
 
-                case ConsoleKey.LeftArrow:
-                case ConsoleKey.A:
-                    {
-                        Position.X--;
-                    }
-                    break;
-
-                case ConsoleKey.DownArrow:
-                case ConsoleKey.S:
-                    {
-                        Position.Y++;
-                    }
-                    break;
-
-                case ConsoleKey.UpArrow:
-                case ConsoleKey.W:
-                    {
-                        Position.Y--;
-                    }
-                    break;
+            if (Input.IsKeyHeld(ConsoleKey.DownArrow, ConsoleKey.S))
+            {
+                Position.Y++;
+            }
+            else if (Input.IsKeyHeld(ConsoleKey.UpArrow, ConsoleKey.W))
+            {
+                Position.Y--;
             }
 
             Position.Y = Math.Clamp(Position.Y, 0, World.Instance.Height - 1);

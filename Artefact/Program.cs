@@ -1,6 +1,7 @@
 ﻿//#define CUSTOM_SEED
 using Artefact.Entities;
 using Artefact.Tiles;
+using Artefact.Utils;
 using Artefact.Worlds;
 using System;
 using System.Collections.Generic;
@@ -16,20 +17,19 @@ namespace Artefact
 
         private const int MF_BYCOMMAND = 0x00000000;
         private const int SC_MAXIMIZE = 0xF030;
-        private const int SC_MINIMIZE = 0xF020;
         private const int SC_SIZE = 0xF000;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern bool ShowWindow(System.IntPtr hWnd, int cmdShow);
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
-
-        public static ConsoleKeyInfo KeyInfo { get; private set; }
 
         private static void Main(string[] args)
         {
@@ -55,7 +55,7 @@ namespace Artefact
             World.Instance.PrintTiles();
             while (true)
             {
-                KeyInfo = Console.ReadKey(true);
+                Input.GetInput();
                 World.Instance.Update();
             }
         }

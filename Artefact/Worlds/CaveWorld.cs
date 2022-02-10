@@ -1,5 +1,6 @@
 ﻿using Artefact.Entities;
 using Artefact.Tiles;
+using Artefact.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -89,7 +90,7 @@ namespace Artefact.Worlds
             PlayerEntity.Instance.Position = new Vector2i(origPlayerPos);
         }
 
-        void FindPlayerPosition()
+        private void FindPlayerPosition()
         {
             origPlayerPos = new Vector2i(0, 1);
         }

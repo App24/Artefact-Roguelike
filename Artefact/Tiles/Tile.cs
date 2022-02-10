@@ -1,4 +1,5 @@
 ﻿using Artefact.Entities;
+using Artefact.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,13 +10,14 @@ namespace Artefact.Tiles
     {
         public static BaseTile GrassTile { get; } = new BaseTile(".", ConsoleColor.Green, false);
         public static BaseTile DarkGrassTile { get; } = new BaseTile(".", ConsoleColor.DarkGreen, false);
+
         public static BaseTile SandTile { get; } = new BaseTile(",", ConsoleColor.Yellow, false);
         public static BaseTile WaterTile { get; } = new BaseTile("#", ConsoleColor.Blue, true);
         public static BaseTile DeepWaterTile { get; } = new BaseTile("#", ConsoleColor.DarkBlue, true);
         public static BaseTile MountainTile { get; } = new BaseTile("#", ConsoleColor.Gray, true);
         public static BaseTile DeepMountainTile { get; } = new BaseTile("#", ConsoleColor.DarkGray, true);
         public static BaseTile StoneTile { get; } = new BaseTile("#", ConsoleColor.Gray, false);
-        
+
         // Flowers
         public static FlowerTile RoseFlowerTile { get; } = new FlowerTile("#", ConsoleColor.Red);
         public static FlowerTile BluebellFlowerTile { get; } = new FlowerTile("#", ConsoleColor.Blue);
@@ -28,6 +30,20 @@ namespace Artefact.Tiles
         public static LadderTile LadderTile { get; } = new LadderTile();
 
         public static List<Tile> Tiles { get; private set; }
+
+        public static List<Tile> FlowerTiles
+        {
+            get
+            {
+                return new List<Tile>()
+                {
+                    RoseFlowerTile,
+                    BluebellFlowerTile,
+                    GrassFlowerTile,
+                    SunFlowerTile
+                };
+            }
+        }
 
         public static List<Tile> GrassTiles
         {
@@ -75,7 +91,7 @@ namespace Artefact.Tiles
 
         public static Tile GetTile(int id)
         {
-            if(id >= Tiles.Count) return null;
+            if (id >= Tiles.Count) return null;
             return Tiles[id];
         }
 

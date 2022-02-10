@@ -1,5 +1,6 @@
 ﻿using Artefact.Entities;
 using Artefact.Tiles;
+using Artefact.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -318,7 +319,7 @@ namespace Artefact.Worlds
                         if ((x * x + y * y) <= radius * variant)
                         {
                             Tile tile = tiles[Random.Next(tiles.Length)].Clone();
-                            if (tile is FlowerTile)
+                            if (tile is ReplaceBackgroundTile)
                             {
                                 tile.BackgroundColor = tileToReplace.BackgroundColor;
                                 if (tile.ForegroundColor == tileToReplace.ForegroundColor)
