@@ -13,22 +13,19 @@ namespace Artefact.Worlds
 
         private Vector2i origPlayerPos;
 
-        public CaveWorld(int width, int height, int checkTilesAmount, World world) : this(width, height, checkTilesAmount, world, -1)
-        {
-        }
-
-        public CaveWorld(int width, int height, int checkTilesAmount, World world, int seed) : base(width, height, checkTilesAmount, seed)
+        public CaveWorld(int width, int height, World world, int seed) : base(width, height, 3, seed)
         {
             ExitLadders.ForEach(t =>
             {
                 t.WorldToGo = world;
             });
-            origPlayerPos = new Vector2i(0, 1);
+            FindPlayerPosition();
         }
 
         protected override void GenerateTiles()
         {
             GenerateStone();
+            GenerateCave();
         }
 
         private void GenerateStone()
@@ -37,8 +34,18 @@ namespace Artefact.Worlds
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    SetTile(x, y, Tile.StoneTile);
+                    SetTile(new Vector2i(x, y), Tile.StoneTile);
                 }
+            }
+        }
+
+        private void GenerateCave()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                Vector2i pos = GetRandomTilePos(Tile.StoneTile);
+
+                ReplaceTilesInRange(pos, 5, true, Tile.StoneTile, Tile.DeepMountainTile);
             }
         }
 
@@ -56,16 +63,19 @@ namespace Artefact.Worlds
         {
             for (int i = 0; i < 2; i++)
             {
-                LadderTile ladderTile = SetTile(i, 0, Tile.LadderTile);
+                LadderTile ladderTile = SetTile(new Vector2i(i, 0), Tile.LadderTile);
                 ExitLadders.Add(ladderTile);
             }
-            if (Random.NextDouble() < 0.99f)
+            if (Random.NextDouble() < 0.3f)
             {
-                CaveWorld caveWorld = new CaveWorld(20, 20, 3, this, seed >= 0 ? seed + 1 : seed);
+                int width = Random.Next(20, 40);
+                int height = Random.Next(20, 40);
+
+                CaveWorld caveWorld = new CaveWorld(width, height, this, Seed >= 0 ? Seed + 1 : Seed);
 
                 for (int i = 0; i < 2; i++)
                 {
-                    LadderTile ladderTile = SetTile(Width - 1 - i, Height - 1, Tile.LadderTile);
+                    LadderTile ladderTile = SetTile(new Vector2i(Width - 1 - i, Height - 1), Tile.LadderTile);
                     ladderTile.WorldToGo = caveWorld;
                     ladderTile.PlayerPosWorld = new Vector2i(caveWorld.origPlayerPos);
                     ladderTile.GoingDown = true;
@@ -77,6 +87,11 @@ namespace Artefact.Worlds
         public override void PlacePlayer()
         {
             PlayerEntity.Instance.Position = new Vector2i(origPlayerPos);
+        }
+
+        void FindPlayerPosition()
+        {
+            origPlayerPos = new Vector2i(0, 1);
         }
     }
 }

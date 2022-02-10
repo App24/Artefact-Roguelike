@@ -1,4 +1,4 @@
-﻿#define CUSTOM_SEED
+﻿//#define CUSTOM_SEED
 using Artefact.Entities;
 using Artefact.Tiles;
 using Artefact.Worlds;
@@ -43,9 +43,9 @@ namespace Artefact
                 DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
             }
 
-            new PlayerEntity();
+            PlayerEntity player = new PlayerEntity();
 
-            int seed = -1;
+            int seed = new Random().Next();
 #if DEBUG && CUSTOM_SEED
             seed = 0;
 #endif

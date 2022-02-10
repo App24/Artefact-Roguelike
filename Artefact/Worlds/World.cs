@@ -31,26 +31,17 @@ namespace Artefact.Worlds
 
         protected Random Random { get; }
 
-        protected int seed;
+        public int Seed { get; }
 
-        public World(int width, int height, int checkTilesAmount) : this(width, height, checkTilesAmount, -1)
-        {
-        }
+        public const int TILE_CHAR_WIDTH = 2;
 
         public World(int width, int height, int checkTilesAmount, int seed)
         {
             Width = width;
             Height = height;
             tiles = new Tile[Width * Height];
-            if (seed >= 0)
-            {
-                Random = new Random(seed);
-            }
-            else
-            {
-                Random = new Random();
-            }
-            this.seed = seed;
+            Random = new Random(seed);
+            Seed = seed;
             GenerateWorld(checkTilesAmount);
         }
 
@@ -79,14 +70,14 @@ namespace Artefact.Worlds
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    PrintTile(x, y);
+                    PrintTile(new Vector2i(x, y));
                 }
             }
             foreach (Entity entity in entities)
             {
                 PrintEntity(entity);
             }
-            Console.CursorLeft = Width * 2;
+            Console.CursorLeft = Width * TILE_CHAR_WIDTH;
             Console.ResetColor();
         }
 
@@ -100,7 +91,7 @@ namespace Artefact.Worlds
             {
                 Vector2i previousPosition = new Vector2i(entity.Position);
                 entity.Move();
-                Tile tile = GetTile(entity.Position.X, entity.Position.Y);
+                Tile tile = GetTile(entity.Position);
                 if (tile.Collidable)
                     entity.Position = previousPosition;
                 tile.OnCollide(entity);
@@ -113,32 +104,36 @@ namespace Artefact.Worlds
 
                 if (entity.Position != previousPosition)
                 {
-                    PrintTile(previousPosition.X, previousPosition.Y);
+                    PrintTile(previousPosition);
                 }
 
                 PrintEntity(entity);
             }
-            Console.CursorLeft = Width * 2;
+            PlayerEntity player = (PlayerEntity)entities.Find(x => x is PlayerEntity);
+            Console.CursorTop = player.Position.Y;
+            Console.CursorLeft = Width * TILE_CHAR_WIDTH;
             Console.ResetColor();
         }
 
-        private void PrintTile(int x, int y)
+        private void PrintTile(Vector2i position)
         {
-            Tile tile = GetTile(x, y);
-            Console.CursorLeft = x * 2;
-            Console.CursorTop = y;
+            Tile tile = GetTile(position);
+            Console.CursorLeft = position.X * TILE_CHAR_WIDTH;
+            Console.CursorTop = position.Y;
             Console.BackgroundColor = tile.BackgroundColor;
             Console.ForegroundColor = tile.ForegroundColor;
-            Console.Write(tile.Representation);
-            Console.Write(tile.Representation);
+            for (int i = 0; i < TILE_CHAR_WIDTH; i++)
+            {
+                Console.Write(tile.Representation);
+            }
             Console.ResetColor();
         }
 
         private void PrintEntity(Entity entity)
         {
-            Tile tile = GetTile(entity.Position.X, entity.Position.Y);
+            Tile tile = GetTile(entity.Position);
 
-            Console.CursorLeft = entity.Position.X * 2;
+            Console.CursorLeft = entity.Position.X * TILE_CHAR_WIDTH;
             Console.CursorTop = entity.Position.Y;
 
             if (lightColors.Contains(tile.BackgroundColor))
@@ -150,9 +145,9 @@ namespace Artefact.Worlds
             Console.ResetColor();
         }
 
-        protected int GetIndex(int x, int y)
+        protected int GetIndex(Vector2i position)
         {
-            return x + Width * y;
+            return position.X + Width * position.Y;
         }
 
         public void AddEntity(Entity entity)
@@ -162,40 +157,74 @@ namespace Artefact.Worlds
 
         #region Tile Related
 
-        protected T SetTile<T>(int x, int y, T tile) where T : Tile
+        protected T SetTile<T>(Vector2i position, T tile) where T : Tile
         {
-            if (x < 0 || y < 0 || x >= Width || y >= Height)
+            if (position.X < 0 || position.Y < 0 || position.X >= Width || position.Y >= Height)
             {
                 return null;
             }
             T t = (T)tile.Clone();
-            tiles[GetIndex(x, y)] = t;
+            tiles[GetIndex(position)] = t;
             return t;
         }
 
-        public Tile GetTile(int x, int y)
+        public Tile GetTile(Vector2i position)
         {
-            if (x < 0 || y < 0 || x >= Width || y >= Height)
+            if (position.X < 0 || position.Y < 0 || position.X >= Width || position.Y >= Height)
             {
                 return null;
             }
-            return tiles[GetIndex(x, y)];
+            return tiles[GetIndex(position)];
         }
 
-        protected bool AreTilesAroundSame(int x, int y, bool ignoreNull, params Tile[] tiles)
+        protected Tile GetTile(Vector2i position, Direction direction)
+        {
+            position = new Vector2i(position);
+            if (direction.HasFlag(Direction.Left))
+            {
+                position += Vector2i.Left;
+            }
+
+            if (direction.HasFlag(Direction.Right))
+            {
+                position += Vector2i.Right;
+            }
+
+            if (direction.HasFlag(Direction.Up))
+            {
+                position += Vector2i.Up;
+            }
+
+            if (direction.HasFlag(Direction.Down))
+            {
+                position += Vector2i.Down;
+            }
+
+            return GetTile(position);
+        }
+
+        /// <summary>
+        /// Check if tiles in a 3x3 grid around a position are the same
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="ignoreNull"></param>
+        /// <param name="tiles"></param>
+        /// <returns></returns>
+        protected bool CheckTilesAroundSame(Vector2i position, bool ignoreNull, params Tile[] tiles)
         {
             // n = negative
             // p = positive
             // x = x axis
             // y = y axis
-            Tile nxTile = GetTile(x - 1, y);
-            Tile pxTile = GetTile(x + 1, y);
-            Tile nyTile = GetTile(x, y - 1);
-            Tile pyTile = GetTile(x, y + 1);
-            Tile nxnyTile = GetTile(x - 1, y - 1);
-            Tile nxpyTile = GetTile(x - 1, y + 1);
-            Tile pxnyTile = GetTile(x + 1, y - 1);
-            Tile pxpyTile = GetTile(x + 1, y + 1);
+            Tile nxTile = GetTile(position, Direction.Left);
+            Tile pxTile = GetTile(position, Direction.Right);
+            Tile nyTile = GetTile(position, Direction.Up);
+            Tile pyTile = GetTile(position, Direction.Down);
+            Tile nxnyTile = GetTile(position, Direction.Up | Direction.Left);
+            Tile nxpyTile = GetTile(position, Direction.Down | Direction.Left);
+            Tile pxnyTile = GetTile(position, Direction.Up | Direction.Left);
+            Tile pxpyTile = GetTile(position, Direction.Down | Direction.Right);
 
             List<Tile> tileList = new List<Tile>(tiles);
 
@@ -223,34 +252,79 @@ namespace Artefact.Worlds
             }
         }
 
-        protected void ReplaceTilesInRange(int x, int y, int radius, bool variantion, Tile tileToReplace, Tile tile)
+        /// <summary>
+        /// Check if tiles above, below and to the sides are the same
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="ignoreNull"></param>
+        /// <param name="tiles"></param>
+        /// <returns></returns>
+        protected bool CheckTilesDirectAroundSame(Vector2i position, bool ignoreNull, params Tile[] tiles)
         {
-            ReplaceTilesInRange(x, y, radius, variantion, new Tile[] { tileToReplace }, new Tile[] { tile });
+            // n = negative
+            // p = positive
+            // x = x axis
+            // y = y axis
+            Tile nxTile = GetTile(position, Direction.Left);
+            Tile pxTile = GetTile(position, Direction.Right);
+            Tile nyTile = GetTile(position, Direction.Up);
+            Tile pyTile = GetTile(position, Direction.Down);
+
+            List<Tile> tileList = new List<Tile>(tiles);
+
+            if (!ignoreNull)
+            {
+                return tileList.Contains(nxTile) &&
+                    tileList.Contains(pxTile) &&
+                    tileList.Contains(nyTile) &&
+                    tileList.Contains(pyTile);
+            }
+            else
+            {
+                return (tileList.Contains(nxTile) || nxTile == null) &&
+                    (tileList.Contains(pxTile) || pxTile == null) &&
+                    (tileList.Contains(nyTile) || nyTile == null) &&
+                    (tileList.Contains(pyTile) || pyTile == null);
+            }
         }
 
-        protected void ReplaceTilesInRange(int x, int y, int radius, bool variantion, Tile[] tilesToReplace, Tile tile)
+        protected void ReplaceTilesInRange(Vector2i position, int radius, bool variantion, Tile tileToReplace, Tile tile)
         {
-            ReplaceTilesInRange(x, y, radius, variantion, tilesToReplace, new Tile[] { tile });
+            ReplaceTilesInRange(position, radius, variantion, new Tile[] { tileToReplace }, new Tile[] { tile });
         }
 
-        protected void ReplaceTilesInRange(int x, int y, int radius, bool variantion, Tile tileToReplace, Tile[] tiles)
+        protected void ReplaceTilesInRange(Vector2i position, int radius, bool variantion, Tile[] tilesToReplace, Tile tile)
         {
-            ReplaceTilesInRange(x, y, radius, variantion, new Tile[] { tileToReplace }, tiles);
+            ReplaceTilesInRange(position, radius, variantion, tilesToReplace, new Tile[] { tile });
         }
 
-        protected void ReplaceTilesInRange(int x, int y, int radius, bool variantion, Tile[] tilesToReplace, Tile[] tiles)
+        protected void ReplaceTilesInRange(Vector2i position, int radius, bool variantion, Tile tileToReplace, Tile[] tiles)
+        {
+            ReplaceTilesInRange(position, radius, variantion, new Tile[] { tileToReplace }, tiles);
+        }
+
+        protected void ReplaceTilesInRange(Vector2i position, int radius, bool variantion, Tile[] tilesToReplace, Tile[] tiles)
         {
             List<Tile> tilesToReplaceList = new List<Tile>(tilesToReplace);
-            for (int replaceY = -radius; replaceY < radius; replaceY++)
+            for (int y = -radius; y < radius; y++)
             {
-                for (int replaceX = -radius; replaceX < radius; replaceX++)
+                for (int x = -radius; x < radius; x++)
                 {
-                    if (tilesToReplaceList.Contains(GetTile(x + replaceX, y + replaceY)))
+                    Tile tileToReplace = GetTile(new Vector2i(position.X + x, position.Y + y));
+                    if (tilesToReplaceList.Contains(tileToReplace))
                     {
                         float variant = variantion ? (float)Math.Clamp(Random.NextDouble(), 0.25f, 1f) : 1;
-                        if ((replaceX * replaceX + replaceY * replaceY) <= radius * variant)
+                        if ((x * x + y * y) <= radius * variant)
                         {
-                            SetTile(x + replaceX, y + replaceY, tiles[Random.Next(tiles.Length)]);
+                            Tile tile = tiles[Random.Next(tiles.Length)].Clone();
+                            if (tile is FlowerTile)
+                            {
+                                tile.BackgroundColor = tileToReplace.BackgroundColor;
+                                if (tile.ForegroundColor == tileToReplace.ForegroundColor)
+                                    tile.ForegroundColor = ConsoleColor.Green;
+                            }
+                            SetTile(new Vector2i(position.X + x, position.Y + y), tile);
                         }
                     }
                 }
@@ -260,18 +334,18 @@ namespace Artefact.Worlds
         protected Vector2i GetRandomTilePos(params Tile[] tiles)
         {
             List<Tile> tilesList = new List<Tile>(tiles);
-            int x = 0;
-            int y = 0;
+            Vector2i pos = Vector2i.Zero;
+
+            if (!Tiles.Exists(t => tilesList.Contains(t))) return new Vector2i(-1, -1);
 
             while (true)
             {
-                x = Random.Next(Width);
-                y = Random.Next(Height);
-                if (tilesList.Contains(GetTile(x, y)))
+                pos = Random.NextVector2i(new Vector2i(Width, Height));
+                if (tilesList.Contains(GetTile(pos)))
                     break;
             }
 
-            return new Vector2i(x, y);
+            return pos;
         }
 
         #endregion

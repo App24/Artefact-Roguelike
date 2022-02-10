@@ -8,10 +8,6 @@ namespace Artefact.Worlds
 {
     internal class OverworldWorld : World
     {
-        public OverworldWorld(int width, int height) : this(width, height, -1)
-        {
-        }
-
         public OverworldWorld(int width, int height, int seed) : base(width, height, 5, seed)
         {
         }
@@ -30,8 +26,15 @@ namespace Artefact.Worlds
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    SetTile(x, y, Tile.GrassTile);
+                    SetTile(new Vector2i(x, y), Tile.GrassTile);
                 }
+            }
+
+            for (int i = 0; i < Random.Next(40, 60); i++)
+            {
+                Vector2i pos = GetRandomTilePos(Tile.GrassTile);
+
+                ReplaceTilesInRange(pos, 30, true, Tile.GrassTile, Tile.DarkGrassTile);
             }
         }
 
@@ -49,7 +52,7 @@ namespace Artefact.Worlds
                     for (int x = -radius; x < radius; x++)
                     {
                         if ((x * x + y * y) <= radius * Math.Clamp(Random.NextDouble(), 0.5f, 1f))
-                            SetTile(waterX + x, waterY + y, Tile.WaterTile);
+                            SetTile(new Vector2i(waterX + x, waterY + y), Tile.WaterTile);
                     }
                 }
             }
@@ -69,7 +72,7 @@ namespace Artefact.Worlds
                     for (int x = -radius; x < radius; x++)
                     {
                         if ((x * x + y * y) <= radius * Math.Clamp(Random.NextDouble(), 0.5f, 1f))
-                            SetTile(waterX + x, waterY + y, Tile.MountainTile);
+                            SetTile(new Vector2i(waterX + x, waterY + y), Tile.MountainTile);
                     }
                 }
             }
@@ -80,23 +83,21 @@ namespace Artefact.Worlds
             GenerateFlowers();
             GenerateTrees();
             GenerateCaves();
+
+            SpawnEnemies();
         }
 
         private void GenerateFlowers()
         {
             List<Tile> flowerTiles = Tile.Tiles.FindAll(t => t is FlowerTile);
-            for (int y = 0; y < Height; y += 5)
+            for (int i = 0; i < Random.Next(40, 50); i++)
             {
-                for (int x = 0; x < Width; x += 5)
+                Vector2i pos = GetRandomTilePos(Tile.GrassTiles.ToArray());
+                Tile tile = GetTile(pos);
+                if (Tile.GrassTiles.Contains(tile))
                 {
-                    if (GetTile(x, y) == Tile.GrassTile)
-                    {
-                        if (Random.NextDouble() < 0.3f)
-                        {
-                            Tile tile = flowerTiles[Random.Next(flowerTiles.Count)];
-                            ReplaceTilesInRange(x, y, 5, true, Tile.GrassTile, tile);
-                        }
-                    }
+                    Tile flowerTile = flowerTiles[Random.Next(flowerTiles.Count)];
+                    ReplaceTilesInRange(pos, 5, true, Tile.GrassTiles.ToArray(), flowerTile);
                 }
             }
         }
@@ -107,12 +108,12 @@ namespace Artefact.Worlds
             int i = 0;
             while (i < amountTrees)
             {
-                Vector2i pos = GetRandomTilePos(Tile.GrassTile);
+                Vector2i pos = GetRandomTilePos(Tile.GrassTiles.ToArray());
                 int size = Random.Next(1, 3);
                 bool cont = false;
                 for (int j = 0; j < size * size; j++)
                 {
-                    if (!AreTilesAroundSame(pos.X + (j % size), pos.Y + (j / size), true, Tile.GrassTile))
+                    if (!CheckTilesAroundSame(new Vector2i(pos.X + (j % size), pos.Y + (j / size)), true, Tile.GrassTiles.ToArray()))
                     {
                         cont = true;
                         break;
@@ -123,7 +124,7 @@ namespace Artefact.Worlds
 
                 for (int j = 0; j < size * size; j++)
                 {
-                    SetTile(pos.X + (j % size), pos.Y + (j / size), Tile.TreeBarkTile);
+                    SetTile(new Vector2i(pos.X + (j % size), pos.Y + (j / size)), Tile.TreeBarkTile);
                 }
 
                 i++;
@@ -136,12 +137,12 @@ namespace Artefact.Worlds
             int i = 0;
             while (i < amountCaves)
             {
-                Vector2i pos = GetRandomTilePos(Tile.GrassTile);
+                Vector2i pos = GetRandomTilePos(Tile.GrassTiles.ToArray());
                 int size = 2;
                 bool cont = false;
                 for (int j = 0; j < size * size; j++)
                 {
-                    if (!AreTilesAroundSame(pos.X + (j % size), pos.Y + (j / size), true, Tile.GrassTile))
+                    if (!CheckTilesAroundSame(new Vector2i(pos.X + (j % size), pos.Y + (j / size)), true, Tile.GrassTiles.ToArray()))
                     {
                         cont = true;
                         break;
@@ -150,17 +151,28 @@ namespace Artefact.Worlds
 
                 if (cont) continue;
 
-                CaveWorld caveWorld = new CaveWorld(20, 20, 3, this, seed);
+                int width = Random.Next(20, 40);
+                int height = Random.Next(20, 40);
+
+                CaveWorld caveWorld = new CaveWorld(width, height, this, Seed);
 
                 for (int j = 0; j < size * size; j++)
                 {
-                    CaveTile caveTile = SetTile(pos.X + (j % size), pos.Y + (j / size), Tile.CaveTile);
+                    CaveTile caveTile = SetTile(new Vector2i(pos.X + (j % size), pos.Y + (j / size)), Tile.CaveTile);
                     if (caveTile != null)
                         caveTile.CaveWorld = caveWorld;
                 }
 
                 i++;
             }
+        }
+
+        void SpawnEnemies()
+        {
+            Vector2i pos = Random.NextVector2i(Vector2i.Zero, new Vector2i(Width, Height));
+            TestEnemy enemy = new TestEnemy();
+            enemy.Position = pos;
+            //AddEntity(enemy);
         }
 
         #endregion
@@ -171,42 +183,43 @@ namespace Artefact.Worlds
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    Tile nxTile = GetTile(x - 1, y);
-                    Tile pxTile = GetTile(x + 1, y);
-                    Tile nyTile = GetTile(x, y - 1);
-                    Tile pyTile = GetTile(x, y + 1);
-                    Tile nxnyTile = GetTile(x - 1, y - 1);
-                    Tile nxpyTile = GetTile(x - 1, y + 1);
-                    Tile pxnyTile = GetTile(x + 1, y - 1);
-                    Tile pxpyTile = GetTile(x + 1, y + 1);
-                    Tile currentTile = GetTile(x, y);
+                    Vector2i position = new Vector2i(x, y);
+                    Tile nxTile = GetTile(position, Direction.Left);
+                    Tile pxTile = GetTile(position, Direction.Right);
+                    Tile nyTile = GetTile(position, Direction.Up);
+                    Tile pyTile = GetTile(position, Direction.Down);
+                    Tile nxnyTile = GetTile(position, Direction.Up | Direction.Left);
+                    Tile nxpyTile = GetTile(position, Direction.Down | Direction.Left);
+                    Tile pxnyTile = GetTile(position, Direction.Up | Direction.Left);
+                    Tile pxpyTile = GetTile(position, Direction.Down | Direction.Right);
+                    Tile currentTile = GetTile(position);
                     if (currentTile == Tile.WaterTile)
                     {
-                        if (AreTilesAroundSame(x, y, true, Tile.WaterTile, Tile.DeepWaterTile))
+                        if (CheckTilesAroundSame(position, true, Tile.WaterTile, Tile.DeepWaterTile))
                         {
-                            SetTile(x, y, Tile.DeepWaterTile);
+                            SetTile(position, Tile.DeepWaterTile);
                         }
                         else
                         {
-                            ReplaceTilesInRange(x, y, 6, true, Tile.GrassTile, Tile.SandTile);
+                            ReplaceTilesInRange(position, 6, true, Tile.GrassTiles.ToArray(), Tile.SandTile);
                         }
                     }
-                    else if (currentTile == Tile.GrassTile)
+                    else if (Tile.GrassTiles.Contains(currentTile))
                     {
-                        if (AreTilesAroundSame(x, y, true, Tile.WaterTile, Tile.DeepWaterTile))
+                        if (CheckTilesAroundSame(position, true, Tile.WaterTile, Tile.DeepWaterTile))
                         {
-                            SetTile(x, y, Tile.WaterTile);
+                            SetTile(position, Tile.WaterTile);
                         }
-                        else if (AreTilesAroundSame(x, y, true, Tile.DeepMountainTile, Tile.MountainTile))
+                        else if (CheckTilesAroundSame(position, true, Tile.DeepMountainTile, Tile.MountainTile))
                         {
-                            SetTile(x, y, Tile.MountainTile);
+                            SetTile(position, Tile.MountainTile);
                         }
                     }
                     else if (currentTile == Tile.MountainTile)
                     {
-                        if (AreTilesAroundSame(x, y, true, Tile.MountainTile, Tile.DeepMountainTile))
+                        if (CheckTilesAroundSame(position, true, Tile.MountainTile, Tile.DeepMountainTile))
                         {
-                            SetTile(x, y, Tile.DeepMountainTile);
+                            SetTile(position, Tile.DeepMountainTile);
                         }
                     }
                 }
@@ -216,12 +229,12 @@ namespace Artefact.Worlds
         public override void PlacePlayer()
         {
             PlayerEntity playerEntity = PlayerEntity.Instance;
-            playerEntity.Position = new Vector2i(0, 0);
-            Tile tile = GetTile(playerEntity.Position.X, playerEntity.Position.Y);
+            playerEntity.Position = Vector2i.Zero;
+            Tile tile = GetTile(playerEntity.Position);
             while (tile.Collidable)
             {
                 playerEntity.Position.X++;
-                tile = GetTile(playerEntity.Position.X, playerEntity.Position.Y);
+                tile = GetTile(playerEntity.Position);
             }
         }
     }
