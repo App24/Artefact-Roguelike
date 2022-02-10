@@ -8,7 +8,7 @@ namespace Artefact.Entities
     internal abstract class Entity
     {
         public int Health { get; }
-        public int MaxHealth { get; }
+        public abstract int MaxHealth { get; }
 
         public Vector2i Position { get; set; }
 
@@ -17,6 +17,7 @@ namespace Artefact.Entities
         public Entity()
         {
             Position = new Vector2i(0, 0);
+            Health = MaxHealth;
         }
 
         public abstract void Move();

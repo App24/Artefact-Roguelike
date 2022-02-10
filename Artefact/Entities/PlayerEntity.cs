@@ -12,6 +12,8 @@ namespace Artefact.Entities
 
         public static PlayerEntity Instance { get; private set; }
 
+        public override int MaxHealth => 20;
+
         public PlayerEntity()
         {
             Instance = this;

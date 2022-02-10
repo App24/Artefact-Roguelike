@@ -50,7 +50,8 @@ namespace Artefact
             seed = 0;
 #endif
 
-            World.Instance = new OverworldWorld(80, 60, seed);
+            Console.CursorVisible = false;
+            World.Instance = new OverworldWorld(60, 60, seed);
             World.Instance.PlacePlayer();
             World.Instance.PrintTiles();
             while (true)

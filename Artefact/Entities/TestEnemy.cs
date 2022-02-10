@@ -8,6 +8,8 @@ namespace Artefact.Entities
     {
         public override string Representation => "TE";
 
+        public override int MaxHealth => 5;
+
         public override void Move()
         {
             Position.Y--;

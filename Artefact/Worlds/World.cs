@@ -36,6 +36,8 @@ namespace Artefact.Worlds
 
         public const int TILE_CHAR_WIDTH = 2;
 
+        const int TILE_SIGHT = 5;
+
         public World(int width, int height, int checkTilesAmount, int seed)
         {
             Width = width;
@@ -78,8 +80,8 @@ namespace Artefact.Worlds
             {
                 PrintEntity(entity);
             }
-            Console.CursorLeft = Width * TILE_CHAR_WIDTH;
             Console.ResetColor();
+            PlayerStats.DrawStats();
         }
 
         public void Update()
@@ -110,10 +112,16 @@ namespace Artefact.Worlds
 
                 PrintEntity(entity);
             }
-            PlayerEntity player = (PlayerEntity)entities.Find(x => x is PlayerEntity);
-            Console.CursorTop = player.Position.Y;
-            Console.CursorLeft = Width * TILE_CHAR_WIDTH;
             Console.ResetColor();
+            PlayerStats.DrawStats();
+            Console.CursorTop = PlayerEntity.Instance.Position.Y;
+            if (Console.CursorTop >= Console.WindowHeight - TILE_SIGHT)
+            {
+                Console.CursorTop += TILE_SIGHT;
+            }else if(Console.CursorTop > TILE_SIGHT-1)
+            {
+                Console.CursorTop -= TILE_SIGHT;
+            }
         }
 
         private void PrintTile(Vector2i position)
