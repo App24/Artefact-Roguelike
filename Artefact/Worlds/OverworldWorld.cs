@@ -33,9 +33,9 @@ namespace Artefact.Worlds
 
             for (int i = 0; i < Random.Next(40, 60); i++)
             {
-                Vector2i pos = GetRandomTilePos(Tile.GrassTile);
+                Vector2i pos = Random.NextVector2i(new Vector2i(Width, Height));
 
-                ReplaceTilesInRange(pos, 30, true, Tile.GrassTile, Tile.DarkGrassTile);
+                SetTilesInRange(pos, 30, 0.5f, Tile.DarkGrassTile);
             }
         }
 
@@ -44,18 +44,10 @@ namespace Artefact.Worlds
             int amount = Random.Next(10, 15);
             for (int i = 0; i < amount; i++)
             {
-                int waterX = Random.Next(Width);
-                int waterY = Random.Next(Height);
+                Vector2i pos = Random.NextVector2i(new Vector2i(Width, Height));
                 int radius = Random.Next(10, 15);
 
-                for (int y = -radius; y < radius; y++)
-                {
-                    for (int x = -radius; x < radius; x++)
-                    {
-                        if ((x * x + y * y) <= radius * Math.Clamp(Random.NextDouble(), 0.5f, 1f))
-                            SetTile(new Vector2i(waterX + x, waterY + y), Tile.WaterTile);
-                    }
-                }
+                SetTilesInRange(pos, radius, 0.5f, Tile.WaterTile);
             }
         }
 
@@ -64,18 +56,10 @@ namespace Artefact.Worlds
             int amount = Random.Next(5, 8);
             for (int i = 0; i < amount; i++)
             {
-                int waterX = Random.Next(Width);
-                int waterY = Random.Next(Height);
+                Vector2i pos = Random.NextVector2i(new Vector2i(Width, Height));
                 int radius = Random.Next(20, 25);
 
-                for (int y = -radius; y < radius; y++)
-                {
-                    for (int x = -radius; x < radius; x++)
-                    {
-                        if ((x * x + y * y) <= radius * Math.Clamp(Random.NextDouble(), 0.5f, 1f))
-                            SetTile(new Vector2i(waterX + x, waterY + y), Tile.MountainTile);
-                    }
-                }
+                SetTilesInRange(pos, radius, 0.5f, Tile.MountainTile);
             }
         }
 
@@ -95,10 +79,11 @@ namespace Artefact.Worlds
             {
                 Vector2i pos = GetRandomTilePos(Tile.GrassTiles.ToArray());
                 Tile tile = GetTile(pos);
+
                 if (Tile.GrassTiles.Contains(tile))
                 {
                     Tile flowerTile = flowerTiles[Random.Next(flowerTiles.Count)];
-                    ReplaceTilesInRange(pos, 5, true, Tile.GrassTiles.ToArray(), flowerTile);
+                    ReplaceTilesInRange(pos, 5, 0.25f, Tile.GrassTiles.ToArray(), flowerTile);
                 }
             }
         }
@@ -114,7 +99,7 @@ namespace Artefact.Worlds
                 bool cont = false;
                 for (int j = 0; j < size * size; j++)
                 {
-                    if (!CheckTilesAroundSame(new Vector2i(pos.X + (j % size), pos.Y + (j / size)), true, Tile.GrassTiles.ToArray()))
+                    if (!CheckTilesAroundSame(pos + new Vector2i(j % size, j / size), true, Tile.GrassTiles.ToArray()))
                     {
                         cont = true;
                         break;
@@ -125,7 +110,7 @@ namespace Artefact.Worlds
 
                 for (int j = 0; j < size * size; j++)
                 {
-                    SetTile(new Vector2i(pos.X + (j % size), pos.Y + (j / size)), Tile.TreeBarkTile);
+                    SetTile(pos + new Vector2i(j % size, j / size), Tile.TreeBarkTile);
                 }
 
                 i++;
@@ -143,7 +128,7 @@ namespace Artefact.Worlds
                 bool cont = false;
                 for (int j = 0; j < size * size; j++)
                 {
-                    if (!CheckTilesAroundSame(new Vector2i(pos.X + (j % size), pos.Y + (j / size)), true, Tile.GrassTiles.ToArray()))
+                    if (!CheckTilesAroundSame(pos + new Vector2i(j % size, j / size), true, Tile.GrassTiles.ToArray()))
                     {
                         cont = true;
                         break;
@@ -159,7 +144,7 @@ namespace Artefact.Worlds
 
                 for (int j = 0; j < size * size; j++)
                 {
-                    CaveTile caveTile = SetTile(new Vector2i(pos.X + (j % size), pos.Y + (j / size)), Tile.CaveTile);
+                    CaveTile caveTile = SetTile(pos + new Vector2i(j % size, j / size), Tile.CaveTile);
                     if (caveTile != null)
                         caveTile.CaveWorld = caveWorld;
                 }
@@ -196,13 +181,13 @@ namespace Artefact.Worlds
                     Tile currentTile = GetTile(position);
                     if (currentTile == Tile.WaterTile)
                     {
-                        if (CheckTilesAroundSame(position, true, Tile.WaterTile, Tile.DeepWaterTile))
+                        if (CheckTilesAroundSame(position, true, Tile.WaterTile, Tile.DeepWaterTile, Tile.MountainTile, Tile.DeepMountainTile))
                         {
                             SetTile(position, Tile.DeepWaterTile);
                         }
                         else
                         {
-                            ReplaceTilesInRange(position, 6, true, Tile.GrassTiles.ToArray(), Tile.SandTile);
+                            ReplaceTilesInRange(position, 6, 0.25f, Tile.GrassTiles.ToArray(), Tile.SandTile);
                         }
                     }
                     else if (Tile.GrassTiles.Contains(currentTile))

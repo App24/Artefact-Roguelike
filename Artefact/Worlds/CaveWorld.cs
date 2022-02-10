@@ -46,7 +46,7 @@ namespace Artefact.Worlds
             {
                 Vector2i pos = GetRandomTilePos(Tile.StoneTile);
 
-                ReplaceTilesInRange(pos, 5, true, Tile.StoneTile, Tile.DeepMountainTile);
+                ReplaceTilesInRange(pos, 5, 0.25f, Tile.StoneTile, Tile.DeepMountainTile);
             }
         }
 

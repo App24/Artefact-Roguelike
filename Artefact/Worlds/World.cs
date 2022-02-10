@@ -298,22 +298,22 @@ namespace Artefact.Worlds
             }
         }
 
-        protected void ReplaceTilesInRange(Vector2i position, int radius, bool variantion, Tile tileToReplace, Tile tile)
+        protected void ReplaceTilesInRange(Vector2i position, int radius, float variantion, Tile tileToReplace, Tile tile)
         {
             ReplaceTilesInRange(position, radius, variantion, new Tile[] { tileToReplace }, new Tile[] { tile });
         }
 
-        protected void ReplaceTilesInRange(Vector2i position, int radius, bool variantion, Tile[] tilesToReplace, Tile tile)
+        protected void ReplaceTilesInRange(Vector2i position, int radius, float variantion, Tile[] tilesToReplace, Tile tile)
         {
             ReplaceTilesInRange(position, radius, variantion, tilesToReplace, new Tile[] { tile });
         }
 
-        protected void ReplaceTilesInRange(Vector2i position, int radius, bool variantion, Tile tileToReplace, Tile[] tiles)
+        protected void ReplaceTilesInRange(Vector2i position, int radius, float variantion, Tile tileToReplace, Tile[] tiles)
         {
             ReplaceTilesInRange(position, radius, variantion, new Tile[] { tileToReplace }, tiles);
         }
 
-        protected void ReplaceTilesInRange(Vector2i position, int radius, bool variantion, Tile[] tilesToReplace, Tile[] tiles)
+        protected void ReplaceTilesInRange(Vector2i position, int radius, float variantion, Tile[] tilesToReplace, Tile[] tiles)
         {
             List<Tile> tilesToReplaceList = new List<Tile>(tilesToReplace);
             for (int y = -radius; y < radius; y++)
@@ -323,8 +323,7 @@ namespace Artefact.Worlds
                     Tile tileToReplace = GetTile(new Vector2i(position.X + x, position.Y + y));
                     if (tilesToReplaceList.Contains(tileToReplace))
                     {
-                        float variant = variantion ? (float)Math.Clamp(Random.NextDouble(), 0.25f, 1f) : 1;
-                        if ((x * x + y * y) <= radius * variant)
+                        if ((x * x + y * y) <= radius * Math.Clamp(Random.NextDouble(), variantion, 1f))
                         {
                             Tile tile = tiles[Random.Next(tiles.Length)].Clone();
                             if (tile is ReplaceBackgroundTile)
@@ -338,6 +337,16 @@ namespace Artefact.Worlds
                     }
                 }
             }
+        }
+
+        protected void SetTilesInRange(Vector2i position, int radius, float variantion, Tile tile)
+        {
+            SetTilesInRange(position, radius, variantion, new Tile[] { tile });
+        }
+
+        protected void SetTilesInRange(Vector2i position, int radius, float variantion, params Tile[] tiles)
+        {
+            ReplaceTilesInRange(position, radius, variantion, Tile.Tiles.ToArray(), tiles);
         }
 
         protected Vector2i GetRandomTilePos(params Tile[] tiles)
