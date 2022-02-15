@@ -108,10 +108,17 @@ namespace Artefact.Worlds
                 if (entity.Position != previousPosition)
                 {
                     PrintTile(previousPosition);
+                    List<Entity> otherEntities = entities.FindAll(e => e.Position == entity.Position);
+                    foreach(Entity otherEntity in otherEntities)
+                    {
+
+                    }
                 }
+
 
                 PrintEntity(entity);
             }
+
             Console.ResetColor();
             PlayerStats.DrawStats();
             Console.CursorTop = PlayerEntity.Instance.Position.Y;

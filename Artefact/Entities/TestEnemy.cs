@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Artefact.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +13,9 @@ namespace Artefact.Entities
 
         public override void Move()
         {
-            Position.Y--;
+            Vector2i position = AStarPathfinding.Calculate(Position, PlayerEntity.Instance.Position)[0];
+            if (position != PlayerEntity.Instance.Position)
+                Position = position;
         }
 
         public override void Update()

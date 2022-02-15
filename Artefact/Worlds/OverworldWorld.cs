@@ -158,7 +158,7 @@ namespace Artefact.Worlds
             Vector2i pos = Random.NextVector2i(Vector2i.Zero, new Vector2i(Width, Height));
             TestEnemy enemy = new TestEnemy();
             enemy.Position = pos;
-            //AddEntity(enemy);
+            AddEntity(enemy);
         }
 
         #endregion
