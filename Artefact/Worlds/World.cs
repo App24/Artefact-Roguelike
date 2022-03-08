@@ -35,8 +35,7 @@ namespace Artefact.Worlds
         public int Seed { get; }
 
         public const int TILE_CHAR_WIDTH = 2;
-
-        const int TILE_SIGHT = 5;
+        private const int TILE_SIGHT = 5;
 
         public World(int width, int height, int checkTilesAmount, int seed)
         {
@@ -109,7 +108,7 @@ namespace Artefact.Worlds
                 {
                     PrintTile(previousPosition);
                     List<Entity> otherEntities = entities.FindAll(e => e.Position == entity.Position);
-                    foreach(Entity otherEntity in otherEntities)
+                    foreach (Entity otherEntity in otherEntities)
                     {
 
                     }
@@ -125,7 +124,8 @@ namespace Artefact.Worlds
             if (Console.CursorTop >= Console.WindowHeight - TILE_SIGHT)
             {
                 Console.CursorTop += TILE_SIGHT;
-            }else if(Console.CursorTop > TILE_SIGHT-1)
+            }
+            else if (Console.CursorTop > TILE_SIGHT - 1)
             {
                 Console.CursorTop -= TILE_SIGHT;
             }

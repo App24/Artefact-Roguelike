@@ -8,7 +8,7 @@ namespace Artefact
 {
     internal static class PlayerStats
     {
-        static void ClearStats()
+        private static void ClearStats()
         {
             for (int i = 0; i < 1; i++)
             {

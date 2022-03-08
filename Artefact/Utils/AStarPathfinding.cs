@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Artefact.Utils
 {
-    static class AStarPathfinding
+    internal static class AStarPathfinding
     {
         public static List<Vector2i> Calculate(Vector2i currentPos, Vector2i targetPos)
         {
@@ -49,7 +49,7 @@ namespace Artefact.Utils
                     if (activeTiles.Any(x => x.Position == walkableTile.Position))
                     {
                         AStarTileData existingTile = activeTiles.First(x => x.Position == walkableTile.Position);
-                        if(existingTile.CostDistance > checkTile.CostDistance)
+                        if (existingTile.CostDistance > checkTile.CostDistance)
                         {
                             activeTiles.Remove(existingTile);
                             activeTiles.Add(walkableTile);
@@ -65,28 +65,30 @@ namespace Artefact.Utils
             return new List<Vector2i>() { currentPos };
         }
 
-        static int GetNodeDistance(Vector2i currentPos, Vector2i targetPos)
+        private static int GetNodeDistance(Vector2i currentPos, Vector2i targetPos)
         {
             return Math.Abs(targetPos.X - currentPos.X) + Math.Abs(targetPos.Y - currentPos.Y);
         }
 
-        static List<AStarTileData> GetWalkableTiles(AStarTileData currentTile, AStarTileData targetTile)
+        private static List<AStarTileData> GetWalkableTiles(AStarTileData currentTile, AStarTileData targetTile)
         {
             List<AStarTileData> possibleTiles = new List<AStarTileData>()
             {
-                new AStarTileData(World.Instance.GetTile(currentTile.Position+Vector2i.Up), currentTile.Position+Vector2i.Up, currentTile, currentTile.Cost+1, 0),
-                new AStarTileData(World.Instance.GetTile(currentTile.Position+Vector2i.Down), currentTile.Position+Vector2i.Down, currentTile, currentTile.Cost+1, 0),
-                new AStarTileData(World.Instance.GetTile(currentTile.Position+Vector2i.Left), currentTile.Position+Vector2i.Left, currentTile, currentTile.Cost+1, 0),
-                new AStarTileData(World.Instance.GetTile(currentTile.Position+Vector2i.Right), currentTile.Position+Vector2i.Right, currentTile, currentTile.Cost+1, 0)
+                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2i.Up), currentTile.Position + Vector2i.Up, currentTile, currentTile.Cost + 1, 0),
+
+                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2i.Down), currentTile.Position+Vector2i.Down, currentTile, currentTile.Cost + 1, 0),
+
+                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2i.Left), currentTile.Position + Vector2i.Left, currentTile, currentTile.Cost + 1, 0),
+                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2i.Right), currentTile.Position + Vector2i.Right, currentTile, currentTile.Cost + 1, 0),
             };
 
             possibleTiles.ForEach(tile => tile.Distance = GetNodeDistance(currentTile.Position, targetTile.Position));
 
-            return possibleTiles.Where(tile => tile.Tile !=null && !tile.Tile.Collidable).ToList();
+            return possibleTiles.Where(tile => tile.Tile != null && !tile.Tile.Collidable).ToList();
         }
     }
 
-    class AStarTileData
+    internal class AStarTileData
     {
         public AStarTileData(Tile tile, Vector2i position, AStarTileData parentPos, int cost, int distance)
         {
