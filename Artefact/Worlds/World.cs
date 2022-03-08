@@ -168,6 +168,7 @@ namespace Artefact.Worlds
 
         public void AddEntity(Entity entity)
         {
+            entity.OriginalPosition = entity.Position;
             entities.Add(entity);
         }
 

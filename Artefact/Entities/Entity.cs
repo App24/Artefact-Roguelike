@@ -11,6 +11,7 @@ namespace Artefact.Entities
         public abstract int MaxHealth { get; }
 
         public Vector2i Position { get; set; }
+        public Vector2i OriginalPosition { get; set; }
 
         public abstract string Representation { get; }
 

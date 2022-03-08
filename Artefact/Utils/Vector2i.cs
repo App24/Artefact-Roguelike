@@ -6,7 +6,7 @@ namespace Artefact.Utils
 {
     internal class Vector2i
     {
-        public static Vector2i Zero { get { return new Vector2i(0, 0); } }
+        public static Vector2i Zero { get { return new Vector2i(0); } }
         public static Vector2i Up { get { return new Vector2i(0, -1); } }
         public static Vector2i Down { get { return new Vector2i(0, 1); } }
         public static Vector2i Left { get { return new Vector2i(-1, 0); } }
@@ -17,6 +17,11 @@ namespace Artefact.Utils
             X = x;
             Y = y;
         }
+
+        public Vector2i(int value):this(value, value)
+        {
+        }
+
         public Vector2i(Vector2i copy) : this(copy.X, copy.Y)
         {
 
@@ -36,6 +41,14 @@ namespace Artefact.Utils
                 return false;
             }
             return a.Equals(b);
+        }
+
+        internal int DistanceTo(Vector2i position)
+        {
+            Vector2i vec = this - position;
+            float value = vec.X * vec.X;
+            value += vec.Y * vec.Y;
+            return (int)MathF.Sqrt(value);
         }
 
         public static bool operator !=(Vector2i a, Vector2i b)
