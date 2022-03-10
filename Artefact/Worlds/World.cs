@@ -172,6 +172,18 @@ namespace Artefact.Worlds
             entities.Add(entity);
         }
 
+        public Vector2i GetRandomPosition()
+        {
+            Vector2i pos;
+
+            do
+            {
+                pos = Random.NextVector2i(new Vector2i(Width, Height));
+            } while (GetTile(pos).Collidable);
+
+            return pos;
+        }
+
         #region Tile Related
 
         protected T SetTile<T>(Vector2i position, T tile) where T : Tile

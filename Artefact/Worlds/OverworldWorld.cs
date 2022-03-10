@@ -155,9 +155,8 @@ namespace Artefact.Worlds
 
         private void SpawnEnemies()
         {
-            Vector2i pos = Random.NextVector2i(new Vector2i(Width, Height));
             TestEnemy enemy = new TestEnemy();
-            enemy.Position = pos;
+            enemy.Position = GetRandomPosition();
             AddEntity(enemy);
         }
 
