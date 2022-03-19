@@ -32,6 +32,8 @@ namespace Artefact.Worlds
 
         protected Random Random { get; }
 
+        public static int DefaultSeed { get; set; }
+
         public int Seed { get; }
 
         public const int TILE_CHAR_WIDTH = 2;
@@ -45,6 +47,10 @@ namespace Artefact.Worlds
             Random = new Random(seed);
             Seed = seed;
             GenerateWorld(checkTilesAmount);
+        }
+
+        public World(int width, int height, int checkTilesAmount):this(width, height, checkTilesAmount, DefaultSeed)
+        {
         }
 
         private void GenerateWorld(int checkTilesAmount)

@@ -1,5 +1,7 @@
 ﻿//#define CUSTOM_SEED
 using Artefact.Entities;
+using Artefact.Settings;
+using Artefact.States;
 using Artefact.Tiles;
 using Artefact.Utils;
 using Artefact.Worlds;
@@ -43,6 +45,9 @@ namespace Artefact
                 DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
             }
 
+            Console.CursorVisible = false;
+            Console.Title = "Artefact Roguelike";
+
             PlayerEntity player = new PlayerEntity();
 
             int seed = new Random().Next();
@@ -50,14 +55,24 @@ namespace Artefact
             seed = 0;
 #endif
 
-            Console.CursorVisible = false;
-            World.Instance = new OverworldWorld(60, 60, seed);
-            World.Instance.PlacePlayer();
-            World.Instance.PrintTiles();
-            while (true)
+            World.DefaultSeed = seed;
+
+            StateMachine.AddState(new GameState());
+
+            while (GlobalSettings.Running)
             {
+                StateMachine.ProcessStateChanges();
+
+                if (!StateMachine.IsEmpty)
+                {
+                    StateMachine.ActiveState.Update();
+                }
+
                 Input.GetInput();
-                World.Instance.Update();
+                if(World.Instance != null)
+                {
+                    World.Instance.Update();
+                }
             }
         }
     }

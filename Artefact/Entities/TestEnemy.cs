@@ -38,7 +38,7 @@ namespace Artefact.Entities
                         }
                         else
                         {
-                            Vector2i randomPos = Vector2i.Zero;
+                            Vector2i randomPos;
                             do
                             {
                                 randomPos = random.NextVector2i(new Vector2i(-1), new Vector2i(1));

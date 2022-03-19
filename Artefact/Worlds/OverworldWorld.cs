@@ -9,7 +9,7 @@ namespace Artefact.Worlds
 {
     internal class OverworldWorld : World
     {
-        public OverworldWorld(int width, int height, int seed) : base(width, height, 5, seed)
+        public OverworldWorld(int width, int height) : base(width, height, 5)
         {
         }
 
