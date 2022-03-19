@@ -57,7 +57,7 @@ namespace Artefact
 
             World.DefaultSeed = seed;
 
-            StateMachine.AddState(new GameState());
+            StateMachine.AddState(new MenuState());
 
             while (GlobalSettings.Running)
             {

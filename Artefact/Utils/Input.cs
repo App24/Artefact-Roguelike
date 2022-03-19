@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Artefact.Settings;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,15 +8,19 @@ namespace Artefact.Utils
     internal static class Input
     {
         private static ConsoleKeyInfo keyInfo;
+        public static bool SkipNextKey { get; set; }
 
         public static void GetInput()
         {
-            keyInfo = Console.ReadKey(true);
+            keyInfo = new ConsoleKeyInfo();
+            if (!SkipNextKey)
+                keyInfo = Console.ReadKey(true);
+            SkipNextKey = false;
         }
 
         public static bool IsKeyHeld(ConsoleKey key)
         {
-            return IsKeyHeld(key);
+            return IsKeyHeld(new ConsoleKey[] { key });
         }
 
         public static bool IsKeyHeld(params ConsoleKey[] keys)
