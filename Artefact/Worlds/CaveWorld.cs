@@ -7,12 +7,13 @@ using System.Text;
 
 namespace Artefact.Worlds
 {
+    [Serializable]
     internal class CaveWorld : World
     {
         public List<LadderTile> ExitLadders { get; } = new List<LadderTile>();
         public List<LadderTile> NextLadders { get; } = new List<LadderTile>();
 
-        private Vector2i origPlayerPos;
+        private Vector2 origPlayerPos;
 
         public CaveWorld(int width, int height, World world, int seed) : base(width, height, 3, seed)
         {
@@ -35,7 +36,7 @@ namespace Artefact.Worlds
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    SetTile(new Vector2i(x, y), Tile.StoneTile);
+                    SetTile(new Vector2(x, y), Tile.StoneTile);
                 }
             }
         }
@@ -44,7 +45,7 @@ namespace Artefact.Worlds
         {
             for (int i = 0; i < 2; i++)
             {
-                Vector2i pos = GetRandomTilePos(Tile.StoneTile);
+                Vector2 pos = GetRandomTilePos(Tile.StoneTile);
 
                 ReplaceTilesInRange(pos, 5, 0.25f, Tile.StoneTile, Tile.DeepMountainTile);
             }
@@ -64,7 +65,7 @@ namespace Artefact.Worlds
         {
             for (int i = 0; i < 2; i++)
             {
-                LadderTile ladderTile = SetTile(new Vector2i(i, 0), Tile.LadderTile);
+                LadderTile ladderTile = SetTile(new Vector2(i, 0), Tile.LadderTile);
                 ExitLadders.Add(ladderTile);
             }
             if (Random.NextDouble() < 0.3f)
@@ -76,9 +77,9 @@ namespace Artefact.Worlds
 
                 for (int i = 0; i < 2; i++)
                 {
-                    LadderTile ladderTile = SetTile(new Vector2i(Width - 1 - i, Height - 1), Tile.LadderTile);
+                    LadderTile ladderTile = SetTile(new Vector2(Width - 1 - i, Height - 1), Tile.LadderTile);
                     ladderTile.WorldToGo = caveWorld;
-                    ladderTile.PlayerPosWorld = new Vector2i(caveWorld.origPlayerPos);
+                    ladderTile.PlayerPosWorld = new Vector2(caveWorld.origPlayerPos);
                     ladderTile.GoingDown = true;
                     NextLadders.Add(ladderTile);
                 }
@@ -87,12 +88,12 @@ namespace Artefact.Worlds
 
         public override void PlacePlayer()
         {
-            PlayerEntity.Instance.Position = new Vector2i(origPlayerPos);
+            PlayerEntity.Instance.Position = new Vector2(origPlayerPos);
         }
 
         private void FindPlayerPosition()
         {
-            origPlayerPos = new Vector2i(0, 1);
+            origPlayerPos = new Vector2(0, 1);
         }
     }
 }

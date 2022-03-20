@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Artefact.Tiles
 {
+    [Serializable]
     internal class FlowerTile : ReplaceBackgroundTile
     {
         public FlowerTile(string representation, ConsoleColor foregroundColor) : base(representation, Tile.GrassTile.BackgroundColor, foregroundColor, false)

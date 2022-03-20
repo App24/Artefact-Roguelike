@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Artefact.Entities
 {
+    [Serializable]
     internal abstract class AIEnemy : Entity
     {
         public abstract int DistanceToAgro { get; }

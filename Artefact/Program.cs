@@ -1,5 +1,6 @@
 ﻿//#define CUSTOM_SEED
 using Artefact.Entities;
+using Artefact.Saving;
 using Artefact.Settings;
 using Artefact.States;
 using Artefact.Tiles;
@@ -48,6 +49,8 @@ namespace Artefact
             Console.CursorVisible = false;
             Console.Title = "Artefact Roguelike";
 
+            SaveSystem.LoadSettings();
+
             PlayerEntity player = new PlayerEntity();
 
             int seed = new Random().Next();
@@ -69,10 +72,6 @@ namespace Artefact
                 }
 
                 Input.GetInput();
-                if (World.Instance != null)
-                {
-                    World.Instance.Update();
-                }
             }
         }
     }

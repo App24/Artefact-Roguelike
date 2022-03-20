@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Artefact.Tiles
 {
+    [Serializable]
     internal abstract class ReplaceBackgroundTile : Tile
     {
         protected ReplaceBackgroundTile(string representation, ConsoleColor color, bool collidable) : base(representation, color, collidable)

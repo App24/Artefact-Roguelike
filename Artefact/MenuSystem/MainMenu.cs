@@ -9,14 +9,14 @@ namespace Artefact.MenuSystem
 {
     internal class MainMenu : Menu
     {
-        public MainMenu()
+        protected override void AddHeadings()
         {
-            AddHeading(ASCIIGenerator.GenerateASCII("Artefact"));
-            /*AddHeading("   Roguelike");
-            AddHeading("          Made");
-            AddHeading("             By");
-            AddHeading("              Ricardo");*/
+            AddHeading("Artefact");
+            AddHeading("Made By Ricardo Xavier - 2112018", false);
+        }
 
+        protected override void AddOptions()
+        {
             AddOption("Play Game", () =>
             {
                 StateMachine.AddState(new GameState());
@@ -28,7 +28,7 @@ namespace Artefact.MenuSystem
                 SwitchMenu(new SettingsMenu());
             });
 
-            AddBackOption();
+            AddBackOption(onSelection: () => GlobalSettings.Running = false);
         }
     }
 }

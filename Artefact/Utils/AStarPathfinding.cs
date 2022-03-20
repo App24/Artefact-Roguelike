@@ -9,7 +9,7 @@ namespace Artefact.Utils
 {
     internal static class AStarPathfinding
     {
-        public static List<Vector2i> Calculate(Vector2i currentPos, Vector2i targetPos)
+        public static List<Vector2> Calculate(Vector2 currentPos, Vector2 targetPos)
         {
             List<AStarTileData> activeTiles = new List<AStarTileData>();
             activeTiles.Add(new AStarTileData(World.Instance.GetTile(currentPos), currentPos, null, 0, GetNodeDistance(currentPos, targetPos)));
@@ -23,7 +23,7 @@ namespace Artefact.Utils
                 if (checkTile.Position == targetPos)
                 {
                     AStarTileData tile = checkTile;
-                    List<Vector2i> positions = new List<Vector2i>();
+                    List<Vector2> positions = new List<Vector2>();
                     while (tile.ParentTile != null)
                     {
                         positions.Insert(0, tile.Position);
@@ -62,10 +62,10 @@ namespace Artefact.Utils
                 }
             }
 
-            return new List<Vector2i>() { currentPos };
+            return new List<Vector2>() { currentPos };
         }
 
-        private static int GetNodeDistance(Vector2i currentPos, Vector2i targetPos)
+        private static int GetNodeDistance(Vector2 currentPos, Vector2 targetPos)
         {
             return Math.Abs(targetPos.X - currentPos.X) + Math.Abs(targetPos.Y - currentPos.Y);
         }
@@ -74,12 +74,12 @@ namespace Artefact.Utils
         {
             List<AStarTileData> possibleTiles = new List<AStarTileData>()
             {
-                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2i.Up), currentTile.Position + Vector2i.Up, currentTile, currentTile.Cost + 1, 0),
+                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2.Up), currentTile.Position + Vector2.Up, currentTile, currentTile.Cost + 1, 0),
 
-                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2i.Down), currentTile.Position+Vector2i.Down, currentTile, currentTile.Cost + 1, 0),
+                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2.Down), currentTile.Position+Vector2.Down, currentTile, currentTile.Cost + 1, 0),
 
-                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2i.Left), currentTile.Position + Vector2i.Left, currentTile, currentTile.Cost + 1, 0),
-                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2i.Right), currentTile.Position + Vector2i.Right, currentTile, currentTile.Cost + 1, 0),
+                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2.Left), currentTile.Position + Vector2.Left, currentTile, currentTile.Cost + 1, 0),
+                new AStarTileData(World.Instance.GetTile(currentTile.Position + Vector2.Right), currentTile.Position + Vector2.Right, currentTile, currentTile.Cost + 1, 0),
             };
 
             possibleTiles.ForEach(tile => tile.Distance = GetNodeDistance(currentTile.Position, targetTile.Position));
@@ -90,7 +90,7 @@ namespace Artefact.Utils
 
     internal class AStarTileData
     {
-        public AStarTileData(Tile tile, Vector2i position, AStarTileData parentPos, int cost, int distance)
+        public AStarTileData(Tile tile, Vector2 position, AStarTileData parentPos, int cost, int distance)
         {
             Tile = tile;
             Position = position;
@@ -105,7 +105,7 @@ namespace Artefact.Utils
         }
 
         public Tile Tile { get; }
-        public Vector2i Position { get; }
+        public Vector2 Position { get; }
         public AStarTileData ParentTile { get; }
         public int Cost { get; }
         public int Distance { get; set; }

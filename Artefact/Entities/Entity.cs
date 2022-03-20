@@ -5,19 +5,20 @@ using System.Text;
 
 namespace Artefact.Entities
 {
+    [Serializable]
     internal abstract class Entity
     {
         public int Health { get; }
         public abstract int MaxHealth { get; }
 
-        public Vector2i Position { get; set; }
-        public Vector2i OriginalPosition { get; set; }
+        public Vector2 Position { get; set; }
+        public Vector2 OriginalPosition { get; set; }
 
         public abstract string Representation { get; }
 
         public Entity()
         {
-            Position = new Vector2i(0, 0);
+            Position = Vector2.Zero;
             Health = MaxHealth;
         }
 

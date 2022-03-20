@@ -7,10 +7,11 @@ using System.Text;
 
 namespace Artefact.Tiles
 {
+    [Serializable]
     internal class LadderTile : ReplaceBackgroundTile
     {
         public World WorldToGo { get; set; }
-        public Vector2i PlayerPosWorld { get; set; }
+        public Vector2 PlayerPosWorld { get; set; }
 
         public bool GoingDown { get; set; }
 
@@ -27,11 +28,11 @@ namespace Artefact.Tiles
             {
                 if (GoingDown)
                 {
-                    caveWorld.ExitLadders.ForEach(ladder => ladder.PlayerPosWorld = new Vector2i(PlayerEntity.Instance.Position));
+                    caveWorld.ExitLadders.ForEach(ladder => ladder.PlayerPosWorld = new Vector2(PlayerEntity.Instance.Position));
                 }
                 else
                 {
-                    caveWorld.NextLadders.ForEach(ladder => ladder.PlayerPosWorld = new Vector2i(PlayerEntity.Instance.Position));
+                    caveWorld.NextLadders.ForEach(ladder => ladder.PlayerPosWorld = new Vector2(PlayerEntity.Instance.Position));
                 }
             }
 

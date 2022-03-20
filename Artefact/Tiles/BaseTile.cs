@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Artefact.Tiles
 {
+    [Serializable]
     internal class BaseTile : Tile
     {
         public BaseTile(string representation, ConsoleColor color, bool collidable) : this(representation, color, color, collidable)

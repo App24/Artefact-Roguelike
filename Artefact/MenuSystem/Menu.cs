@@ -18,30 +18,36 @@ namespace Artefact.MenuSystem
         public Menu()
         {
             parentMenu = Instance;
+            AddHeadings();
+            AddOptions();
         }
 
-        protected void AddOption(string text, Action onSelect)
+        protected abstract void AddHeadings();
+        protected abstract void AddOptions();
+
+        protected void AddOption(string text, Action onSelect, bool ascii = false)
         {
-            options.Add(new Option(text, onSelect));
+            options.Add(new Option(ascii ? ASCIIGenerator.GenerateASCII(text) : text, onSelect));
         }
 
-        protected void AddBackOption()
+        protected void AddBackOption(string text = null, Action onSelection = null)
         {
             if (parentMenu == null)
             {
-                AddOption("Quit", () =>
-                {
-                    GlobalSettings.Running = false;
-                    Input.SkipNextKey = true;
-                });
+                AddOption(text == null ? "Quit" : text, () =>
+                      {
+                          Input.SkipNextKey = true;
+                          onSelection?.Invoke();
+                      });
             }
             else
             {
-                AddOption("Back", () =>
-                {
-                    SwitchMenu(parentMenu);
-                    Input.SkipNextKey = true;
-                });
+                AddOption(text == null ? "Back" : text, () =>
+                      {
+                          SwitchMenu(parentMenu);
+                          Input.SkipNextKey = true;
+                          onSelection?.Invoke();
+                      });
             }
         }
 
@@ -52,12 +58,16 @@ namespace Artefact.MenuSystem
             Instance = menu;
         }
 
-        protected void AddHeading(string text)
+        protected void AddHeading(string text, bool ascii=true)
         {
             string[] lines = text.Split("\n");
             foreach (string line in lines)
             {
-                headings.Add(line);
+                string headingText = ascii ? ASCIIGenerator.GenerateASCII(line) : line;
+                foreach (string headingLine in headingText.Split("\n"))
+                {
+                    headings.Add(headingLine);
+                }
             }
         }
 
@@ -67,13 +77,13 @@ namespace Artefact.MenuSystem
             {
                 selectIndex++;
                 if (selectIndex >= options.Count)
-                    selectIndex = options.Count - 1;
+                    selectIndex = 0;
             }
             else if (Input.IsKeyHeld(ConsoleKey.W, ConsoleKey.UpArrow))
             {
                 selectIndex--;
                 if (selectIndex < 0)
-                    selectIndex = 0;
+                    selectIndex = options.Count - 1;
             }
 
             for (int i = 0; i < headings.Count; i++)
@@ -83,23 +93,33 @@ namespace Artefact.MenuSystem
                 Console.Write(headings[i]);
             }
 
+            int spacing = 0;
             for (int i = 0; i < options.Count; i++)
             {
                 if (i == selectIndex)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                }
+
+                Option option=options[i];
+
+                Console.CursorTop = i + headings.Count + 5 + spacing;
+                if (option.resetOffset >= 0)
+                {
+                    Console.CursorLeft = option.resetOffset;
+                    Console.Write(new string(' ', option.resetAmount));
                 }
 
                 Console.CursorLeft = 0;
-                Console.CursorTop = i + headings.Count + 1;
-                Console.Write(options[i].text);
+                Console.Write(option.text);
+                spacing += option.text.Split("\n").Length;
 
                 Console.ResetColor();
             }
 
             if (Input.IsKeyHeld(ConsoleKey.Enter))
             {
-                options[selectIndex].onSelect();
+                options[selectIndex].onSelect?.Invoke();
             }
         }
     }
@@ -108,8 +128,18 @@ namespace Artefact.MenuSystem
     {
         public Action onSelect;
         public string text;
+        public int resetOffset;
+        public int resetAmount;
 
-        public Option(string text, Action onSelect)
+        public Option(string text, Action onSelect, int resetOff, int resetAmount)
+        {
+            this.onSelect = onSelect;
+            this.text = text;
+            this.resetOffset = resetOff;
+            this.resetAmount = resetAmount;
+        }
+
+        public Option(string text, Action onSelect):this(text, onSelect, -1, 0)
         {
             this.onSelect = onSelect;
             this.text = text;

@@ -1,21 +1,20 @@
-﻿using Artefact.Saving;
-using Artefact.Utils;
+﻿using Artefact.States;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Artefact.MenuSystem
 {
-    internal class SettingsMenu : Menu
+    internal class PauseMenu : Menu
     {
         protected override void AddHeadings()
         {
-            AddHeading("Settings");
+            AddHeading("Game Paused");
         }
 
         protected override void AddOptions()
         {
-            AddBackOption(onSelection: () => SaveSystem.SaveSettings());
+            AddBackOption("Back To Game", () => StateMachine.RemoveState());
         }
     }
 }

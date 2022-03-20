@@ -6,13 +6,18 @@ namespace Artefact.Utils
 {
     internal static class Extensions
     {
-        public static Vector2i NextVector2i(this Random random, Vector2i min, Vector2i max)
+        public static Vector2 NextVector2i(this Random random, Vector2 min, Vector2 max)
         {
-            return new Vector2i(random.Next(min.X, max.X), random.Next(min.Y, max.Y));
+            return new Vector2(random.Next(min.X, max.X), random.Next(min.Y, max.Y));
         }
-        public static Vector2i NextVector2i(this Random random, Vector2i max)
+        public static Vector2 NextVector2i(this Random random, Vector2 max)
         {
-            return random.NextVector2i(Vector2i.Zero, max);
+            return random.NextVector2i(Vector2.Zero, max);
+        }
+
+        public static bool NextBool(this Random random)
+        {
+            return random.Next(2) == 1;
         }
     }
 }

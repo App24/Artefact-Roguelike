@@ -6,11 +6,12 @@ using System.Text;
 
 namespace Artefact.Entities
 {
+    [Serializable]
     internal class PlayerEntity : Entity
     {
         public override string Representation => "PL";
 
-        public static PlayerEntity Instance { get; private set; }
+        public static PlayerEntity Instance { get; set; }
 
         public override int MaxHealth => 20;
 

@@ -7,6 +7,7 @@ using System.Text;
 
 namespace Artefact.Worlds
 {
+    [Serializable]
     internal abstract class World
     {
         public int Width { get; }
@@ -30,7 +31,11 @@ namespace Artefact.Worlds
             ConsoleColor.Cyan
         };
 
-        protected Random Random { get; }
+        [NonSerialized]
+        private Random random;
+        public Random Random { get { randomAccessed++; return random; } }
+
+        private int randomAccessed;
 
         public static int DefaultSeed { get; set; }
 
@@ -44,9 +49,18 @@ namespace Artefact.Worlds
             Width = width;
             Height = height;
             tiles = new Tile[Width * Height];
-            Random = new Random(seed);
+            random = new Random(seed);
             Seed = seed;
             GenerateWorld(checkTilesAmount);
+        }
+
+        public void RegenerateRandom()
+        {
+            random = new Random(Seed);
+            for (int i = 0; i < randomAccessed; i++)
+            {
+                random.Next();
+            }
         }
 
         public World(int width, int height, int checkTilesAmount) : this(width, height, checkTilesAmount, DefaultSeed)
@@ -78,7 +92,7 @@ namespace Artefact.Worlds
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    PrintTile(new Vector2i(x, y));
+                    PrintTile(new Vector2(x, y));
                 }
             }
             foreach (Entity entity in entities)
@@ -97,7 +111,7 @@ namespace Artefact.Worlds
             }
             foreach (Entity entity in entities)
             {
-                Vector2i previousPosition = new Vector2i(entity.Position);
+                Vector2 previousPosition = new Vector2(entity.Position);
                 entity.Move();
                 Tile tile = GetTile(entity.Position);
                 if (tile.Collidable)
@@ -137,7 +151,7 @@ namespace Artefact.Worlds
             }
         }
 
-        private void PrintTile(Vector2i position)
+        private void PrintTile(Vector2 position)
         {
             Tile tile = GetTile(position);
             Console.CursorLeft = position.X * TILE_CHAR_WIDTH;
@@ -167,7 +181,7 @@ namespace Artefact.Worlds
             Console.ResetColor();
         }
 
-        protected int GetIndex(Vector2i position)
+        protected int GetIndex(Vector2 position)
         {
             return position.X + Width * position.Y;
         }
@@ -178,13 +192,13 @@ namespace Artefact.Worlds
             entities.Add(entity);
         }
 
-        public Vector2i GetRandomPosition()
+        public Vector2 GetRandomPosition()
         {
-            Vector2i pos;
+            Vector2 pos;
 
             do
             {
-                pos = Random.NextVector2i(new Vector2i(Width, Height));
+                pos = random.NextVector2i(new Vector2(Width, Height));
             } while (GetTile(pos).Collidable);
 
             return pos;
@@ -192,7 +206,7 @@ namespace Artefact.Worlds
 
         #region Tile Related
 
-        protected T SetTile<T>(Vector2i position, T tile) where T : Tile
+        protected T SetTile<T>(Vector2 position, T tile) where T : Tile
         {
             if (position.X < 0 || position.Y < 0 || position.X >= Width || position.Y >= Height)
             {
@@ -203,7 +217,7 @@ namespace Artefact.Worlds
             return t;
         }
 
-        public Tile GetTile(Vector2i position)
+        public Tile GetTile(Vector2 position)
         {
             if (position.X < 0 || position.Y < 0 || position.X >= Width || position.Y >= Height)
             {
@@ -212,27 +226,27 @@ namespace Artefact.Worlds
             return tiles[GetIndex(position)];
         }
 
-        protected Tile GetTile(Vector2i position, Direction direction)
+        protected Tile GetTile(Vector2 position, Direction direction)
         {
-            position = new Vector2i(position);
+            position = new Vector2(position);
             if (direction.HasFlag(Direction.Left))
             {
-                position += Vector2i.Left;
+                position += Vector2.Left;
             }
 
             if (direction.HasFlag(Direction.Right))
             {
-                position += Vector2i.Right;
+                position += Vector2.Right;
             }
 
             if (direction.HasFlag(Direction.Up))
             {
-                position += Vector2i.Up;
+                position += Vector2.Up;
             }
 
             if (direction.HasFlag(Direction.Down))
             {
-                position += Vector2i.Down;
+                position += Vector2.Down;
             }
 
             return GetTile(position);
@@ -246,7 +260,7 @@ namespace Artefact.Worlds
         /// <param name="ignoreNull"></param>
         /// <param name="tiles"></param>
         /// <returns></returns>
-        protected bool CheckTilesAroundSame(Vector2i position, bool ignoreNull, params Tile[] tiles)
+        protected bool CheckTilesAroundSame(Vector2 position, bool ignoreNull, params Tile[] tiles)
         {
             // n = negative
             // p = positive
@@ -295,7 +309,7 @@ namespace Artefact.Worlds
         /// <param name="ignoreNull"></param>
         /// <param name="tiles"></param>
         /// <returns></returns>
-        protected bool CheckTilesDirectAroundSame(Vector2i position, bool ignoreNull, params Tile[] tiles)
+        protected bool CheckTilesDirectAroundSame(Vector2 position, bool ignoreNull, params Tile[] tiles)
         {
             // n = negative
             // p = positive
@@ -324,67 +338,67 @@ namespace Artefact.Worlds
             }
         }
 
-        protected void ReplaceTilesInRange(Vector2i position, int radius, float variantion, Tile tileToReplace, Tile tile)
+        protected void ReplaceTilesInRange(Vector2 position, int radius, float variantion, Tile tileToReplace, Tile tile)
         {
             ReplaceTilesInRange(position, radius, variantion, new Tile[] { tileToReplace }, new Tile[] { tile });
         }
 
-        protected void ReplaceTilesInRange(Vector2i position, int radius, float variantion, Tile[] tilesToReplace, Tile tile)
+        protected void ReplaceTilesInRange(Vector2 position, int radius, float variantion, Tile[] tilesToReplace, Tile tile)
         {
             ReplaceTilesInRange(position, radius, variantion, tilesToReplace, new Tile[] { tile });
         }
 
-        protected void ReplaceTilesInRange(Vector2i position, int radius, float variantion, Tile tileToReplace, Tile[] tiles)
+        protected void ReplaceTilesInRange(Vector2 position, int radius, float variantion, Tile tileToReplace, Tile[] tiles)
         {
             ReplaceTilesInRange(position, radius, variantion, new Tile[] { tileToReplace }, tiles);
         }
 
-        protected void ReplaceTilesInRange(Vector2i position, int radius, float variantion, Tile[] tilesToReplace, Tile[] tiles)
+        protected void ReplaceTilesInRange(Vector2 position, int radius, float variantion, Tile[] tilesToReplace, Tile[] tiles)
         {
             List<Tile> tilesToReplaceList = new List<Tile>(tilesToReplace);
             for (int y = -radius; y < radius; y++)
             {
                 for (int x = -radius; x < radius; x++)
                 {
-                    Tile tileToReplace = GetTile(new Vector2i(position.X + x, position.Y + y));
+                    Tile tileToReplace = GetTile(new Vector2(position.X + x, position.Y + y));
                     if (tilesToReplaceList.Contains(tileToReplace))
                     {
-                        if ((x * x + y * y) <= radius * Math.Clamp(Random.NextDouble(), variantion, 1f))
+                        if ((x * x + y * y) <= radius * Math.Clamp(random.NextDouble(), variantion, 1f))
                         {
-                            Tile tile = tiles[Random.Next(tiles.Length)].Clone();
+                            Tile tile = tiles[random.Next(tiles.Length)].Clone();
                             if (tile is ReplaceBackgroundTile)
                             {
                                 tile.BackgroundColor = tileToReplace.BackgroundColor;
                                 if (tile.ForegroundColor == tileToReplace.ForegroundColor)
                                     tile.ForegroundColor = ConsoleColor.Green;
                             }
-                            SetTile(new Vector2i(position.X + x, position.Y + y), tile);
+                            SetTile(new Vector2(position.X + x, position.Y + y), tile);
                         }
                     }
                 }
             }
         }
 
-        protected void SetTilesInRange(Vector2i position, int radius, float variantion, Tile tile)
+        protected void SetTilesInRange(Vector2 position, int radius, float variantion, Tile tile)
         {
             SetTilesInRange(position, radius, variantion, new Tile[] { tile });
         }
 
-        protected void SetTilesInRange(Vector2i position, int radius, float variantion, params Tile[] tiles)
+        protected void SetTilesInRange(Vector2 position, int radius, float variantion, params Tile[] tiles)
         {
             ReplaceTilesInRange(position, radius, variantion, Tile.Tiles.ToArray(), tiles);
         }
 
-        protected Vector2i GetRandomTilePos(params Tile[] tiles)
+        protected Vector2 GetRandomTilePos(params Tile[] tiles)
         {
             List<Tile> tilesList = new List<Tile>(tiles);
-            Vector2i pos = Vector2i.Zero;
+            Vector2 pos = Vector2.Zero;
 
-            if (!Tiles.Exists(t => tilesList.Contains(t))) return new Vector2i(-1, -1);
+            if (!Tiles.Exists(t => tilesList.Contains(t))) return new Vector2(-1, -1);
 
             while (true)
             {
-                pos = Random.NextVector2i(new Vector2i(Width, Height));
+                pos = random.NextVector2i(new Vector2(Width, Height));
                 if (tilesList.Contains(GetTile(pos)))
                     break;
             }

@@ -7,6 +7,7 @@ using System.Text;
 
 namespace Artefact.Tiles
 {
+    [Serializable]
     internal class CaveTile : Tile
     {
         public CaveWorld CaveWorld { get; set; }
@@ -21,7 +22,7 @@ namespace Artefact.Tiles
             Console.Clear();
             CaveWorld.ExitLadders.ForEach(t =>
             {
-                t.PlayerPosWorld = new Vector2i(PlayerEntity.Instance.Position);
+                t.PlayerPosWorld = new Vector2(PlayerEntity.Instance.Position);
             });
             World.Instance.QuitUpdate = true;
             World.Instance = CaveWorld;

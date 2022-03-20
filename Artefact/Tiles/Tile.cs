@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Artefact.Tiles
 {
+    [Serializable]
     internal abstract class Tile : IPrototype<Tile>
     {
         public static BaseTile GrassTile { get; } = new BaseTile(".", ConsoleColor.Green, false);
