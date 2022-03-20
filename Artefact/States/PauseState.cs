@@ -1,4 +1,5 @@
 ﻿using Artefact.MenuSystem;
+using Artefact.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,12 @@ namespace Artefact.States
         public override void Update()
         {
             Menu.Instance.NavigateOptions();
+
+            if (Input.IsKeyHeld(ConsoleKey.Escape))
+            {
+                StateMachine.RemoveState();
+                Input.SkipNextKey = true;
+            }
         }
     }
 }
