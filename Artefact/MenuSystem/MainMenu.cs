@@ -11,11 +11,11 @@ namespace Artefact.MenuSystem
     {
         public MainMenu()
         {
-            AddHeading("Artefact");
-            AddHeading("   Roguelike");
+            AddHeading(ASCIIGenerator.GenerateASCII("Artefact"));
+            /*AddHeading("   Roguelike");
             AddHeading("          Made");
             AddHeading("             By");
-            AddHeading("              Ricardo");
+            AddHeading("              Ricardo");*/
 
             AddOption("Play Game", () =>
             {

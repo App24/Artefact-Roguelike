@@ -18,7 +18,7 @@ namespace Artefact.Utils
             Y = y;
         }
 
-        public Vector2i(int value):this(value, value)
+        public Vector2i(int value) : this(value, value)
         {
         }
 

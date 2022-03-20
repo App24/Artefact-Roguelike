@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Artefact.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +9,7 @@ namespace Artefact.MenuSystem
     {
         public SettingsMenu()
         {
-            AddHeading("Settings");
+            AddHeading(ASCIIGenerator.GenerateASCII("Settings"));
 
             AddBackOption();
         }

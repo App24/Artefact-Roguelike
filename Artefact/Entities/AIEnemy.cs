@@ -22,7 +22,7 @@ namespace Artefact.Entities
         }
     }
 
-    enum EnemyState
+    internal enum EnemyState
     {
         Wandering,
         Chasing

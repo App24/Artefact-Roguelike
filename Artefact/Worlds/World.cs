@@ -49,7 +49,7 @@ namespace Artefact.Worlds
             GenerateWorld(checkTilesAmount);
         }
 
-        public World(int width, int height, int checkTilesAmount):this(width, height, checkTilesAmount, DefaultSeed)
+        public World(int width, int height, int checkTilesAmount) : this(width, height, checkTilesAmount, DefaultSeed)
         {
         }
 

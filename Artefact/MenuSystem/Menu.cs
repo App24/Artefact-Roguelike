@@ -10,8 +10,8 @@ namespace Artefact.MenuSystem
     {
         public static Menu Instance { get; private set; }
         private Menu parentMenu;
-        List<string> headings = new List<string>();
-        List<Option> options = new List<Option>();
+        private List<string> headings = new List<string>();
+        private List<Option> options = new List<Option>();
 
         private int selectIndex;
 
@@ -27,7 +27,7 @@ namespace Artefact.MenuSystem
 
         protected void AddBackOption()
         {
-            if(parentMenu == null)
+            if (parentMenu == null)
             {
                 AddOption("Quit", () =>
                 {

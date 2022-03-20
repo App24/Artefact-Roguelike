@@ -69,7 +69,7 @@ namespace Artefact
                 }
 
                 Input.GetInput();
-                if(World.Instance != null)
+                if (World.Instance != null)
                 {
                     World.Instance.Update();
                 }
