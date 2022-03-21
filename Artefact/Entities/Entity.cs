@@ -25,5 +25,7 @@ namespace Artefact.Entities
         public abstract void Move();
 
         public abstract void Update();
+
+        public abstract void CollidePlayer(PlayerEntity playerEntity);
     }
 }

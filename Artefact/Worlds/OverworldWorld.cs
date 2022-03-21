@@ -156,9 +156,13 @@ namespace Artefact.Worlds
 
         private void SpawnEnemies()
         {
-            TestEnemy enemy = new TestEnemy();
-            enemy.Position = GetRandomPosition();
-            AddEntity(enemy);
+            int enemyAmount = Random.Next(5, 20);
+            for (int i = 0; i < enemyAmount; i++)
+            {
+                TrollEnemy enemy = new TrollEnemy();
+                enemy.Position = GetRandomPosition();
+                AddEntity(enemy);
+            }
         }
 
         #endregion

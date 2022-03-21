@@ -9,11 +9,12 @@ namespace Artefact.States
 {
     internal class GameState : State
     {
+        public static bool SkipNextDraw { get; set; }
+
         public override void Init()
         {
             World.Instance.PlacePlayer();
             World.Instance.PrintTiles();
-            SaveSystem.SaveGame();
         }
 
         public override void Update()
@@ -28,7 +29,11 @@ namespace Artefact.States
 
         public override void Resume()
         {
-            World.Instance.PrintTiles();
+            if (!SkipNextDraw)
+            {
+                World.Instance.PrintTiles();
+            }
+            SkipNextDraw = false;
         }
     }
 }

@@ -59,6 +59,8 @@ namespace Artefact.Worlds
         protected override void GenerateFeatures()
         {
             GenerateLadder();
+
+            SpawnEnemies();
         }
 
         private void GenerateLadder()
@@ -94,6 +96,17 @@ namespace Artefact.Worlds
         private void FindPlayerPosition()
         {
             origPlayerPos = new Vector2(0, 1);
+        }
+
+        private void SpawnEnemies()
+        {
+            int enemyAmount = Random.Next(2, 6);
+            for (int i = 0; i < enemyAmount; i++)
+            {
+                BatEnemy batEnemy = new BatEnemy();
+                batEnemy.Position = GetRandomPosition();
+                AddEntity(batEnemy);
+            }
         }
     }
 }

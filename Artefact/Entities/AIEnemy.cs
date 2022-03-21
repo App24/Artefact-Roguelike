@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Artefact.Worlds;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +11,8 @@ namespace Artefact.Entities
         public abstract int DistanceToAgro { get; }
         public EnemyState State { get; protected set; } = EnemyState.Wandering;
 
+        protected Random Random { get { return World.Instance.Random; } }
+
         public override void Update()
         {
             if (PlayerEntity.Instance.Position.DistanceTo(Position) <= DistanceToAgro)
@@ -20,6 +23,11 @@ namespace Artefact.Entities
             {
                 State = EnemyState.Wandering;
             }
+        }
+
+        public override void CollidePlayer(PlayerEntity playerEntity)
+        {
+            // Fight
         }
     }
 

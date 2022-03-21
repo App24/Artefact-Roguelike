@@ -7,9 +7,9 @@ using System.Text;
 namespace Artefact.Entities
 {
     [Serializable]
-    internal class TestEnemy : AIEnemy
+    internal class TrollEnemy : AIEnemy
     {
-        public override string Representation => "TE";
+        public override string Representation => "TR";
 
         public override int MaxHealth => 5;
 

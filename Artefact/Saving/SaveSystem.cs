@@ -12,9 +12,8 @@ namespace Artefact.Saving
     {
         private const string SETTINGS_FILE = "settings.dat";
         private const string SAVE_FILE = "save.dat";
-        private const string SAVE_FOLDER = "saves";
 
-        public static bool HasSaveGame => File.Exists(Path.Combine(SAVE_FOLDER, SAVE_FILE));
+        public static bool HasSaveGame => File.Exists(SAVE_FILE);
 
         /// <summary>
         /// Save an object to a file by converting it into binary
@@ -95,15 +94,14 @@ namespace Artefact.Saving
 
         public static void SaveGame(string fileName = SAVE_FILE)
         {
-            SaveClass(Path.Combine(SAVE_FOLDER, fileName), new Save());
+            SaveClass(fileName, new Save());
         }
 
         public static LoadResult LoadGame(string fileName = SAVE_FILE)
         {
-            LoadDetails<Save> loadDetails = LoadClass<Save>(Path.Combine(SAVE_FOLDER, fileName));
+            LoadDetails<Save> loadDetails = LoadClass<Save>(fileName);
             if (loadDetails.LoadResult == LoadResult.Success)
             {
-                Console.WriteLine("Save loaded successfully!");
                 Save save = loadDetails.Saveable;
                 World.Instance = save.CurrentWorld;
                 World.Instance.RegenerateRandom();

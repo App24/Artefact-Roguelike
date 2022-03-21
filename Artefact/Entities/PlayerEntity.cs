@@ -48,5 +48,10 @@ namespace Artefact.Entities
         {
 
         }
+
+        public override void CollidePlayer(PlayerEntity playerEntity)
+        {
+
+        }
     }
 }

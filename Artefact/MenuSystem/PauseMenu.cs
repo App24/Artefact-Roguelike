@@ -29,6 +29,36 @@ namespace Artefact.MenuSystem
                 };
             });
 
+            if (SaveSystem.HasSaveGame)
+            {
+                AddOption("Load Game", () =>
+                {
+                    GameState.SkipNextDraw = true;
+                    for (int i = 0; i < 2; i++)
+                    {
+                        StateMachine.RemoveState();
+                        StateMachine.ProcessStateChanges();
+                    }
+
+                    SaveSystem.LoadGame();
+                    StateMachine.AddState(new GameState());
+                    Input.SkipNextKey = true;
+                });
+            }
+
+            AddOption("Main Menu", () =>
+            {
+                GameState.SkipNextDraw = true;
+                for (int i = 0; i < 2; i++)
+                {
+                    StateMachine.RemoveState();
+                    StateMachine.ProcessStateChanges();
+                }
+
+                StateMachine.AddState(new MenuState());
+                Input.SkipNextKey = true;
+            });
+
             AddBackOption("Back To Game", () => StateMachine.RemoveState());
         }
     }

@@ -127,10 +127,13 @@ namespace Artefact.Worlds
                 if (entity.Position != previousPosition)
                 {
                     PrintTile(previousPosition);
-                    List<Entity> otherEntities = entities.FindAll(e => e.Position == entity.Position);
-                    foreach (Entity otherEntity in otherEntities)
+                    if (entity is PlayerEntity player)
                     {
-
+                        List<Entity> otherEntities = entities.FindAll(e => e.Position == entity.Position && e != entity);
+                        foreach (Entity otherEntity in otherEntities)
+                        {
+                            otherEntity.CollidePlayer(player);
+                        }
                     }
                 }
 
@@ -192,14 +195,14 @@ namespace Artefact.Worlds
             entities.Add(entity);
         }
 
-        public Vector2 GetRandomPosition()
+        public Vector2 GetRandomPosition(bool includeEntity = true)
         {
             Vector2 pos;
 
             do
             {
                 pos = random.NextVector2i(new Vector2(Width, Height));
-            } while (GetTile(pos).Collidable);
+            } while (GetTile(pos).Collidable || (includeEntity && entities.Exists(e => e.Position == pos)));
 
             return pos;
         }
