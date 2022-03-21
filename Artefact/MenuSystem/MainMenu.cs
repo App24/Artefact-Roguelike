@@ -1,4 +1,5 @@
-﻿using Artefact.Settings;
+﻿using Artefact.Saving;
+using Artefact.Settings;
 using Artefact.States;
 using Artefact.Utils;
 using System;
@@ -17,11 +18,36 @@ namespace Artefact.MenuSystem
 
         protected override void AddOptions()
         {
-            AddOption("Play Game", () =>
+            AddOption("Start New Game", () =>
             {
+                SaveSystem.NewGame();
                 StateMachine.AddState(new GameState());
                 Input.SkipNextKey = true;
             });
+
+            if (SaveSystem.HasSaveGame)
+            {
+                AddOption("Load Game", () =>
+                {
+                    LoadResult loadResult = SaveSystem.LoadGame();
+                    if(loadResult == LoadResult.Success)
+                    {
+                        StateMachine.AddState(new GameState());
+                        Input.SkipNextKey = true;
+                    }
+                    else
+                    {
+                        Console.Write("\n\n");
+                        int currentY = Console.CursorTop;
+                        Console.WriteLine("Failed to load game");
+                        Input.NextKeyPress += () =>
+                        {
+                            Console.SetCursorPosition(0, currentY);
+                            Console.WriteLine(new string(' ', Console.WindowWidth));
+                        };
+                    }
+                });
+            }
 
             AddOption("Settings", () =>
             {

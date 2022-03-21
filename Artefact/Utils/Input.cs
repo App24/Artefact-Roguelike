@@ -9,12 +9,17 @@ namespace Artefact.Utils
     {
         private static ConsoleKeyInfo keyInfo;
         public static bool SkipNextKey { get; set; }
+        public static event Action NextKeyPress;
 
         public static void GetInput()
         {
             keyInfo = new ConsoleKeyInfo();
             if (!SkipNextKey)
+            {
                 keyInfo = Console.ReadKey(true);
+                NextKeyPress?.Invoke();
+                NextKeyPress = null;
+            }
             SkipNextKey = false;
         }
 

@@ -11,7 +11,6 @@ namespace Artefact.States
     {
         public override void Init()
         {
-            World.Instance = new OverworldWorld(60, 60);
             World.Instance.PlacePlayer();
             World.Instance.PrintTiles();
             SaveSystem.SaveGame();
