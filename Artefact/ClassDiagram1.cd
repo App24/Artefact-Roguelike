@@ -3,7 +3,7 @@
   <Class Name="Artefact.Worlds.CaveWorld" Collapsed="true">
     <Position X="0.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAACAAAAAgAAAAAAAEAAAQAAAEAQAIAEBCAAQA=</HashCode>
+      <HashCode>AAAAAAAACAAAAAgAAAAAAAEAAAQAAAEAQCIAEBCAAQA=</HashCode>
       <FileName>Worlds\CaveWorld.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -67,7 +67,7 @@
   <Class Name="Artefact.States.GameState" Collapsed="true">
     <Position X="0.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAgAAAA=</HashCode>
+      <HashCode>AAQAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAgAAAA=</HashCode>
       <FileName>States\GameState.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -116,7 +116,7 @@
   <Class Name="Artefact.Saving.SaveSystem" Collapsed="true">
     <Position X="7.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAACAAAAAAQBIQgAAAAAgAABAAAAAEAAEAAAACgAAE=</HashCode>
+      <HashCode>AAAACAAAAAAQBIQgAAAAAAAABAAAAAAAAAAAAIAgAAE=</HashCode>
       <FileName>Saving\SaveSystem.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -158,21 +158,21 @@
   <Class Name="Artefact.Entities.AIEnemy" Collapsed="true">
     <Position X="10.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAA=</HashCode>
+      <HashCode>AEQAAAAAAIAAQAAAAAAAAABAAAAABIAAAAAABAAAAAA=</HashCode>
       <FileName>Entities\AIEnemy.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Artefact.Entities.Entity" Collapsed="true">
     <Position X="11.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQACAAAAIAACAAgAAAAAAAAAAAAAAAAAAAAgAgAAAA=</HashCode>
+      <HashCode>AEQACAAAAIAACAAgAAAAAAAAAAAAAAAAAAAAgAgAAAA=</HashCode>
       <FileName>Entities\Entity.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Artefact.Entities.PlayerEntity" Collapsed="true">
     <Position X="12.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAIAACAAAAAAAAAAAAAAAAAAAQAAAAAgAAAA=</HashCode>
+      <HashCode>AEQAAAAAAIAACAAAAAAAAAAAAAAAAAAAQAAAAAgAAAA=</HashCode>
       <FileName>Entities\PlayerEntity.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -214,7 +214,7 @@
   <Class Name="Artefact.Utils.Input" Collapsed="true">
     <Position X="9.75" Y="9" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAAAAAAABAAAAAAAAAAAAAABAgAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AQAAAAAAABAACAAAAAAAAAAABAgAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utils\Input.cs</FileName>
     </TypeIdentifier>
   </Class>
