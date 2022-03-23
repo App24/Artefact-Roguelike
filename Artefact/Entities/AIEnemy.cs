@@ -1,4 +1,5 @@
-﻿using Artefact.Utils;
+﻿using Artefact.Battles;
+using Artefact.Utils;
 using Artefact.Worlds;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Text;
 namespace Artefact.Entities
 {
     [Serializable]
-    internal abstract class AIEnemy : Entity
+    internal abstract class AIEnemy : Entity, IPrototype<AIEnemy>
     {
         public abstract int DistanceToAgro { get; }
         public abstract int SpawnWanderingRadius { get; }
@@ -82,13 +83,19 @@ namespace Artefact.Entities
 
         public override void CollidePlayer(PlayerEntity playerEntity)
         {
-            // Fight
+            BattleSystem.StartFight(this);
         }
 
         protected void MoveTowardsPlayer()
         {
             Vector2 position = AStarPathfinding.Calculate(Position, PlayerEntity.Instance.Position)[0];
             Position = position;
+        }
+
+        public AIEnemy Clone()
+        {
+            AIEnemy enemy = (AIEnemy)MemberwiseClone();
+            return enemy;
         }
     }
 
