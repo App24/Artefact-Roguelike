@@ -142,6 +142,7 @@ namespace Artefact.Saving
 
         public static void NewGame()
         {
+            World.GenerateRandomSeed();
             World.Instance = new OverworldWorld(60, 60);
         }
     }

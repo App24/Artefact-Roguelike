@@ -53,12 +53,7 @@ namespace Artefact
 
             PlayerEntity player = new PlayerEntity();
 
-            int seed = new Random().Next();
-#if DEBUG && CUSTOM_SEED
-            seed = 0;
-#endif
-
-            World.DefaultSeed = seed;
+            World.GenerateRandomSeed();
 
             StateMachine.AddState(new MenuState());
 

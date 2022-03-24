@@ -25,6 +25,16 @@ namespace Artefact.MenuSystem.Battle
             {
                 Menu.SwitchMenu(new FightMenu(yPlacement, enemies), false);
             });
+
+            AddOption("Defend", () =>
+            {
+
+            });
+
+            AddOption("Run Away", () =>
+            {
+
+            });
         }
     }
 }

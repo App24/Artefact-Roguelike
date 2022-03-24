@@ -54,6 +54,16 @@ namespace Artefact.Worlds
             GenerateWorld(checkTilesAmount);
         }
 
+        public static void GenerateRandomSeed()
+        {
+            int seed = new Random().Next();
+#if DEBUG && CUSTOM_SEED
+            seed = 0;
+#endif
+
+            DefaultSeed = seed;
+        }
+
         public void RegenerateRandom()
         {
             random = new Random(Seed);
