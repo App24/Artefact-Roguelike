@@ -1,4 +1,6 @@
 ﻿using Artefact.Entities;
+using Artefact.MenuSystem;
+using Artefact.MenuSystem.Battle;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,11 +32,13 @@ namespace Artefact.States
                 Console.Write(enemy.Representation);
                 Console.Write(" ");
             }
+
+            Menu.SwitchMenu(new BattleMenu(3, enemies), false);
         }
 
         public override void Update()
         {
-
+            Menu.Instance.NavigateOptions();
         }
     }
 }

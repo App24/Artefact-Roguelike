@@ -14,10 +14,12 @@ namespace Artefact.MenuSystem
         private List<Option> options = new List<Option>();
 
         private int selectIndex;
+        protected readonly int yPlacement;
 
-        public Menu()
+        public Menu(int yPlacement=0)
         {
             parentMenu = Instance;
+            this.yPlacement = yPlacement;
             AddHeadings();
             AddOptions();
         }
@@ -27,10 +29,15 @@ namespace Artefact.MenuSystem
 
         protected void AddOption(string text, Action onSelect, bool ascii = false)
         {
-            options.Add(new Option(ascii ? ASCIIGenerator.GenerateASCII(text) : text, onSelect));
+            AddOption(() => ascii ? ASCIIGenerator.GenerateASCII(text) : text, onSelect);
         }
 
-        protected void AddBackOption(string text = null, Action onSelection = null)
+        protected void AddOption(Func<string> text, Action onSelect)
+        {
+            options.Add(new Option(text, onSelect));
+        }
+
+        protected void AddBackOption(string text = null, Action onSelection = null, bool clearScreen = true)
         {
             if (parentMenu == null)
             {
@@ -44,17 +51,29 @@ namespace Artefact.MenuSystem
             {
                 AddOption(text == null ? "Back" : text, () =>
                       {
-                          SwitchMenu(parentMenu);
+                          SwitchMenu(parentMenu, clearScreen);
                           Input.SkipNextKey = true;
                           onSelection?.Invoke();
                       });
             }
         }
 
-        public static void SwitchMenu(Menu menu)
+        public static void SwitchMenu(Menu menu, bool clearScreen = true)
         {
             Input.SkipNextKey = true;
-            Console.Clear();
+            if (clearScreen)
+            {
+                Console.Clear();
+            }
+            else
+            {
+                Console.CursorTop = menu.yPlacement;
+                Console.CursorLeft = 0;
+                for (int i = 0; i < 20; i++)
+                {
+                    Console.WriteLine(new string(' ', Console.WindowWidth));
+                }
+            }
             Instance = menu;
         }
 
@@ -89,7 +108,7 @@ namespace Artefact.MenuSystem
             for (int i = 0; i < headings.Count; i++)
             {
                 Console.CursorLeft = 0;
-                Console.CursorTop = i;
+                Console.CursorTop = yPlacement+i;
                 Console.Write(headings[i]);
             }
 
@@ -103,7 +122,7 @@ namespace Artefact.MenuSystem
 
                 Option option=options[i];
 
-                Console.CursorTop = i + headings.Count + 5 + spacing;
+                Console.CursorTop = yPlacement + i + headings.Count + 5 + spacing;
                 if (option.resetOffset >= 0)
                 {
                     Console.CursorLeft = option.resetOffset;
@@ -111,8 +130,9 @@ namespace Artefact.MenuSystem
                 }
 
                 Console.CursorLeft = 0;
-                Console.Write(option.text);
-                spacing += option.text.Split("\n").Length;
+                string text = option.text();
+                Console.Write(text);
+                spacing += text.Split("\n").Length;
 
                 Console.ResetColor();
             }
@@ -127,11 +147,11 @@ namespace Artefact.MenuSystem
     internal struct Option
     {
         public Action onSelect;
-        public string text;
+        public Func<string> text;
         public int resetOffset;
         public int resetAmount;
 
-        public Option(string text, Action onSelect, int resetOff, int resetAmount)
+        public Option(Func<string> text, Action onSelect, int resetOff, int resetAmount)
         {
             this.onSelect = onSelect;
             this.text = text;
@@ -139,7 +159,7 @@ namespace Artefact.MenuSystem
             this.resetAmount = resetAmount;
         }
 
-        public Option(string text, Action onSelect):this(text, onSelect, -1, 0)
+        public Option(Func<string> text, Action onSelect) : this(text, onSelect, -1, 0)
         {
             this.onSelect = onSelect;
             this.text = text;
