@@ -1,19 +1,15 @@
 ﻿using Artefact.Utils;
-using Artefact.Worlds;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Artefact.Entities
 {
-    [Serializable]
     internal class PlayerEntity : Entity
     {
-        public override string Representation => "PL";
-
         public static PlayerEntity Instance { get; set; }
 
-        public override int MaxHealth => 20;
+        public override string Representation => "PL";
 
         public PlayerEntity()
         {
@@ -22,36 +18,25 @@ namespace Artefact.Entities
 
         public override void Move()
         {
-            if (Input.IsKeyHeld(ConsoleKey.RightArrow, ConsoleKey.D))
+            if (InputSystem.IsKeyHeld(ConsoleKey.D))
             {
-                Position.X++;
-            }
-            else if (Input.IsKeyHeld(ConsoleKey.LeftArrow, ConsoleKey.A))
-            {
-                Position.X--;
+                position.x++;
             }
 
-            if (Input.IsKeyHeld(ConsoleKey.DownArrow, ConsoleKey.S))
+            if (InputSystem.IsKeyHeld(ConsoleKey.A))
             {
-                Position.Y++;
-            }
-            else if (Input.IsKeyHeld(ConsoleKey.UpArrow, ConsoleKey.W))
-            {
-                Position.Y--;
+                position.x--;
             }
 
-            Position.Y = Math.Clamp(Position.Y, 0, World.Instance.Height - 1);
-            Position.X = Math.Clamp(Position.X, 0, World.Instance.Width - 1);
-        }
+            if (InputSystem.IsKeyHeld(ConsoleKey.W))
+            {
+                position.y--;
+            }
 
-        public override void Update()
-        {
-
-        }
-
-        public override void CollidePlayer(PlayerEntity playerEntity)
-        {
-
+            if (InputSystem.IsKeyHeld(ConsoleKey.S))
+            {
+                position.y++;
+            }
         }
     }
 }

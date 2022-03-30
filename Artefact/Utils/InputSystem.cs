@@ -1,11 +1,10 @@
-﻿using Artefact.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Artefact.Utils
 {
-    internal static class Input
+    internal static class InputSystem
     {
         private static ConsoleKeyInfo keyInfo;
         public static bool SkipNextKey { get; set; }

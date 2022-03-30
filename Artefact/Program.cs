@@ -1,11 +1,7 @@
-﻿//#define CUSTOM_SEED
-using Artefact.Entities;
-using Artefact.Saving;
+﻿using Artefact.Entities;
+using Artefact.MapSystem;
 using Artefact.Settings;
-using Artefact.States;
-using Artefact.Tiles;
 using Artefact.Utils;
-using Artefact.Worlds;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -45,28 +41,21 @@ namespace Artefact
                 DeleteMenu(sysMenu, SC_MAXIMIZE, MF_BYCOMMAND);
                 DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
             }
-
             Console.CursorVisible = false;
-            Console.Title = "Artefact Roguelike";
 
-            SaveSystem.LoadSettings();
+            new PlayerEntity();
 
-            PlayerEntity player = new PlayerEntity();
+            Map map = new Map(10);
+            Map.Instance = map;
 
-            World.GenerateRandomSeed();
+            map.PlaceEntityInRandomRoom(PlayerEntity.Instance);
 
-            StateMachine.AddState(new MenuState());
+            map.PrintMap();
 
             while (GlobalSettings.Running)
             {
-                StateMachine.ProcessStateChanges();
-
-                if (!StateMachine.IsEmpty)
-                {
-                    StateMachine.ActiveState.Update();
-                }
-
-                Input.GetInput();
+                InputSystem.GetInput();
+                map.Update();
             }
         }
     }
