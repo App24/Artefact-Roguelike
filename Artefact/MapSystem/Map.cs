@@ -26,6 +26,14 @@ namespace Artefact.MapSystem
                 entities.Add(PlayerEntity.Instance);
         }
 
+        internal void PrintEntities()
+        {
+            foreach (Entity entity in entities)
+            {
+                PrintEntity(entity);
+            }
+        }
+
         private void ConnectRooms()
         {
             for (int i = 0; i < rooms.Count - 1; i++)
@@ -33,15 +41,21 @@ namespace Artefact.MapSystem
                 Room room = rooms[i];
                 Room connectRoom = rooms[i + 1];
 
-                for (int j = 0; j < (room.Width % 2 == 0 ? 2 : 1); j++)
-                {
-                    room.SetTile((room.Width / 2) - j, 0, new TeleportTile(connectRoom, new Vector2(connectRoom.Width / 2, connectRoom.Height - 2)));
-                }
+                List<TeleportTile> teleports = new List<TeleportTile>();
 
-                for (int j = 0; j < (connectRoom.Width % 2 == 0 ? 2 : 1); j++)
-                {
-                    connectRoom.SetTile((connectRoom.Width / 2) - j, connectRoom.Height - 1, new TeleportTile(room, new Vector2(room.Width / 2, 1)));
-                }
+                int roomX = random.Next(1, room.Width - 1);
+                int connectX = random.Next(1, connectRoom.Width - 1);
+
+                teleports.Add(room.SetTile(roomX, 0, new TeleportTile(connectRoom, new Vector2(connectX, connectRoom.Height - 2), room.GetTile(new Vector2(roomX, 0)))));
+
+                room.SetTile(roomX, 1, new RevealTile(teleports, room));
+
+
+                teleports.Clear();
+
+                teleports.Add(connectRoom.SetTile(connectX, connectRoom.Height - 1, new TeleportTile(room, new Vector2(roomX, 1), connectRoom.GetTile(new Vector2(connectX, connectRoom.Height - 1)))));
+
+                connectRoom.SetTile(connectX, connectRoom.Height - 2, new RevealTile(teleports, connectRoom));
             }
         }
 
@@ -145,10 +159,7 @@ namespace Artefact.MapSystem
                 PrintRoom(room);
             }
 
-            foreach (Entity entity in entities)
-            {
-                PrintEntity(entity);
-            }
+            PrintEntities();
         }
 
         private void PrintEntity(Entity entity)

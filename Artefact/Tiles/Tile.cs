@@ -10,9 +10,9 @@ namespace Artefact.Tiles
         public static BaseTile AirTile { get; } = new BaseTile(" ", false);
         public static BaseTile WallTile { get; } = new BaseTile("#", true, ConsoleColor.DarkGray);
 
-        public string Representation { get; }
+        public virtual string Representation { get; }
         public bool Collidable { get; }
-        public ConsoleColor Foreground { get; }
+        public virtual ConsoleColor Foreground { get; }
 
         public Tile(string representation, bool collidable, ConsoleColor foreground)
         {

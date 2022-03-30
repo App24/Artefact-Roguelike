@@ -12,10 +12,20 @@ namespace Artefact.Tiles
         private Room room;
         private Vector2 exit;
 
-        public TeleportTile(Room room, Vector2 exit) : base("XX", false, ConsoleColor.DarkYellow)
+        public override string Representation => Revealed ? base.Representation : replaceRepresentation;
+        public override ConsoleColor Foreground => Revealed ? base.Foreground : replaceForeground;
+
+        public bool Revealed { get; set; }
+
+        string replaceRepresentation;
+        ConsoleColor replaceForeground;
+
+        public TeleportTile(Room room, Vector2 exit, Tile replaceTile) : base("XX", true, ConsoleColor.DarkYellow)
         {
             this.room = room;
             this.exit = exit;
+            replaceForeground = replaceTile.Foreground;
+            replaceRepresentation = replaceTile.Representation;
         }
 
         public override void OnCollision(Entity entity)
@@ -23,6 +33,7 @@ namespace Artefact.Tiles
             entity.position = room.Position + room.GetAvailablePosition();
             entity.CurrentRoom.Known = true;
             entity.position = room.Position + exit;
+            entity.CurrentRoom.GetTile(entity.RelativePosition).OnCollision(entity);
         }
     }
 }

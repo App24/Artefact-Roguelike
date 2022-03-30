@@ -51,16 +51,18 @@ namespace Artefact.MapSystem
             return tiles[GetIndex(position)];
         }
 
-        public void SetTile(Vector2 position, Tile tile)
+        public T SetTile<T>(Vector2 position, T tile) where T : Tile
         {
             if (position.x < 0 || position.y < 0 || position.x >= Width || position.y >= Height)
-                return;
-            tiles[GetIndex(position)] = tile.Clone();
+                return null;
+            Tile toReturn=tile.Clone();
+            tiles[GetIndex(position)] = toReturn;
+            return (T)toReturn;
         }
 
-        public void SetTile(int x, int y, Tile tile)
+        public T SetTile<T>(int x, int y, T tile) where T : Tile
         {
-            SetTile(new Vector2(x, y), tile);
+            return SetTile(new Vector2(x, y), tile);
         }
 
         private int GetIndex(Vector2 position)
