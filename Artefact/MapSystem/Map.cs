@@ -15,8 +15,13 @@ namespace Artefact.MapSystem
 
         public static Map Instance { get; set; }
 
-        public Map(int maxRooms)
+        public int Width { get; }
+        public int Height { get; }
+
+        public Map(int maxRooms, int width, int height)
         {
+            Width = width;
+            Height = height;
             for (int i = 0; i < maxRooms; i++)
             {
                 SpawnRoom();
@@ -68,9 +73,9 @@ namespace Artefact.MapSystem
             int tries = 0;
             do
             {
-                width = random.Next(8, 15);
-                height = random.Next(8, 15);
-                pos = random.NextVector2(new Vector2(60, 30));
+                width = random.Next(10, 18);
+                height = random.Next(10, 18);
+                pos = random.NextVector2(new Vector2(Width, Height));
 
                 overlapping = CheckOverlap(width, height, pos);
                 tries++;
@@ -92,7 +97,7 @@ namespace Artefact.MapSystem
                     room.Position.y - 1 < position.y + height &&
                     position.x - 1 < room.Position.x + room.Width &&
                     position.y - 1 < room.Position.y + room.Height;
-            }) != null;
+            }) != null || position.x + width > Width || position.y + height > Height;
         }
 
         public Room GetRoom(Vector2 position)

@@ -20,7 +20,7 @@ namespace Artefact.Tiles
         string replaceRepresentation;
         ConsoleColor replaceForeground;
 
-        public TeleportTile(Room room, Vector2 exit, Tile replaceTile) : base("XX", true, ConsoleColor.DarkYellow)
+        public TeleportTile(Room room, Vector2 exit, Tile replaceTile) : base("XX", true, ConsoleColor.DarkMagenta)
         {
             this.room = room;
             this.exit = exit;

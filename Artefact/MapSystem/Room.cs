@@ -37,6 +37,24 @@ namespace Artefact.MapSystem
                     }
                 }
             }
+
+            List<ChestTile> chests = new List<ChestTile>();
+
+            Random random = new Random();
+
+            for (int y = 2; y < height - 2; y++)
+            {
+                for (int x = 2; x < width - 2; x++)
+                {
+                    if (chests.Count < 2)
+                    {
+                        if (random.NextDouble() > 0.99f)
+                        {
+                            chests.Add(SetTile(x, y, new ChestTile()));
+                        }
+                    }
+                }
+            }
         }
 
         public Vector2 GetAvailablePosition()
