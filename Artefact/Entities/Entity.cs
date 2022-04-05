@@ -23,6 +23,9 @@ namespace Artefact.Entities
 
         public abstract string Representation { get; }
 
+        public abstract int MaxHealth { get; }
+        public int Health { get; private set; }
+
         public Room CurrentRoom
         {
             get
@@ -35,6 +38,42 @@ namespace Artefact.Entities
             }
         }
 
+        public Entity()
+        {
+            Health = MaxHealth;
+        }
+
         public abstract void Move();
+
+        public void Damage(int amount)
+        {
+            if(amount < 0)
+            {
+                Heal(-amount);
+                return;
+            }
+
+            Health -= amount;
+
+            if(Health < 0)
+                Die();
+        }
+
+        public void Heal(int amount)
+        {
+            if(amount < 0)
+            {
+                Damage(-amount);
+                return;
+            }
+
+            Health += amount;
+            if(Health > MaxHealth)
+                Health = MaxHealth;
+        }
+
+        protected abstract void Die();
+
+        public abstract void Update();
     }
 }

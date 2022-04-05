@@ -16,6 +16,8 @@ namespace Artefact.MapSystem
 
         private Tile[] tiles;
 
+        const int MAX_CHESTS = 10;
+
         public Room(int width, int height, Vector2 position)
         {
             Width = width;
@@ -46,9 +48,9 @@ namespace Artefact.MapSystem
             {
                 for (int x = 2; x < width - 2; x++)
                 {
-                    if (chests.Count < 2)
+                    if (chests.Count < MAX_CHESTS)
                     {
-                        if (random.NextDouble() > 0.99f)
+                        if (random.NextDouble() > 0.5f)
                         {
                             chests.Add(SetTile(x, y, new ChestTile()));
                         }

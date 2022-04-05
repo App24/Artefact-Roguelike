@@ -1,4 +1,5 @@
 ﻿using Artefact.Entities;
+using Artefact.Items;
 using Artefact.MapSystem;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,15 @@ namespace Artefact.Tiles
 
         public override void OnCollision(Entity entity)
         {
-            looted = true;
+            if (looted)
+                return;
+            if (entity == PlayerEntity.Instance)
+            {
+                if(PlayerEntity.Instance.Inventory.AddItem(new HealthPotionItem((Rarity)new Random().Next(0, ((int)Rarity.Epic)+1)), 3))
+                {
+                    looted = true;
+                }
+            }
         }
     }
 }

@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Artefact.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Artefact.Items
 {
-    internal class Item
+    internal abstract class Item
     {
-        public static Item TestItem => new Item("Test", Rarity.Common);
-        public static Item Test2Item => new Item("Test2", Rarity.Epic);
+        public static BasicItem TestItem => new BasicItem("Test", Rarity.Common);
+        public static BasicItem Test2Item => new BasicItem("Test2", Rarity.Epic);
 
         public string Name { get; }
         public Rarity Rarity { get; }
@@ -21,40 +22,15 @@ namespace Artefact.Items
             Quantity = 1;
         }
 
-        public void Print()
-        {
-            switch (Rarity)
-            {
-                case Rarity.Common:
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    break;
-                case Rarity.Uncommon:
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                    }
-                    break;
-                case Rarity.Rare:
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkBlue;
-                    }
-                    break;
-                case Rarity.Epic:
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                    }
-                    break;
-            }
-            Console.Write(Name);
-            Console.ResetColor();
-            Console.Write($": {Quantity}");
-        }
+        protected abstract bool OnUse();
 
-        /*public Item Clone()
+        public void Use()
         {
-            return (Item)MemberwiseClone();
-        }*/
+            if (OnUse())
+            {
+                PlayerEntity.Instance.Inventory.RemoveItem(this);
+            }
+        }
     }
 
     enum Rarity

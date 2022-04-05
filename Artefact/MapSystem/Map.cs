@@ -33,8 +33,11 @@ namespace Artefact.MapSystem
 
         internal void PrintEntities()
         {
+            PlayerEntity.Instance.Inventory.PrintInventory();
             foreach (Entity entity in entities)
             {
+                if (entity.CurrentRoom != PlayerEntity.Instance.CurrentRoom)
+                    continue;
                 PrintEntity(entity);
             }
         }
@@ -54,7 +57,6 @@ namespace Artefact.MapSystem
                 teleports.Add(room.SetTile(roomX, 0, new TeleportTile(connectRoom, new Vector2(connectX, connectRoom.Height - 2), room.GetTile(new Vector2(roomX, 0)))));
 
                 room.SetTile(roomX, 1, new RevealTile(teleports, room));
-
 
                 teleports.Clear();
 
@@ -104,12 +106,20 @@ namespace Artefact.MapSystem
         {
             return rooms.Find(room =>
             {
-                return room.Position.x <= position.x && room.Position.y <= position.y && position.x <= room.Position.x + room.Width && position.y <= room.Position.y + room.Height;
+                return room.Position.x <= position.x &&
+                room.Position.y <= position.y &&
+                position.x <= room.Position.x + room.Width &&
+                position.y <= room.Position.y + room.Height;
             });
         }
 
         public void Update()
         {
+            foreach(Entity entity in entities)
+            {
+                entity.Update();
+            }
+
             foreach (Entity entity in entities)
             {
                 if (entity.CurrentRoom != PlayerEntity.Instance.CurrentRoom)
@@ -138,6 +148,8 @@ namespace Artefact.MapSystem
                         PrintTile(entity.CurrentRoom, previousPos);
                 }
             }
+
+            entities.RemoveAll(e => e.Health <= 0);
         }
 
         public Room GetRandomRoom()
