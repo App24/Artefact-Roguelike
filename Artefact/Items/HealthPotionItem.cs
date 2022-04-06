@@ -13,8 +13,12 @@ namespace Artefact.Items
 
         public bool OnUse()
         {
-            PlayerEntity.Instance.Heal((((int)Rarity) + 1));
-            return true;
+            if (PlayerEntity.Instance.Health < PlayerEntity.Instance.MaxHealth)
+            {
+                PlayerEntity.Instance.Heal((((int)Rarity) + 1));
+                return true;
+            }
+            return false;
         }
     }
 }

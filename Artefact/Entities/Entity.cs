@@ -45,7 +45,7 @@ namespace Artefact.Entities
 
         public abstract void Move();
 
-        public void Damage(int amount)
+        public virtual void Damage(int amount)
         {
             if(amount < 0)
             {
@@ -59,7 +59,7 @@ namespace Artefact.Entities
                 Die();
         }
 
-        public void Heal(int amount)
+        public virtual void Heal(int amount)
         {
             if(amount < 0)
             {

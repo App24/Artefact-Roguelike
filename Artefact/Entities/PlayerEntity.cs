@@ -1,5 +1,6 @@
 ﻿using Artefact.InventorySystem;
 using Artefact.Items;
+using Artefact.MapSystem;
 using Artefact.Tiles;
 using Artefact.Utils;
 using System;
@@ -17,6 +18,9 @@ namespace Artefact.Entities
         public override string Representation => "PL";
 
         public override int MaxHealth => 5;
+
+        const int HEALTH_POS = 1;
+        const string HEALTH_TEXT = "Health: ";
 
         bool inInventory;
 
@@ -70,7 +74,7 @@ namespace Artefact.Entities
                         Inventory.itemIndex = 0;
                 }
 
-                if (InputSystem.IsKeyHeld(ConsoleKey.Enter))
+                if (InputSystem.IsKeyHeld(ConsoleKey.E))
                 {
                     if (item is IUsable usable)
                     {
@@ -123,6 +127,7 @@ namespace Artefact.Entities
             {
                 Inventory.itemIndex = -1;
             }
+            Inventory.ClearItemUsage();
             Inventory.PrintInventory();
         }
 
@@ -134,6 +139,31 @@ namespace Artefact.Entities
         public override void Update()
         {
 
+        }
+
+        public override void Heal(int amount)
+        {
+            Console.SetCursorPosition(Map.Instance.Width * 2 + 2 + HEALTH_TEXT.Length, HEALTH_POS);
+            Console.Write(new string(' ', Health.ToString().Length));
+            base.Heal(amount);
+            PrintHealth();
+        }
+
+        public override void Damage(int amount)
+        {
+            Console.SetCursorPosition(Map.Instance.Width * 2 + 2 + HEALTH_TEXT.Length, HEALTH_POS);
+            Console.Write(new string(' ', Health.ToString().Length));
+            base.Damage(amount);
+            PrintHealth();
+        }
+
+        public void PrintHealth()
+        {
+            Console.SetCursorPosition(Map.Instance.Width * 2 + 2, HEALTH_POS);
+            Console.Write(HEALTH_TEXT);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(Health);
+            Console.ResetColor();
         }
     }
 }

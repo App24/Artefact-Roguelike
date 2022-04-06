@@ -17,7 +17,7 @@ namespace Artefact.MapSystem
 
         private Tile[] tiles;
 
-        const int MAX_CHESTS = 10;
+        const int MAX_CHESTS = 3;
 
         public Room(int width, int height, Vector2 position)
         {
@@ -51,9 +51,11 @@ namespace Artefact.MapSystem
                 {
                     if (chests.Count < MAX_CHESTS)
                     {
-                        if (random.NextDouble() > 0.5f)
+                        if (random.NextDouble() > 0.99f)
                         {
-                            chests.Add(SetTile(x, y, new ChestTile(new HealthPotionItem(Rarity.Epic))));
+                            ChestTile chestTile = new ChestTile();
+                            chestTile.AddItem(new HealthPotionItem((Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1)), 3);
+                            chests.Add(SetTile(x, y, chestTile));
                         }
                     }
                 }

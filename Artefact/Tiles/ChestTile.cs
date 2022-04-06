@@ -16,12 +16,12 @@ namespace Artefact.Tiles
         private readonly Vector2 position;
         private readonly Tile previousTile;
 
-        public ChestTile(params Item[] items) : base("[]", false, ConsoleColor.DarkYellow)
+        public ChestTile() : base("[]", false, ConsoleColor.DarkYellow)
         {
-            this.items = new List<Item>(items);
+            this.items = new List<Item>();
         }
 
-        public ChestTile(Tile previousTile, Vector2 position, params Item[] items) : this(items)
+        public ChestTile(Tile previousTile, Vector2 position) : this()
         {
             this.position = position;
             this.previousTile = previousTile;

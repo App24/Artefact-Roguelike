@@ -45,7 +45,7 @@ namespace Artefact
 
             new PlayerEntity();
 
-            Map map = new Map(15, 80, 35);
+            Map map = new Map(50, (int)(Console.WindowWidth*0.35f), (int)(Console.WindowHeight*0.8f));
             Map.Instance = map;
 
             map.PlaceEntityInRandomRoom(PlayerEntity.Instance);

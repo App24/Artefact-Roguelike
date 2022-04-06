@@ -180,6 +180,8 @@ namespace Artefact.MapSystem
             }
 
             PrintEntities();
+
+            PlayerEntity.Instance.PrintHealth();
         }
 
         private void PrintEntity(Entity entity)

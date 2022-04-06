@@ -82,19 +82,54 @@ namespace Artefact.InventorySystem
             }
         }
 
+        public void ClearItemUsage()
+        {
+            int xPos = ((items.Count / MAX_ITEMS_PER_LINE) + 1) * ITEM_SPACING;
+
+            for (int i = Map.Instance.Height + 2; i < Console.WindowHeight; i++)
+            {
+                Console.SetCursorPosition(xPos, i);
+                Console.Write(new string(' ', Console.WindowWidth - xPos));
+            }
+        }
+
+        void PrintItemUsage(Item item)
+        {
+            ClearItemUsage();
+
+            int xPos = ((items.Count / MAX_ITEMS_PER_LINE) + 1) * ITEM_SPACING;
+            Console.SetCursorPosition(xPos, Map.Instance.Height + 2);
+            Console.Write(item.Name);
+            Console.CursorTop++;
+            Console.CursorLeft = xPos;
+            if(item is IUsable)
+            {
+                Console.Write("E. Use");
+                Console.CursorTop++;
+                Console.CursorLeft = xPos;
+            }
+            Console.Write("Q. Drop");
+            Console.CursorTop++;
+            Console.CursorLeft = xPos;
+        }
+
         public void PrintInventory()
         {
             for (int i = 0; i < items.Count; i++)
             {
                 Console.SetCursorPosition((i / MAX_ITEMS_PER_LINE) * ITEM_SPACING, Map.Instance.Height + 2 + (i % MAX_ITEMS_PER_LINE));
-                Console.Write(new String(' ', ITEM_SPACING));
+                Console.Write(new string(' ', ITEM_SPACING));
                 Console.CursorLeft = (i / MAX_ITEMS_PER_LINE) * ITEM_SPACING;
                 Item item = items[i];
 
                 if (itemIndex == i)
                 {
+                    PrintItemUsage(item);
+                    Console.SetCursorPosition((i / MAX_ITEMS_PER_LINE) * ITEM_SPACING, Map.Instance.Height + 2 + (i % MAX_ITEMS_PER_LINE));
+
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Write(">> ");
+
                 }
 
                 switch (item.Rarity)
