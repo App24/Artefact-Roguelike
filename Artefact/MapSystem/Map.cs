@@ -128,6 +128,9 @@ namespace Artefact.MapSystem
                 Room previousRoom = entity.CurrentRoom;
                 entity.Move();
 
+                if (previousPos == entity.RelativePosition && previousRoom==entity.CurrentRoom)
+                    continue;
+
                 Tile currentTile = entity.CurrentRoom.GetTile(entity.RelativePosition);
                 if (currentTile.Collidable)
                 {

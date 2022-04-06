@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Artefact.Items
 {
-    internal class HealthPotionItem : Item
+    internal class HealthPotionItem : Item, IUsable
     {
         public HealthPotionItem(Rarity rarity) : base("Health Potion", rarity)
         {
         }
 
-        protected override bool OnUse()
+        public bool OnUse()
         {
             PlayerEntity.Instance.Heal((((int)Rarity) + 1));
             return true;

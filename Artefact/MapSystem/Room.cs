@@ -1,4 +1,5 @@
-﻿using Artefact.Tiles;
+﻿using Artefact.Items;
+using Artefact.Tiles;
 using Artefact.Utils;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace Artefact.MapSystem
                     {
                         if (random.NextDouble() > 0.5f)
                         {
-                            chests.Add(SetTile(x, y, new ChestTile()));
+                            chests.Add(SetTile(x, y, new ChestTile(new HealthPotionItem(Rarity.Epic))));
                         }
                     }
                 }

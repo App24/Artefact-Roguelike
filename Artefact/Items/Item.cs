@@ -22,14 +22,9 @@ namespace Artefact.Items
             Quantity = 1;
         }
 
-        protected abstract bool OnUse();
-
-        public void Use()
+        public Item Clone()
         {
-            if (OnUse())
-            {
-                PlayerEntity.Instance.Inventory.RemoveItem(this);
-            }
+            return (Item)MemberwiseClone();
         }
     }
 

@@ -9,10 +9,5 @@ namespace Artefact.Items
         public BasicItem(string name, Rarity rarity) : base(name, rarity)
         {
         }
-
-        protected override bool OnUse()
-        {
-            return false;
-        }
     }
 }
