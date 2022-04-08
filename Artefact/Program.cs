@@ -1,6 +1,7 @@
 ﻿using Artefact.Entities;
 using Artefact.MapSystem;
 using Artefact.Settings;
+using Artefact.States;
 using Artefact.Utils;
 using System;
 using System.Collections.Generic;
@@ -45,17 +46,17 @@ namespace Artefact
 
             new PlayerEntity();
 
-            Map map = new Map(50, (int)(Console.WindowWidth*0.35f), (int)(Console.WindowHeight*0.8f));
-            Map.Instance = map;
-
-            map.PlaceEntityInRandomRoom(PlayerEntity.Instance);
-
-            map.PrintMap();
+            StateMachine.AddState(new MenuState());
 
             while (GlobalSettings.Running)
             {
+                StateMachine.ProcessStateChanges();
+
+                if (!StateMachine.IsEmpty)
+                {
+                    StateMachine.ActiveState.Update();
+                }
                 InputSystem.GetInput();
-                map.Update();
             }
         }
     }

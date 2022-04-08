@@ -22,7 +22,7 @@ namespace Artefact.Entities
         const int HEALTH_POS = 1;
         const string HEALTH_TEXT = "Health: ";
 
-        bool inInventory;
+        PlayerState state;
 
         public PlayerEntity()
         {
@@ -32,79 +32,85 @@ namespace Artefact.Entities
 
         public override void Move()
         {
-            if (!inInventory)
+            switch (state)
             {
-                if (InputSystem.IsKeyHeld(ConsoleKey.D))
-                {
-                    position.x++;
-                }
-
-                if (InputSystem.IsKeyHeld(ConsoleKey.A))
-                {
-                    position.x--;
-                }
-
-                if (InputSystem.IsKeyHeld(ConsoleKey.W))
-                {
-                    position.y--;
-                }
-
-                if (InputSystem.IsKeyHeld(ConsoleKey.S))
-                {
-                    position.y++;
-                }
-            }
-            else
-            {
-                Item item = Inventory.items[Inventory.itemIndex];
-
-                if (InputSystem.IsKeyHeld(ConsoleKey.S))
-                {
-                    Inventory.itemIndex++;
-                    if(Inventory.itemIndex >= Inventory.items.Count)
+                case PlayerState.Move:
                     {
-                        Inventory.itemIndex = Inventory.items.Count - 1;
-                    }
-                }
-
-                if (InputSystem.IsKeyHeld(ConsoleKey.W))
-                {
-                    Inventory.itemIndex--;
-                    if(Inventory.itemIndex < 0)
-                        Inventory.itemIndex = 0;
-                }
-
-                if (InputSystem.IsKeyHeld(ConsoleKey.E))
-                {
-                    if (item is IUsable usable)
-                    {
-                        if (usable.OnUse()) {
-                            Inventory.RemoveItem(item);
-                            if (Inventory.items.Count <= 0)
-                                ToggleInventory();
-                        }
-                    }
-                }
-
-                if (InputSystem.IsKeyHeld(ConsoleKey.Q))
-                {
-                    Tile currentTile = CurrentRoom.GetTile(RelativePosition);
-                    if (Inventory.RemoveItem(item))
-                    {
-                        if (currentTile is ChestTile chestTile)
+                        if (InputSystem.IsKeyHeld(ConsoleKey.D))
                         {
-                            chestTile.AddItem(item);
+                            position.x++;
                         }
-                        else
-                        {
-                            CurrentRoom.SetTile(RelativePosition, new ChestTile(currentTile.Clone(), RelativePosition)).AddItem(item);
-                        }
-                        if (Inventory.items.Count <= 0)
-                            ToggleInventory();
-                    }
-                }
 
-                Inventory.PrintInventory();
+                        if (InputSystem.IsKeyHeld(ConsoleKey.A))
+                        {
+                            position.x--;
+                        }
+
+                        if (InputSystem.IsKeyHeld(ConsoleKey.W))
+                        {
+                            position.y--;
+                        }
+
+                        if (InputSystem.IsKeyHeld(ConsoleKey.S))
+                        {
+                            position.y++;
+                        }
+                    }
+                    break;
+                case PlayerState.Inventory:
+                    {
+                        Item item = Inventory.items[Inventory.itemIndex];
+
+                        if (InputSystem.IsKeyHeld(ConsoleKey.S))
+                        {
+                            Inventory.itemIndex++;
+                            if (Inventory.itemIndex >= Inventory.items.Count)
+                            {
+                                Inventory.itemIndex = Inventory.items.Count - 1;
+                            }
+                        }
+
+                        if (InputSystem.IsKeyHeld(ConsoleKey.W))
+                        {
+                            Inventory.itemIndex--;
+                            if (Inventory.itemIndex < 0)
+                                Inventory.itemIndex = 0;
+                        }
+
+                        if (InputSystem.IsKeyHeld(ConsoleKey.E))
+                        {
+                            if (item is IUsable usable)
+                            {
+                                if (usable.OnUse())
+                                {
+                                    Inventory.RemoveItem(item);
+                                    if (Inventory.items.Count <= 0)
+                                        ToggleInventory();
+                                }
+                            }
+                        }
+
+                        if (InputSystem.IsKeyHeld(ConsoleKey.Q))
+                        {
+                            Tile currentTile = CurrentRoom.GetTile(RelativePosition);
+                            if (Inventory.RemoveItem(item))
+                            {
+                                if (currentTile is ChestTile chestTile)
+                                {
+                                    chestTile.AddItem(item);
+                                }
+                                else
+                                {
+                                    CurrentRoom.SetTile(RelativePosition, new ChestTile(currentTile.Clone(), RelativePosition)).AddItem(item);
+                                }
+                                if (Inventory.items.Count <= 0)
+                                    ToggleInventory();
+                            }
+                        }
+
+                        Inventory.PrintInventory();
+                    }
+                    break;
             }
 
             if (InputSystem.IsKeyHeld(ConsoleKey.I))
@@ -118,8 +124,8 @@ namespace Artefact.Entities
 
         void ToggleInventory()
         {
-            inInventory = !inInventory;
-            if (inInventory)
+            state = state == PlayerState.Inventory ? PlayerState.Move : PlayerState.Inventory;
+            if (state==PlayerState.Inventory)
             {
                 Inventory.itemIndex = 0;
             }
@@ -164,6 +170,12 @@ namespace Artefact.Entities
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write(Health);
             Console.ResetColor();
+        }
+
+        enum PlayerState
+        {
+            Move,
+            Inventory
         }
     }
 }

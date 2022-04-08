@@ -29,6 +29,17 @@ namespace Artefact.MapSystem
             ConnectRooms();
             if (!entities.Contains(PlayerEntity.Instance))
                 entities.Add(PlayerEntity.Instance);
+            SpawnEnemies();
+        }
+
+        void SpawnEnemies()
+        {
+            foreach(Room room in rooms)
+            {
+                EnemyEntity entity = new EnemyEntity("TE", 10);
+                entity.position = room.Position + new Vector2(3, 3);
+                entities.Add(entity);
+            }
         }
 
         internal void PrintEntities()
@@ -142,6 +153,7 @@ namespace Artefact.MapSystem
                 {
                     PrintRoom(previousRoom);
                     PrintRoom(entity.CurrentRoom);
+                    Map.Instance.PrintEntities();
                 }
 
                 if (entity.RelativePosition != previousPos || entity.CurrentRoom != previousRoom)

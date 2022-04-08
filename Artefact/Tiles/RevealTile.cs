@@ -20,9 +20,12 @@ namespace Artefact.Tiles
 
         public override void OnCollision(Entity entity)
         {
-            tiles.ForEach(t => t.Revealed = true);
-            Map.Instance.PrintRoom(room);
-            Map.Instance.PrintEntities();
+            if (entity == PlayerEntity.Instance)
+            {
+                tiles.ForEach(t => t.Revealed = true);
+                Map.Instance.PrintRoom(room);
+                Map.Instance.PrintEntities();
+            }
         }
     }
 }

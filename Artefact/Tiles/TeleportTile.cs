@@ -30,10 +30,13 @@ namespace Artefact.Tiles
 
         public override void OnCollision(Entity entity)
         {
-            entity.position = room.Position + room.GetAvailablePosition();
-            entity.CurrentRoom.Known = true;
-            entity.position = room.Position + exit;
-            entity.CurrentRoom.GetTile(entity.RelativePosition).OnCollision(entity);
+            if (entity == PlayerEntity.Instance)
+            {
+                entity.position = room.Position + room.GetAvailablePosition();
+                entity.CurrentRoom.Known = true;
+                entity.position = room.Position + exit;
+                entity.CurrentRoom.GetTile(entity.RelativePosition).OnCollision(entity);
+            }
         }
     }
 }
