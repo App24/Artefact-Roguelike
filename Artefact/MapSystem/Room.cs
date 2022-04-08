@@ -47,9 +47,26 @@ namespace Artefact.MapSystem
                 }
             }
 
-            List<ChestTile> chests = new List<ChestTile>();
-
             Random random = new Random();
+
+            if (width > 10 && height > 10)
+            {
+                int midX = (width + random.Next(-2, 3)) / 2;
+                int midY = (height + random.Next(-2, 3)) / 2;
+                int radius = height / 5;
+                for (int y = -radius; y <= radius; y++)
+                {
+                    for (int x = -radius; x <= radius; x++)
+                    {
+                        if((x*x)+(y*y) <= (radius* radius) * Math.Clamp(random.NextDouble(), 0.25f, 1f))
+                        {
+                            SetTile(x + midX, y + midY, Tile.WallTile);
+                        }
+                    }
+                }
+            }
+
+            List<ChestTile> chests = new List<ChestTile>();
 
             for (int y = 2; y < height - 2; y++)
             {
@@ -57,6 +74,8 @@ namespace Artefact.MapSystem
                 {
                     if (chests.Count < MAX_CHESTS)
                     {
+                        if (GetTile(new Vector2(x, y)).Collidable)
+                            continue;
                         if (random.NextDouble() <= CHEST_CHANCE)
                         {
                             ChestTile chestTile = new ChestTile();
@@ -81,7 +100,13 @@ namespace Artefact.MapSystem
 
         public Vector2 GetRandomPosition()
         {
-            return new Random().NextVector2(new Vector2(2, 2), new Vector2(Width - 3, Height - 3));
+            Random random = new Random();
+            Vector2 position;
+            do
+            {
+                position = random.NextVector2(new Vector2(2, 2), new Vector2(Width - 3, Height - 3));
+            } while (GetTile(position).Collidable);
+            return position;
         }
 
         public Tile GetTile(Vector2 position)

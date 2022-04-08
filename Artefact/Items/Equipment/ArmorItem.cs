@@ -17,7 +17,7 @@ namespace Artefact.Items
 
         public ArmorType ArmorType { get; }
         public int BaseDefense { get; }
-        public int Defense { get { return BaseDefense + (int)Rarity + 1; } }
+        public int Defense { get { return BaseDefense + (int)Rarity + 1 + (int)ArmorType; } }
 
         public override bool OnUse()
         {
@@ -35,9 +35,9 @@ namespace Artefact.Items
 
     internal enum ArmorType
     {
+        Boots,
         Helmet,
-        Chestplate,
         Leggings,
-        Boots
+        Chestplate,
     }
 }
