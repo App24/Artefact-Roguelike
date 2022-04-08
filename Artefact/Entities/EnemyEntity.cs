@@ -16,10 +16,13 @@ namespace Artefact.Entities
         [NonSerialized]
         private Random random = new Random();
 
-        public EnemyEntity(string representation, int maxHealth)
+        int radius;
+
+        public EnemyEntity(string representation, int maxHealth, int radius)
         {
             Representation = representation;
             MaxHealth = maxHealth;
+            this.radius = radius;
             Heal(MaxHealth);
         }
 
@@ -27,11 +30,14 @@ namespace Artefact.Entities
         {
             if (CurrentRoom == PlayerEntity.Instance.CurrentRoom)
             {
-                if (random.NextDouble() < 0.6f)
+                if (PlayerEntity.Instance.RelativePosition.DistanceTo(RelativePosition) <= radius)
                 {
-                    Vector2 position = AStarPathfinding.Calculate(this.position, PlayerEntity.Instance.position)[0];
-                    if (Map.Instance.GetRoom(position) == CurrentRoom)
-                        this.position = position;
+                    if (random.NextDouble() < 0.6f)
+                    {
+                        Vector2 position = AStarPathfinding.Calculate(this.position, PlayerEntity.Instance.position)[0];
+                        if (Map.Instance.GetRoom(position) == CurrentRoom)
+                            this.position = position;
+                    }
                 }
             }
         }

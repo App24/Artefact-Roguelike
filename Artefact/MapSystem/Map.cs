@@ -45,8 +45,8 @@ namespace Artefact.MapSystem
         {
             foreach (Room room in rooms)
             {
-                EnemyEntity entity = new EnemyEntity("TE", 10);
-                entity.position = room.Position + new Vector2(3, 3);
+                EnemyEntity entity = new EnemyEntity("SN", 3, 2);
+                entity.position = room.Position + room.GetRandomPosition();
                 entities.Add(entity);
             }
         }

@@ -67,6 +67,11 @@ namespace Artefact.MapSystem
             return new Vector2(1, 1);
         }
 
+        public Vector2 GetRandomPosition()
+        {
+            return new Random().NextVector2(new Vector2(2, 2), new Vector2(Width - 3, Height - 3));
+        }
+
         public Tile GetTile(Vector2 position)
         {
             if (position.x < 0 || position.y < 0 || position.x >= Width || position.y >= Height)
