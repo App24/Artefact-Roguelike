@@ -6,6 +6,8 @@ namespace Artefact.Items
 {
     internal interface IUsable
     {
+        string UseText { get; }
+
         bool OnUse();
     }
 }

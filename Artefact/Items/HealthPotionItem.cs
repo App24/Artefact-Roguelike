@@ -12,6 +12,8 @@ namespace Artefact.Items
         {
         }
 
+        public string UseText => "Use";
+
         public bool OnUse()
         {
             if (PlayerEntity.Instance.Health < PlayerEntity.Instance.MaxHealth)

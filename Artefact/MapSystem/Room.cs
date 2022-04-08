@@ -19,6 +19,12 @@ namespace Artefact.MapSystem
         private Tile[] tiles;
         private const int MAX_CHESTS = 3;
 
+#if !CHEATS
+        private const float CHEST_CHANCE = 0.01f;
+#else
+        private const float CHEST_CHANCE = 1f;
+#endif
+
         public Room(int width, int height, Vector2 position)
         {
             Width = width;
@@ -51,10 +57,11 @@ namespace Artefact.MapSystem
                 {
                     if (chests.Count < MAX_CHESTS)
                     {
-                        if (random.NextDouble() > 0.99f)
+                        if (random.NextDouble() <= CHEST_CHANCE)
                         {
                             ChestTile chestTile = new ChestTile();
-                            chestTile.AddItem(new HealthPotionItem((Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1)), 3);
+                            //chestTile.AddItem(new HealthPotionItem((Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1)), 3);
+                            chestTile.AddItem(new SwordItem("Sword", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1)));
                             chests.Add(SetTile(x, y, chestTile));
                         }
                     }

@@ -17,9 +17,11 @@ namespace Artefact.InventorySystem
 
         public int itemIndex = -1;
 
-        public bool AddItem(Item item, int quantity = 1)
+        public SwordItem EquippedSword { get; private set; }
+
+        public bool AddItem(Item item, int quantity = 1, bool force=false)
         {
-            if (items.Count >= MAX_ITEMS)
+            if (items.Count >= MAX_ITEMS && !force)
             {
                 return false;
             }
@@ -54,6 +56,9 @@ namespace Artefact.InventorySystem
                 ClearInventorySpace();
             }
 
+            if (itemIndex >= items.Count)
+                itemIndex = items.Count - 1;
+
             PrintInventory();
             return true;
         }
@@ -82,7 +87,7 @@ namespace Artefact.InventorySystem
 
         public void ClearItemUsage()
         {
-            int xPos = ((items.Count / MAX_ITEMS_PER_LINE) + 1) * ITEM_SPACING;
+            int xPos = GetEndOfInventory();
 
             for (int i = Map.Instance.Height + 2; i < Console.WindowHeight; i++)
             {
@@ -91,18 +96,23 @@ namespace Artefact.InventorySystem
             }
         }
 
+        int GetEndOfInventory()
+        {
+            return ((items.Count / MAX_ITEMS_PER_LINE) + 2) * ITEM_SPACING;
+        }
+
         private void PrintItemUsage(Item item)
         {
             ClearItemUsage();
 
-            int xPos = ((items.Count / MAX_ITEMS_PER_LINE) + 1) * ITEM_SPACING;
+            int xPos = GetEndOfInventory();
             Console.SetCursorPosition(xPos, Map.Instance.Height + 2);
             Console.Write(item.Name);
             Console.CursorTop++;
             Console.CursorLeft = xPos;
-            if (item is IUsable)
+            if (item is IUsable usable)
             {
-                Console.Write("E. Use");
+                Console.Write($"E. {usable.UseText}");
                 Console.CursorTop++;
                 Console.CursorLeft = xPos;
             }
@@ -113,17 +123,55 @@ namespace Artefact.InventorySystem
 
         public void PrintInventory()
         {
+            Console.CursorLeft = 0;
+            Console.CursorTop = Map.Instance.Height + 2;
+            Console.Write("Equpped Weapon: ");
+            if (EquippedSword == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("None");
+            }
+            else
+            {
+                switch (EquippedSword.Rarity)
+                {
+                    case Rarity.Common:
+                        {
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        break;
+                    case Rarity.Uncommon:
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+                        break;
+                    case Rarity.Rare:
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        }
+                        break;
+                    case Rarity.Epic:
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                        }
+                        break;
+                }
+                Console.Write(EquippedSword.Name);
+            }
+            Console.ResetColor();
+
             for (int i = 0; i < items.Count; i++)
             {
-                Console.SetCursorPosition((i / MAX_ITEMS_PER_LINE) * ITEM_SPACING, Map.Instance.Height + 2 + (i % MAX_ITEMS_PER_LINE));
+                int xPos = ((i / MAX_ITEMS_PER_LINE) + 1) * ITEM_SPACING;
+                Console.SetCursorPosition(xPos, Map.Instance.Height + 2 + (i % MAX_ITEMS_PER_LINE));
                 Console.Write(new string(' ', ITEM_SPACING));
-                Console.CursorLeft = (i / MAX_ITEMS_PER_LINE) * ITEM_SPACING;
+                Console.CursorLeft = xPos;
                 Item item = items[i];
 
                 if (itemIndex == i)
                 {
                     PrintItemUsage(item);
-                    Console.SetCursorPosition((i / MAX_ITEMS_PER_LINE) * ITEM_SPACING, Map.Instance.Height + 2 + (i % MAX_ITEMS_PER_LINE));
+                    Console.SetCursorPosition(xPos, Map.Instance.Height + 2 + (i % MAX_ITEMS_PER_LINE));
 
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Write(">> ");
@@ -158,6 +206,24 @@ namespace Artefact.InventorySystem
                 Console.Write($": {item.Quantity}");
                 Console.WriteLine();
             }
+        }
+
+        public void Equip(Item item, EquipmentType equipmentType)
+        {
+            switch (equipmentType)
+            {
+                case EquipmentType.Sword:
+                    {
+                        SwordItem swordItem = (SwordItem)item.Clone();
+                        swordItem.Quantity = 1;
+                        EquippedSword = swordItem;
+                    }break;
+            }
+        }
+
+        public enum EquipmentType
+        {
+            Sword
         }
     }
 }
