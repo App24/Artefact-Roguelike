@@ -7,6 +7,7 @@ using System.Text;
 
 namespace Artefact.Tiles
 {
+    [Serializable]
     internal class TeleportTile : Tile
     {
         private Room room;

@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Artefact.Entities
 {
+    [Serializable]
     internal class EnemyEntity : Entity
     {
         public override string Representation { get; }

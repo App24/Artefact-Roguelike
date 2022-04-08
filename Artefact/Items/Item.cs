@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Artefact.Items
 {
+    [Serializable]
     internal abstract class Item
     {
         public static BasicItem TestItem => new BasicItem("Test", Rarity.Common);

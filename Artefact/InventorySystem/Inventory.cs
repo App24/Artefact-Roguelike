@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Artefact.InventorySystem
 {
+    [Serializable]
     internal class Inventory
     {
         public List<Item> items = new List<Item>();

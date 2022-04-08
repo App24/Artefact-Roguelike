@@ -9,6 +9,7 @@ using System.Text;
 
 namespace Artefact.Entities
 {
+    [Serializable]
     internal class PlayerEntity : Entity
     {
         public static PlayerEntity Instance { get; set; }

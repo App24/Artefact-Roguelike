@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Artefact.Utils
 {
+    [Serializable]
     internal struct Vector2
     {
         public int x;

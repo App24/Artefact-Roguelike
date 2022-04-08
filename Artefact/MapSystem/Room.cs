@@ -7,6 +7,7 @@ using System.Text;
 
 namespace Artefact.MapSystem
 {
+    [Serializable]
     internal class Room
     {
         public int Width { get; }

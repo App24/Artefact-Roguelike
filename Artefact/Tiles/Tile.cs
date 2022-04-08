@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Artefact.Tiles
 {
+    [Serializable]
     internal abstract class Tile
     {
         public static BaseTile AirTile { get; } = new BaseTile(" ", false);

@@ -1,4 +1,5 @@
-﻿using Artefact.Settings;
+﻿using Artefact.Saving;
+using Artefact.Settings;
 using Artefact.States;
 using Artefact.Utils;
 using System;
@@ -19,13 +20,13 @@ namespace Artefact.MenuSystem
         {
             AddOption("Start New Game", () =>
             {
-                //SaveSystem.NewGame();
+                SaveSystem.NewGame();
                 StateMachine.AddState(new GameState());
                 InputSystem.SkipNextKey = true;
                 Console.Clear();
             });
 
-            /*if (SaveSystem.HasSaveGame)
+            if (SaveSystem.HasSaveGame)
             {
                 AddOption("Load Game", () =>
                 {
@@ -33,7 +34,8 @@ namespace Artefact.MenuSystem
                     if (loadResult == LoadResult.Success)
                     {
                         StateMachine.AddState(new GameState());
-                        Input.SkipNextKey = true;
+                        InputSystem.SkipNextKey = true;
+                        Console.Clear();
                     }
                     else
                     {
@@ -47,7 +49,7 @@ namespace Artefact.MenuSystem
                         };
                     }
                 });
-            }*/
+            }
 
             AddOption("Settings", () =>
             {

@@ -1,5 +1,6 @@
 ﻿using Artefact.Entities;
 using Artefact.MapSystem;
+using Artefact.Saving;
 using Artefact.Settings;
 using Artefact.States;
 using Artefact.Utils;
@@ -42,9 +43,11 @@ namespace Artefact
                 DeleteMenu(sysMenu, SC_MAXIMIZE, MF_BYCOMMAND);
                 DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
             }
-            Console.CursorVisible = false;
 
-            new PlayerEntity();
+            Console.CursorVisible = false;
+            Console.Title = "Artefact Roguelike";
+
+            SaveSystem.LoadSettings();
 
             StateMachine.AddState(new MenuState());
 
@@ -57,6 +60,9 @@ namespace Artefact
                     StateMachine.ActiveState.Update();
                 }
                 InputSystem.GetInput();
+
+                if (Console.CursorVisible)
+                    Console.CursorVisible = false;
             }
         }
     }

@@ -8,6 +8,7 @@ using System.Text;
 
 namespace Artefact.Tiles
 {
+    [Serializable]
     internal class ChestTile : Tile
     {
         public override ConsoleColor Foreground => items.Count <= 0 ? ConsoleColor.White : base.Foreground;

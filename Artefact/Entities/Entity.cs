@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Artefact.Entities
 {
+    [Serializable]
     internal abstract class Entity
     {
         public Vector2 position;

@@ -7,10 +7,15 @@ using System.Text;
 
 namespace Artefact.MapSystem
 {
+    [Serializable]
     internal class Map
     {
         private List<Room> rooms = new List<Room>();
+
+        [NonSerialized]
         private Random random = new Random();
+
+
         private List<Entity> entities = new List<Entity>();
 
         public static Map Instance { get; set; }
@@ -20,6 +25,7 @@ namespace Artefact.MapSystem
 
         public Map(int maxRooms, int width, int height)
         {
+            Instance = this;
             Width = width;
             Height = height;
             for (int i = 0; i < maxRooms; i++)
@@ -28,7 +34,10 @@ namespace Artefact.MapSystem
             }
             ConnectRooms();
             if (!entities.Contains(PlayerEntity.Instance))
+            {
+                PlaceEntityInRandomRoom(PlayerEntity.Instance);
                 entities.Add(PlayerEntity.Instance);
+            }
             SpawnEnemies();
         }
 
@@ -172,7 +181,7 @@ namespace Artefact.MapSystem
             return rooms[random.Next(rooms.Count)];
         }
 
-        public void PlaceEntityInRandomRoom(Entity entity)
+        private void PlaceEntityInRandomRoom(Entity entity)
         {
             Room room = GetRandomRoom();
             if (entity is PlayerEntity)

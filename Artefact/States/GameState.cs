@@ -1,5 +1,6 @@
 ﻿using Artefact.Entities;
 using Artefact.MapSystem;
+using Artefact.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,21 +9,30 @@ namespace Artefact.States
 {
     internal class GameState : State
     {
-        Map map;
+        public static bool SkipNextDraw { get; set; }
 
         public override void Init()
         {
-            map = new Map(50, (int)(Console.WindowWidth*0.35f), (int)(Console.WindowHeight*0.8f));
-            Map.Instance = map;
-
-            map.PlaceEntityInRandomRoom(PlayerEntity.Instance);
-
-            map.PrintMap();
+            Map.Instance.PrintMap();
         }
 
         public override void Update()
         {
-            map.Update();
+            Map.Instance.Update();
+            if (InputSystem.IsKeyHeld(ConsoleKey.Escape))
+            {
+                StateMachine.AddState(new PauseState(), false);
+                InputSystem.SkipNextKey = true;
+            }
+        }
+
+        public override void Resume()
+        {
+            if (!SkipNextDraw)
+            {
+                Map.Instance.PrintMap();
+            }
+            SkipNextDraw = false;
         }
     }
 }

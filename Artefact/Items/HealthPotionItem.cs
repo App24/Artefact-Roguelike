@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Artefact.Items
 {
+    [Serializable]
     internal class HealthPotionItem : Item, IUsable
     {
         public HealthPotionItem(Rarity rarity) : base("Health Potion", rarity)

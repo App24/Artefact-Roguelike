@@ -7,6 +7,7 @@ using System.Text;
 
 namespace Artefact.Tiles
 {
+    [Serializable]
     internal class RevealTile : Tile
     {
         private Room room;
