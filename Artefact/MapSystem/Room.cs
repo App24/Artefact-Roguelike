@@ -17,8 +17,7 @@ namespace Artefact.MapSystem
         public bool Known { get; set; }
 
         private Tile[] tiles;
-
-        const int MAX_CHESTS = 3;
+        private const int MAX_CHESTS = 3;
 
         public Room(int width, int height, Vector2 position)
         {
@@ -79,7 +78,7 @@ namespace Artefact.MapSystem
         {
             if (position.x < 0 || position.y < 0 || position.x >= Width || position.y >= Height)
                 return null;
-            Tile toReturn=tile.Clone();
+            Tile toReturn = tile.Clone();
             tiles[GetIndex(position)] = toReturn;
             return (T)toReturn;
         }

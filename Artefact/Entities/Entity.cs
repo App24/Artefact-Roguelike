@@ -48,7 +48,7 @@ namespace Artefact.Entities
 
         public virtual void Damage(int amount)
         {
-            if(amount < 0)
+            if (amount < 0)
             {
                 Heal(-amount);
                 return;
@@ -56,20 +56,20 @@ namespace Artefact.Entities
 
             Health -= amount;
 
-            if(Health < 0)
+            if (Health < 0)
                 Die();
         }
 
         public virtual void Heal(int amount)
         {
-            if(amount < 0)
+            if (amount < 0)
             {
                 Damage(-amount);
                 return;
             }
 
             Health += amount;
-            if(Health > MaxHealth)
+            if (Health > MaxHealth)
                 Health = MaxHealth;
         }
 

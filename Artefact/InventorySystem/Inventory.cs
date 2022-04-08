@@ -10,19 +10,16 @@ namespace Artefact.InventorySystem
     internal class Inventory
     {
         public List<Item> items = new List<Item>();
-
-        const int MAX_ITEMS_PER_LINE = 5;
-        const int ITEM_SPACING = 25;
-
-        const int MAX_ITEMS = 20;
-
-        const int MAX_STACK = 99;
+        private const int MAX_ITEMS_PER_LINE = 5;
+        private const int ITEM_SPACING = 25;
+        private const int MAX_ITEMS = 20;
+        private const int MAX_STACK = 99;
 
         public int itemIndex = -1;
 
         public bool AddItem(Item item, int quantity = 1)
         {
-            if(items.Count >= MAX_ITEMS)
+            if (items.Count >= MAX_ITEMS)
             {
                 return false;
             }
@@ -34,16 +31,16 @@ namespace Artefact.InventorySystem
             else
             {
                 GetItem(item).Quantity += quantity;
-                if(GetItem(item).Quantity > MAX_STACK)
+                if (GetItem(item).Quantity > MAX_STACK)
                     GetItem(item).Quantity = MAX_STACK;
             }
             PrintInventory();
             return true;
         }
 
-        public bool RemoveItem(Item item, int quantity=1)
+        public bool RemoveItem(Item item, int quantity = 1)
         {
-            if(!HasItem(item))
+            if (!HasItem(item))
                 return false;
 
             Item toRemove = GetItem(item);
@@ -63,7 +60,7 @@ namespace Artefact.InventorySystem
 
         public Item GetItem(Item item)
         {
-            return items.Find(i => i.Name == item.Name && i.Rarity==item.Rarity);
+            return items.Find(i => i.Name == item.Name && i.Rarity == item.Rarity);
         }
 
         public bool HasItem(Item item, int quantity = 0)
@@ -94,7 +91,7 @@ namespace Artefact.InventorySystem
             }
         }
 
-        void PrintItemUsage(Item item)
+        private void PrintItemUsage(Item item)
         {
             ClearItemUsage();
 
@@ -103,7 +100,7 @@ namespace Artefact.InventorySystem
             Console.Write(item.Name);
             Console.CursorTop++;
             Console.CursorLeft = xPos;
-            if(item is IUsable)
+            if (item is IUsable)
             {
                 Console.Write("E. Use");
                 Console.CursorTop++;

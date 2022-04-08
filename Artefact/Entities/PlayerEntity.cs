@@ -20,10 +20,9 @@ namespace Artefact.Entities
 
         public override int MaxHealth => 5;
 
-        const int HEALTH_POS = 1;
-        const string HEALTH_TEXT = "Health: ";
-
-        PlayerState state;
+        private const int HEALTH_POS = 1;
+        private const string HEALTH_TEXT = "Health: ";
+        private PlayerState state;
 
         public PlayerEntity()
         {
@@ -123,10 +122,10 @@ namespace Artefact.Entities
             }
         }
 
-        void ToggleInventory()
+        private void ToggleInventory()
         {
             state = state == PlayerState.Inventory ? PlayerState.Move : PlayerState.Inventory;
-            if (state==PlayerState.Inventory)
+            if (state == PlayerState.Inventory)
             {
                 Inventory.itemIndex = 0;
             }
@@ -173,7 +172,7 @@ namespace Artefact.Entities
             Console.ResetColor();
         }
 
-        enum PlayerState
+        private enum PlayerState
         {
             Move,
             Inventory

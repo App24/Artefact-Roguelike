@@ -29,7 +29,7 @@ namespace Artefact.Items
         }
     }
 
-    enum Rarity
+    internal enum Rarity
     {
         Common,
         Uncommon,

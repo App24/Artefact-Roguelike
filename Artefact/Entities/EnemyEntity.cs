@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Artefact.MapSystem;
+using Artefact.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,6 +13,9 @@ namespace Artefact.Entities
 
         public override int MaxHealth { get; }
 
+        [NonSerialized]
+        private Random random = new Random();
+
         public EnemyEntity(string representation, int maxHealth)
         {
             Representation = representation;
@@ -20,7 +25,15 @@ namespace Artefact.Entities
 
         public override void Move()
         {
-
+            if (CurrentRoom == PlayerEntity.Instance.CurrentRoom)
+            {
+                if (random.NextDouble() < 0.6f)
+                {
+                    Vector2 position = AStarPathfinding.Calculate(this.position, PlayerEntity.Instance.position)[0];
+                    if (Map.Instance.GetRoom(position) == CurrentRoom)
+                        this.position = position;
+                }
+            }
         }
 
         public override void Update()

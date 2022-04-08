@@ -13,7 +13,7 @@ namespace Artefact.Tiles
     {
         public override ConsoleColor Foreground => items.Count <= 0 ? ConsoleColor.White : base.Foreground;
 
-        List<Item> items = new List<Item>();
+        private List<Item> items = new List<Item>();
         private readonly Vector2 position;
         private readonly Tile previousTile;
 
@@ -34,7 +34,7 @@ namespace Artefact.Tiles
             {
                 List<Item> remainingItems = new List<Item>();
 
-                foreach(Item item in items)
+                foreach (Item item in items)
                 {
                     if (!PlayerEntity.Instance.Inventory.AddItem(item, item.Quantity))
                     {
@@ -45,14 +45,14 @@ namespace Artefact.Tiles
                 items.Clear();
                 items.AddRange(remainingItems);
 
-                if(items.Count <= 0 && previousTile != null)
+                if (items.Count <= 0 && previousTile != null)
                 {
                     entity.CurrentRoom.SetTile(position, previousTile);
                 }
             }
         }
 
-        public void AddItem(Item item, int quantity=1)
+        public void AddItem(Item item, int quantity = 1)
         {
             Item toAdd = item.Clone();
             toAdd.Quantity = quantity;

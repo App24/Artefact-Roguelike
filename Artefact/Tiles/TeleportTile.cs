@@ -18,8 +18,8 @@ namespace Artefact.Tiles
 
         public bool Revealed { get; set; }
 
-        string replaceRepresentation;
-        ConsoleColor replaceForeground;
+        private string replaceRepresentation;
+        private ConsoleColor replaceForeground;
 
         public TeleportTile(Room room, Vector2 exit, Tile replaceTile) : base("XX", true, ConsoleColor.DarkMagenta)
         {

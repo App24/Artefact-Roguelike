@@ -11,7 +11,7 @@ namespace Artefact.Tiles
     internal class RevealTile : Tile
     {
         private Room room;
-        List<TeleportTile> tiles = new List<TeleportTile>();
+        private List<TeleportTile> tiles = new List<TeleportTile>();
 
         public RevealTile(List<TeleportTile> tiles, Room room) : base(" ", false, ConsoleColor.White)
         {

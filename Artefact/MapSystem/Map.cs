@@ -41,9 +41,9 @@ namespace Artefact.MapSystem
             SpawnEnemies();
         }
 
-        void SpawnEnemies()
+        private void SpawnEnemies()
         {
-            foreach(Room room in rooms)
+            foreach (Room room in rooms)
             {
                 EnemyEntity entity = new EnemyEntity("TE", 10);
                 entity.position = room.Position + new Vector2(3, 3);
@@ -135,7 +135,7 @@ namespace Artefact.MapSystem
 
         public void Update()
         {
-            foreach(Entity entity in entities)
+            foreach (Entity entity in entities)
             {
                 entity.Update();
             }
@@ -148,7 +148,7 @@ namespace Artefact.MapSystem
                 Room previousRoom = entity.CurrentRoom;
                 entity.Move();
 
-                if (previousPos == entity.RelativePosition && previousRoom==entity.CurrentRoom)
+                if (previousPos == entity.RelativePosition && previousRoom == entity.CurrentRoom)
                     continue;
 
                 Tile currentTile = entity.CurrentRoom.GetTile(entity.RelativePosition);
