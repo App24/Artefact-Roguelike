@@ -1,4 +1,6 @@
-﻿using Artefact.Entities;
+﻿using Artefact.Audio;
+using Artefact.Audio.SoundEffectsSystem;
+using Artefact.Entities;
 using Artefact.InventorySystem;
 using System;
 using System.Collections.Generic;

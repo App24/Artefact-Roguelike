@@ -1,4 +1,6 @@
-﻿using Artefact.Utils;
+﻿using Artefact.Audio;
+using Artefact.Audio.SoundEffectsSystem;
+using Artefact.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -93,12 +95,14 @@ namespace Artefact.MenuSystem
         {
             if (InputSystem.IsKeyHeld(ConsoleKey.S, ConsoleKey.DownArrow))
             {
+                SFXSystem.AddSoundEffect(new SoundEffect(SoundEffectType.Menu, new Note(Tone.Gsharp, Duration.SIXTEENTH)));
                 selectIndex++;
                 if (selectIndex >= options.Count)
                     selectIndex = 0;
             }
             else if (InputSystem.IsKeyHeld(ConsoleKey.W, ConsoleKey.UpArrow))
             {
+                SFXSystem.AddSoundEffect(new SoundEffect(SoundEffectType.Menu, new Note(Tone.Gsharp, Duration.SIXTEENTH)));
                 selectIndex--;
                 if (selectIndex < 0)
                     selectIndex = options.Count - 1;
@@ -138,6 +142,7 @@ namespace Artefact.MenuSystem
 
             if (InputSystem.IsKeyHeld(ConsoleKey.Enter))
             {
+                SFXSystem.AddSoundEffect(new SoundEffect(SoundEffectType.Tile, new Note(Tone.Fsharp, Duration.SIXTEENTH)));
                 options[selectIndex].onSelect?.Invoke();
             }
         }

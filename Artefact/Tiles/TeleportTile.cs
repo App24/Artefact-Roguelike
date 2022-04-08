@@ -1,4 +1,6 @@
-﻿using Artefact.Entities;
+﻿using Artefact.Audio;
+using Artefact.Audio.SoundEffectsSystem;
+using Artefact.Entities;
 using Artefact.MapSystem;
 using Artefact.Utils;
 using System;
@@ -37,6 +39,7 @@ namespace Artefact.Tiles
                 entity.CurrentRoom.Known = true;
                 entity.position = room.Position + exit;
                 entity.CurrentRoom.GetTile(entity.RelativePosition).OnCollision(entity);
+                SFXSystem.AddSoundEffect(new SoundEffect(SoundEffectType.Tile, new Note(Tone.F, Duration.SIXTEENTH), new Note(Tone.A, Duration.SIXTEENTH), new Note(Tone.F, Duration.SIXTEENTH)));
             }
         }
     }

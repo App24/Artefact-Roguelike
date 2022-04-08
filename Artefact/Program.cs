@@ -1,4 +1,6 @@
-﻿using Artefact.Entities;
+﻿using Artefact.Audio.MusicSystem;
+using Artefact.Audio.SoundEffectsSystem;
+using Artefact.Entities;
 using Artefact.MapSystem;
 using Artefact.Saving;
 using Artefact.Settings;
@@ -46,6 +48,9 @@ namespace Artefact
 
             Console.CursorVisible = false;
             Console.Title = "Artefact Roguelike";
+
+            Music.StartThread();
+            SFXSystem.StartThreads();
 
             SaveSystem.LoadSettings();
 

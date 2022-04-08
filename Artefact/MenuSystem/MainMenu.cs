@@ -1,4 +1,6 @@
-﻿using Artefact.Saving;
+﻿using Artefact.Audio;
+using Artefact.Audio.MusicSystem;
+using Artefact.Saving;
 using Artefact.Settings;
 using Artefact.States;
 using Artefact.Utils;
@@ -13,7 +15,6 @@ namespace Artefact.MenuSystem
         protected override void AddHeadings()
         {
             AddHeading("Artefact");
-            AddHeading("Made By Ricardo Xavier - 2112018", false);
         }
 
         protected override void AddOptions()
@@ -51,7 +52,7 @@ namespace Artefact.MenuSystem
                 });
             }
 
-            AddOption("Settings", () =>
+            AddOption("Play Jingle", () =>
             {
                 //SwitchMenu(new SettingsMenu());
             });

@@ -1,4 +1,6 @@
-﻿using Artefact.Entities;
+﻿using Artefact.Audio;
+using Artefact.Audio.SoundEffectsSystem;
+using Artefact.Entities;
 using Artefact.Items;
 using Artefact.MapSystem;
 using Artefact.Utils;
@@ -49,6 +51,8 @@ namespace Artefact.Tiles
                 {
                     entity.CurrentRoom.SetTile(position, previousTile);
                 }
+
+                SFXSystem.AddSoundEffect(new SoundEffect(SoundEffectType.Tile, new Note(Tone.B, Duration.SIXTEENTH), new Note(Tone.B, Duration.SIXTEENTH), new Note(Tone.Gsharp, Duration.EIGHTH)));
             }
         }
 

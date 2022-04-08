@@ -1,4 +1,5 @@
 ﻿using Artefact.Entities;
+using Artefact.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Text;
 namespace Artefact.Tiles
 {
     [Serializable]
-    internal abstract class Tile
+    internal abstract class Tile : IPrototype<Tile>
     {
         public static BaseTile AirTile { get; } = new BaseTile(" ", false);
         public static BaseTile WallTile { get; } = new BaseTile("#", true, ConsoleColor.DarkGray);
