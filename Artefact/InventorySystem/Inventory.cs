@@ -1,4 +1,5 @@
-﻿using Artefact.Items;
+﻿using Artefact.Entities;
+using Artefact.Items;
 using Artefact.MapSystem;
 using System;
 using System.Collections.Generic;
@@ -114,7 +115,7 @@ namespace Artefact.InventorySystem
 
         private int GetEndOfInventory()
         {
-            return ((items.Count / MAX_ITEMS_PER_LINE) + 2) * ITEM_SPACING;
+            return ((items.Count / MAX_ITEMS_PER_LINE) + 1) * ITEM_SPACING;
         }
 
         private void PrintItemUsage(Item item)
@@ -139,87 +140,9 @@ namespace Artefact.InventorySystem
 
         public void PrintInventory()
         {
-            #region Equipment
-            Console.CursorLeft = 0;
-            Console.CursorTop = Map.Instance.Height + 2;
-            Console.Write("Weapon: ");
-            if (EquippedWeapon == null)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("None");
-            }
-            else
-            {
-                Console.ForegroundColor = EquippedWeapon.ItemColor;
-                Console.Write(EquippedWeapon.Name);
-            }
-            Console.ResetColor();
-            Console.WriteLine();
-
-            #region Armor
-
-            Console.Write("Helmet: ");
-            if (EquippedHelmet == null)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("None");
-            }
-            else
-            {
-                Console.ForegroundColor = EquippedHelmet.ItemColor;
-                Console.Write(EquippedHelmet.Name);
-            }
-            Console.ResetColor();
-            Console.WriteLine();
-
-            Console.Write("Chestplate: ");
-            if (EquippedChestplate == null)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("None");
-            }
-            else
-            {
-                Console.ForegroundColor = EquippedChestplate.ItemColor;
-                Console.Write(EquippedChestplate.Name);
-            }
-            Console.ResetColor();
-            Console.WriteLine();
-
-            Console.Write("Leggings: ");
-            if (EquippedLeggings == null)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("None");
-            }
-            else
-            {
-                Console.ForegroundColor = EquippedLeggings.ItemColor;
-                Console.Write(EquippedLeggings.Name);
-            }
-            Console.ResetColor();
-            Console.WriteLine();
-
-            Console.Write("Boots: ");
-            if (EquippedBoots == null)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("None");
-            }
-            else
-            {
-                Console.ForegroundColor = EquippedBoots.ItemColor;
-                Console.Write(EquippedBoots.Name);
-            }
-            Console.ResetColor();
-            Console.WriteLine();
-            #endregion
-            #endregion
-
-
             for (int i = 0; i < items.Count; i++)
             {
-                int xPos = ((i / MAX_ITEMS_PER_LINE) + 1) * ITEM_SPACING;
+                int xPos = ((i / MAX_ITEMS_PER_LINE)) * ITEM_SPACING;
                 Console.SetCursorPosition(xPos, Map.Instance.Height + 2 + (i % MAX_ITEMS_PER_LINE));
                 Console.Write(new string(' ', ITEM_SPACING));
                 Console.CursorLeft = xPos;
@@ -284,6 +207,7 @@ namespace Artefact.InventorySystem
                         }
                     }break;
             }
+            PlayerEntity.Instance.PrintEquipment();
         }
 
         public ArmorItem GetArmor(ArmorType armorType)

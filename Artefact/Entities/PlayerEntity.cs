@@ -23,6 +23,7 @@ namespace Artefact.Entities
         public override int HitDamage => Inventory.HitDamage;
 
         private const int HEALTH_POS = 1;
+        private const int EQUIPMENT_START_POS = 2;
         private const string HEALTH_TEXT = "Health: ";
         private PlayerState state;
 
@@ -172,6 +173,90 @@ namespace Artefact.Entities
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write(Health);
             Console.ResetColor();
+        }
+
+        public void PrintEquipment()
+        {
+            #region Equipment
+            Console.CursorLeft = Map.Instance.Width * 2 + 2;
+            Console.CursorTop = EQUIPMENT_START_POS;
+            Console.Write("Equipped Weapon: ");
+            if (Inventory.EquippedWeapon == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("None");
+            }
+            else
+            {
+                Console.ForegroundColor = Inventory.EquippedWeapon.ItemColor;
+                Console.Write(Inventory.EquippedWeapon.Name);
+            }
+            Console.ResetColor();
+
+            #region Armor
+
+            Console.CursorLeft = Map.Instance.Width * 2 + 2;
+            Console.CursorTop = EQUIPMENT_START_POS+1;
+            Console.Write("Equipped Helmet: ");
+            if (Inventory.EquippedHelmet == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("None");
+            }
+            else
+            {
+                Console.ForegroundColor = Inventory.EquippedHelmet.ItemColor;
+                Console.Write(Inventory.EquippedHelmet.Name);
+            }
+            Console.ResetColor();
+
+            Console.CursorLeft = Map.Instance.Width * 2 + 2;
+            Console.CursorTop = EQUIPMENT_START_POS+2;
+            Console.Write("Equipped Chestplate: ");
+            if (Inventory.EquippedChestplate == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("None");
+            }
+            else
+            {
+                Console.ForegroundColor = Inventory.EquippedChestplate.ItemColor;
+                Console.Write(Inventory.EquippedChestplate.Name);
+            }
+            Console.ResetColor();
+
+            Console.CursorLeft = Map.Instance.Width * 2 + 2;
+            Console.CursorTop = EQUIPMENT_START_POS+3;
+            Console.Write("Equipped Leggings: ");
+            if (Inventory.EquippedLeggings == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("None");
+            }
+            else
+            {
+                Console.ForegroundColor = Inventory.EquippedLeggings.ItemColor;
+                Console.Write(Inventory.EquippedLeggings.Name);
+            }
+            Console.ResetColor();
+
+            Console.CursorLeft = Map.Instance.Width * 2 + 2;
+            Console.CursorTop = EQUIPMENT_START_POS+4;
+            Console.Write("Equipped Boots: ");
+            if (Inventory.EquippedBoots == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("None");
+            }
+            else
+            {
+                Console.ForegroundColor = Inventory.EquippedBoots.ItemColor;
+                Console.Write(Inventory.EquippedBoots.Name);
+            }
+            Console.ResetColor();
+            Console.WriteLine();
+            #endregion
+            #endregion
         }
 
         private enum PlayerState

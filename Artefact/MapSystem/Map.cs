@@ -203,6 +203,7 @@ namespace Artefact.MapSystem
             PrintEntities();
 
             PlayerEntity.Instance.PrintHealth();
+            PlayerEntity.Instance.PrintEquipment();
         }
 
         private void PrintEntity(Entity entity)
