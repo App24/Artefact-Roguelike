@@ -27,6 +27,8 @@ namespace Artefact.Entities
         public abstract int MaxHealth { get; }
         public int Health { get; private set; }
 
+        public abstract int HitDamage { get; }
+
         public Room CurrentRoom
         {
             get

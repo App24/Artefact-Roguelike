@@ -14,6 +14,34 @@ namespace Artefact.Items
         public string Name { get; }
         public Rarity Rarity { get; }
 
+        public ConsoleColor ItemColor
+        {
+            get
+            {
+                switch (Rarity)
+                {
+                    case Rarity.Common:
+                        {
+                            return ConsoleColor.White;
+                        }
+                    case Rarity.Uncommon:
+                        {
+                            return ConsoleColor.Green;
+                        }
+                    case Rarity.Rare:
+                        {
+                            return ConsoleColor.DarkBlue;
+                        }
+                    case Rarity.Epic:
+                        {
+                            return ConsoleColor.DarkMagenta;
+                        }
+                    default:
+                        return ConsoleColor.White;
+                }
+            }
+        }
+
         public int Quantity { get; set; }
 
         public Item(string name, Rarity rarity)

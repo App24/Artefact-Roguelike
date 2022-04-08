@@ -61,7 +61,12 @@ namespace Artefact.MapSystem
                         {
                             ChestTile chestTile = new ChestTile();
                             //chestTile.AddItem(new HealthPotionItem((Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1)), 3);
-                            chestTile.AddItem(new SwordItem("Sword", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1)));
+                            chestTile.AddItem(new WeaponItem("Sword", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1), 1));
+
+                            chestTile.AddItem(new ArmorItem("Helmet", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1), ArmorType.Helmet, 1));
+                            chestTile.AddItem(new ArmorItem("Chestplate", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1), ArmorType.Chestplate, 1));
+                            chestTile.AddItem(new ArmorItem("Leggings", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1), ArmorType.Leggings, 1));
+                            chestTile.AddItem(new ArmorItem("Boots", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1), ArmorType.Boots, 1));
                             chests.Add(SetTile(x, y, chestTile));
                         }
                     }

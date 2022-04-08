@@ -11,8 +11,8 @@ namespace Artefact.Utils
     {
         public static List<Vector2> Calculate(Vector2 currentPos, Vector2 targetPos)
         {
-            Room currentRoom=Map.Instance.GetRoom(currentPos);
-            Room targetRoom=Map.Instance.GetRoom(targetPos);
+            Room currentRoom = Map.Instance.GetRoom(currentPos);
+            Room targetRoom = Map.Instance.GetRoom(targetPos);
 
             Vector2 localCurrentPos = currentPos - currentRoom.Position;
             Vector2 localTargetPos = targetPos - targetRoom.Position;
@@ -78,13 +78,13 @@ namespace Artefact.Utils
         private static List<AStarTileData> GetWalkableTiles(AStarTileData currentTile, AStarTileData targetTile)
         {
             Room currentRoom = Map.Instance.GetRoom(currentTile.Position);
-            Vector2 localPos= currentTile.Position-currentRoom.Position;
+            Vector2 localPos = currentTile.Position - currentRoom.Position;
             List<AStarTileData> possibleTiles = new List<AStarTileData>()
             {
                 new AStarTileData(currentRoom.GetTile(localPos + Vector2.Up), currentTile.Position + Vector2.Up, currentTile, currentTile.Cost + 1, 0),
-                                                      
+
                 new AStarTileData(currentRoom.GetTile(localPos + Vector2.Down), currentTile.Position+Vector2.Down, currentTile, currentTile.Cost + 1, 0),
-                                                      
+
                 new AStarTileData(currentRoom.GetTile(localPos + Vector2.Left), currentTile.Position + Vector2.Left, currentTile, currentTile.Cost + 1, 0),
                 new AStarTileData(currentRoom.GetTile(localPos + Vector2.Right), currentTile.Position + Vector2.Right, currentTile, currentTile.Cost + 1, 0),
             };

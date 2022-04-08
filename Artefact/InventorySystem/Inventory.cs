@@ -17,9 +17,25 @@ namespace Artefact.InventorySystem
 
         public int itemIndex = -1;
 
-        public SwordItem EquippedSword { get; private set; }
+        public WeaponItem EquippedWeapon { get; private set; }
+        public int HitDamage
+        {
+            get
+            {
+                if (EquippedWeapon != null)
+                {
+                    return EquippedWeapon.Damage;
+                }
+                return 1;
+            }
+        }
 
-        public bool AddItem(Item item, int quantity = 1, bool force=false)
+        public ArmorItem EquippedHelmet { get; private set; }
+        public ArmorItem EquippedChestplate { get; private set; }
+        public ArmorItem EquippedLeggings { get; private set; }
+        public ArmorItem EquippedBoots { get; private set; }
+
+        public bool AddItem(Item item, int quantity = 1, bool force = false)
         {
             if (items.Count >= MAX_ITEMS && !force)
             {
@@ -96,7 +112,7 @@ namespace Artefact.InventorySystem
             }
         }
 
-        int GetEndOfInventory()
+        private int GetEndOfInventory()
         {
             return ((items.Count / MAX_ITEMS_PER_LINE) + 2) * ITEM_SPACING;
         }
@@ -123,42 +139,83 @@ namespace Artefact.InventorySystem
 
         public void PrintInventory()
         {
+            #region Equipment
             Console.CursorLeft = 0;
             Console.CursorTop = Map.Instance.Height + 2;
-            Console.Write("Equpped Weapon: ");
-            if (EquippedSword == null)
+            Console.Write("Weapon: ");
+            if (EquippedWeapon == null)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("None");
             }
             else
             {
-                switch (EquippedSword.Rarity)
-                {
-                    case Rarity.Common:
-                        {
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        break;
-                    case Rarity.Uncommon:
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                        }
-                        break;
-                    case Rarity.Rare:
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkBlue;
-                        }
-                        break;
-                    case Rarity.Epic:
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                        }
-                        break;
-                }
-                Console.Write(EquippedSword.Name);
+                Console.ForegroundColor = EquippedWeapon.ItemColor;
+                Console.Write(EquippedWeapon.Name);
             }
             Console.ResetColor();
+            Console.WriteLine();
+
+            #region Armor
+
+            Console.Write("Helmet: ");
+            if (EquippedHelmet == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("None");
+            }
+            else
+            {
+                Console.ForegroundColor = EquippedHelmet.ItemColor;
+                Console.Write(EquippedHelmet.Name);
+            }
+            Console.ResetColor();
+            Console.WriteLine();
+
+            Console.Write("Chestplate: ");
+            if (EquippedChestplate == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("None");
+            }
+            else
+            {
+                Console.ForegroundColor = EquippedChestplate.ItemColor;
+                Console.Write(EquippedChestplate.Name);
+            }
+            Console.ResetColor();
+            Console.WriteLine();
+
+            Console.Write("Leggings: ");
+            if (EquippedLeggings == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("None");
+            }
+            else
+            {
+                Console.ForegroundColor = EquippedLeggings.ItemColor;
+                Console.Write(EquippedLeggings.Name);
+            }
+            Console.ResetColor();
+            Console.WriteLine();
+
+            Console.Write("Boots: ");
+            if (EquippedBoots == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("None");
+            }
+            else
+            {
+                Console.ForegroundColor = EquippedBoots.ItemColor;
+                Console.Write(EquippedBoots.Name);
+            }
+            Console.ResetColor();
+            Console.WriteLine();
+            #endregion
+            #endregion
+
 
             for (int i = 0; i < items.Count; i++)
             {
@@ -178,29 +235,8 @@ namespace Artefact.InventorySystem
 
                 }
 
-                switch (item.Rarity)
-                {
-                    case Rarity.Common:
-                        {
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        break;
-                    case Rarity.Uncommon:
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                        }
-                        break;
-                    case Rarity.Rare:
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkBlue;
-                        }
-                        break;
-                    case Rarity.Epic:
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                        }
-                        break;
-                }
+                Console.ForegroundColor = item.ItemColor;
+                
                 Console.Write(item.Name);
                 Console.ResetColor();
                 Console.Write($": {item.Quantity}");
@@ -208,22 +244,69 @@ namespace Artefact.InventorySystem
             }
         }
 
-        public void Equip(Item item, EquipmentType equipmentType)
+        public void Equip(EquipmentItem item)
         {
-            switch (equipmentType)
+            switch (item.EquipmentType)
             {
                 case EquipmentType.Sword:
                     {
-                        SwordItem swordItem = (SwordItem)item.Clone();
+                        WeaponItem swordItem = (WeaponItem)item.Clone();
                         swordItem.Quantity = 1;
-                        EquippedSword = swordItem;
+                        EquippedWeapon = swordItem;
+                    }
+                    break;
+                case EquipmentType.Armor:
+                    {
+                        ArmorItem armorItem = (ArmorItem)item.Clone();
+                        armorItem.Quantity = 1;
+                        switch (armorItem.ArmorType)
+                        {
+                            case ArmorType.Helmet:
+                                {
+                                    EquippedHelmet = armorItem;
+                                }
+                                break;
+                            case ArmorType.Chestplate:
+                                {
+                                    EquippedChestplate = armorItem;
+                                }
+                                break;
+                            case ArmorType.Leggings:
+                                {
+                                    EquippedLeggings = armorItem;
+                                }
+                                break;
+                            case ArmorType.Boots:
+                                {
+                                    EquippedBoots = armorItem;
+                                }
+                                break;
+                        }
                     }break;
+            }
+        }
+
+        public ArmorItem GetArmor(ArmorType armorType)
+        {
+            switch (armorType)
+            {
+                case ArmorType.Helmet:
+                    return EquippedHelmet;
+                case ArmorType.Chestplate:
+                    return EquippedChestplate;
+                case ArmorType.Leggings:
+                    return EquippedLeggings;
+                case ArmorType.Boots:
+                    return EquippedBoots;
+                default:
+                    return null;
             }
         }
 
         public enum EquipmentType
         {
-            Sword
+            Sword,
+            Armor
         }
     }
 }

@@ -20,6 +20,8 @@ namespace Artefact.Entities
 
         public override int MaxHealth => 5;
 
+        public override int HitDamage => Inventory.HitDamage;
+
         private const int HEALTH_POS = 1;
         private const string HEALTH_TEXT = "Health: ";
         private PlayerState state;

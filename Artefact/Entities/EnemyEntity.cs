@@ -13,10 +13,11 @@ namespace Artefact.Entities
 
         public override int MaxHealth { get; }
 
+        public override int HitDamage => 1;
+
         [NonSerialized]
         private Random random = new Random();
-
-        int radius;
+        private int radius;
 
         public EnemyEntity(string representation, int maxHealth, int radius)
         {
@@ -32,7 +33,7 @@ namespace Artefact.Entities
             {
                 if (PlayerEntity.Instance.RelativePosition.DistanceTo(RelativePosition) <= radius)
                 {
-                    if (random.NextDouble() < 0.6f)
+                    if (random.NextDouble() < 0.4f)
                     {
                         Vector2 position = AStarPathfinding.Calculate(this.position, PlayerEntity.Instance.position)[0];
                         if (Map.Instance.GetRoom(position) == CurrentRoom)
