@@ -12,7 +12,7 @@ namespace Artefact.Items
         public int BaseDamage { get; }
         public int Damage { get { return BaseDamage + (int)Rarity + 1; } }
 
-        public WeaponItem(string name, Rarity rarity, int baseDamage) : base(name, rarity, Inventory.EquipmentType.Sword)
+        public WeaponItem(string name, Rarity rarity, int baseDamage) : base(name, rarity, Inventory.EquipmentType.Weapon)
         {
             BaseDamage = baseDamage;
         }

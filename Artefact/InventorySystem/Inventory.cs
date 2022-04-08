@@ -36,6 +36,19 @@ namespace Artefact.InventorySystem
         public ArmorItem EquippedLeggings { get; private set; }
         public ArmorItem EquippedBoots { get; private set; }
 
+        public int Defense
+        {
+            get
+            {
+                int value = 0;
+                value += EquippedHelmet != null ? EquippedHelmet.Defense : 0;
+                value += EquippedChestplate != null ? EquippedChestplate.Defense : 0;
+                value += EquippedLeggings != null ? EquippedLeggings.Defense : 0;
+                value += EquippedBoots != null ? EquippedBoots.Defense : 0;
+                return value;
+            }
+        }
+
         public bool AddItem(Item item, int quantity = 1, bool force = false)
         {
             if (items.Count >= MAX_ITEMS && !force)
@@ -159,7 +172,7 @@ namespace Artefact.InventorySystem
                 }
 
                 Console.ForegroundColor = item.ItemColor;
-                
+
                 Console.Write(item.Name);
                 Console.ResetColor();
                 Console.Write($": {item.Quantity}");
@@ -169,9 +182,10 @@ namespace Artefact.InventorySystem
 
         public void Equip(EquipmentItem item)
         {
+            PlayerEntity.Instance.ClearEquipment();
             switch (item.EquipmentType)
             {
-                case EquipmentType.Sword:
+                case EquipmentType.Weapon:
                     {
                         WeaponItem swordItem = (WeaponItem)item.Clone();
                         swordItem.Quantity = 1;
@@ -205,7 +219,8 @@ namespace Artefact.InventorySystem
                                 }
                                 break;
                         }
-                    }break;
+                    }
+                    break;
             }
             PlayerEntity.Instance.PrintEquipment();
         }
@@ -229,7 +244,7 @@ namespace Artefact.InventorySystem
 
         public enum EquipmentType
         {
-            Sword,
+            Weapon,
             Armor
         }
     }

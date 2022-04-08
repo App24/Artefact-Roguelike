@@ -23,8 +23,20 @@ namespace Artefact.Entities
         public override int HitDamage => Inventory.HitDamage;
 
         private const int HEALTH_POS = 1;
-        private const int EQUIPMENT_START_POS = 2;
+        private const int EQUIPMENT_START_POS = 3;
+        private const int EQUIPMENT_STATS_START_POS = EQUIPMENT_START_POS + 6;
+
         private const string HEALTH_TEXT = "Health: ";
+        private const string WEAPON_TEXT = "Current Weapon: ";
+        private const string HELMET_TEXT = "Current Helmet: ";
+        private const string CHESTPLATE_TEXT = "Current Chestplate: ";
+        private const string LEGGINGS_TEXT = "Current Leggings: ";
+        private const string BOOTS_TEXT = "Current Boots: ";
+        private const string ATTACK_TEXT = "Attack Damage: ";
+        private const string DEFENSE_TEXT = "Defense: ";
+
+        private const string NONE_TEXT = "None";
+
         private PlayerState state;
 
         public PlayerEntity()
@@ -152,16 +164,14 @@ namespace Artefact.Entities
 
         public override void Heal(int amount)
         {
-            Console.SetCursorPosition(Map.Instance.Width * 2 + 2 + HEALTH_TEXT.Length, HEALTH_POS);
-            Console.Write(new string(' ', Health.ToString().Length));
+            ClearStat(HEALTH_POS, HEALTH_TEXT.Length, Health.ToString().Length);
             base.Heal(amount);
             PrintHealth();
         }
 
         public override void Damage(int amount)
         {
-            Console.SetCursorPosition(Map.Instance.Width * 2 + 2 + HEALTH_TEXT.Length, HEALTH_POS);
-            Console.Write(new string(' ', Health.ToString().Length));
+            ClearStat(HEALTH_POS, HEALTH_TEXT.Length, Health.ToString().Length);
             base.Damage(amount);
             PrintHealth();
         }
@@ -175,16 +185,34 @@ namespace Artefact.Entities
             Console.ResetColor();
         }
 
+        private void ClearStat(int yPos, int offset, int length)
+        {
+            Console.SetCursorPosition(Map.Instance.Width * 2 + 2 + offset, yPos);
+            Console.Write(new string(' ', length));
+        }
+
+        public void ClearEquipment()
+        {
+            ClearStat(EQUIPMENT_START_POS + 0, WEAPON_TEXT.Length, (Inventory.EquippedWeapon != null ? Inventory.EquippedWeapon.Name : NONE_TEXT).Length);
+            ClearStat(EQUIPMENT_START_POS + 1, HELMET_TEXT.Length, (Inventory.EquippedHelmet != null ? Inventory.EquippedHelmet.Name : NONE_TEXT).Length);
+            ClearStat(EQUIPMENT_START_POS + 2, CHESTPLATE_TEXT.Length, (Inventory.EquippedChestplate != null ? Inventory.EquippedChestplate.Name : NONE_TEXT).Length);
+            ClearStat(EQUIPMENT_START_POS + 3, LEGGINGS_TEXT.Length, (Inventory.EquippedLeggings != null ? Inventory.EquippedLeggings.Name : NONE_TEXT).Length);
+            ClearStat(EQUIPMENT_START_POS + 4, BOOTS_TEXT.Length, (Inventory.EquippedBoots != null ? Inventory.EquippedBoots.Name : NONE_TEXT).Length);
+
+            ClearStat(EQUIPMENT_STATS_START_POS + 0, ATTACK_TEXT.Length, Inventory.HitDamage.ToString().Length);
+            ClearStat(EQUIPMENT_STATS_START_POS + 1, DEFENSE_TEXT.Length, Inventory.Defense.ToString().Length);
+        }
+
         public void PrintEquipment()
         {
             #region Equipment
             Console.CursorLeft = Map.Instance.Width * 2 + 2;
             Console.CursorTop = EQUIPMENT_START_POS;
-            Console.Write("Equipped Weapon: ");
+            Console.Write(WEAPON_TEXT);
             if (Inventory.EquippedWeapon == null)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("None");
+                Console.Write(NONE_TEXT);
             }
             else
             {
@@ -196,12 +224,12 @@ namespace Artefact.Entities
             #region Armor
 
             Console.CursorLeft = Map.Instance.Width * 2 + 2;
-            Console.CursorTop = EQUIPMENT_START_POS+1;
-            Console.Write("Equipped Helmet: ");
+            Console.CursorTop = EQUIPMENT_START_POS + 1;
+            Console.Write(HELMET_TEXT);
             if (Inventory.EquippedHelmet == null)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("None");
+                Console.Write(NONE_TEXT);
             }
             else
             {
@@ -211,12 +239,12 @@ namespace Artefact.Entities
             Console.ResetColor();
 
             Console.CursorLeft = Map.Instance.Width * 2 + 2;
-            Console.CursorTop = EQUIPMENT_START_POS+2;
-            Console.Write("Equipped Chestplate: ");
+            Console.CursorTop = EQUIPMENT_START_POS + 2;
+            Console.Write(CHESTPLATE_TEXT);
             if (Inventory.EquippedChestplate == null)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("None");
+                Console.Write(NONE_TEXT);
             }
             else
             {
@@ -226,12 +254,12 @@ namespace Artefact.Entities
             Console.ResetColor();
 
             Console.CursorLeft = Map.Instance.Width * 2 + 2;
-            Console.CursorTop = EQUIPMENT_START_POS+3;
-            Console.Write("Equipped Leggings: ");
+            Console.CursorTop = EQUIPMENT_START_POS + 3;
+            Console.Write(LEGGINGS_TEXT);
             if (Inventory.EquippedLeggings == null)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("None");
+                Console.Write(NONE_TEXT);
             }
             else
             {
@@ -241,12 +269,12 @@ namespace Artefact.Entities
             Console.ResetColor();
 
             Console.CursorLeft = Map.Instance.Width * 2 + 2;
-            Console.CursorTop = EQUIPMENT_START_POS+4;
-            Console.Write("Equipped Boots: ");
+            Console.CursorTop = EQUIPMENT_START_POS + 4;
+            Console.Write(BOOTS_TEXT);
             if (Inventory.EquippedBoots == null)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("None");
+                Console.Write(NONE_TEXT);
             }
             else
             {
@@ -254,8 +282,23 @@ namespace Artefact.Entities
                 Console.Write(Inventory.EquippedBoots.Name);
             }
             Console.ResetColor();
-            Console.WriteLine();
             #endregion
+            #endregion
+
+            #region Stats
+            Console.CursorLeft = Map.Instance.Width * 2 + 2;
+            Console.CursorTop = EQUIPMENT_STATS_START_POS;
+            Console.Write(ATTACK_TEXT);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(Inventory.HitDamage);
+            Console.ResetColor();
+
+            Console.CursorLeft = Map.Instance.Width * 2 + 2;
+            Console.CursorTop = EQUIPMENT_STATS_START_POS + 1;
+            Console.Write(DEFENSE_TEXT);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(Inventory.Defense);
+            Console.ResetColor();
             #endregion
         }
 
