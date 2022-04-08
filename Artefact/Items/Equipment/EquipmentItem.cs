@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Artefact.Items
 {
+    [Serializable]
     internal abstract class EquipmentItem : Item, IUsable
     {
         public Inventory.EquipmentType EquipmentType { get; }

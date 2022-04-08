@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Artefact.Items
 {
+    [Serializable]
     internal class ArmorItem : EquipmentItem
     {
         public ArmorItem(string name, Rarity rarity, ArmorType armorType, int baseDefense) : base(name, rarity, Inventory.EquipmentType.Armor)
