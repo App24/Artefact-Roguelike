@@ -16,14 +16,33 @@ namespace Artefact.States
         public override void Init()
         {
             Map.Instance.PrintMap();
-            /*Music.AddToQueue(
+            Music.AddToQueue(
                 new Note(Tone.A, Duration.EIGHTH),
                 new Note(Tone.A, Duration.EIGHTH),
                 new Note(Tone.D, Duration.QUARTER),
                 new Note(Tone.C, Duration.EIGHTH),
                 new Note(Tone.C, Duration.EIGHTH),
-                new Note(Tone.A, Duration.QUARTER)
-                );*/
+                new Note(Tone.A, Duration.QUARTER),
+                new Note(Tone.A, Duration.EIGHTH),
+                new Note(Tone.A, Duration.EIGHTH),
+                new Note(Tone.D, Duration.QUARTER),
+                new Note(Tone.C, Duration.EIGHTH),
+                new Note(Tone.C, Duration.EIGHTH),
+                new Note(Tone.A, Duration.QUARTER),
+                new Note(Tone.A, Duration.EIGHTH),
+                new Note(Tone.A, Duration.EIGHTH),
+                new Note(Tone.D, Duration.QUARTER),
+                new Note(Tone.C, Duration.EIGHTH),
+                new Note(Tone.C, Duration.EIGHTH),
+                new Note(Tone.A, Duration.QUARTER),
+                new Note(Tone.G, Duration.SIXTEENTH),
+                new Note(Tone.Fsharp, Duration.SIXTEENTH),
+                new Note(Tone.F, Duration.SIXTEENTH),
+                new Note(Tone.Dsharp, Duration.SIXTEENTH),
+                new Note(Tone.Dsharp, Duration.EIGHTH),
+                new Note(Tone.G, Duration.EIGHTH),
+                new Note(Tone.Fsharp, Duration.EIGHTH)
+                );
         }
 
         public override void Update()
@@ -33,6 +52,12 @@ namespace Artefact.States
             {
                 StateMachine.AddState(new PauseState(), false);
                 InputSystem.SkipNextKey = true;
+            }
+
+            if(Map.Instance.entities.Count <= 1)
+            {
+                new Map(50, (int)(Console.WindowWidth * 0.35f), (int)(Console.WindowHeight * 0.8f));
+                StateMachine.AddState(new GameState());
             }
         }
 

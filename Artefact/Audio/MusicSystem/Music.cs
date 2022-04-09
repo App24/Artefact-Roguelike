@@ -21,8 +21,10 @@ namespace Artefact.Audio.MusicSystem
             if (thread != null)
                 return;
             queueNotes = new List<Note>();
+#if !NO_MUSIC
             thread = new Thread(new ThreadStart(Play));
             thread.Start();
+#endif
             playing = true;
         }
 

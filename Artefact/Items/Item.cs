@@ -8,9 +8,6 @@ namespace Artefact.Items
     [Serializable]
     internal abstract class Item
     {
-        public static BasicItem TestItem => new BasicItem("Test", Rarity.Common);
-        public static BasicItem Test2Item => new BasicItem("Test2", Rarity.Epic);
-
         public string Name { get; }
         public Rarity Rarity { get; }
 

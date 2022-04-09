@@ -54,10 +54,10 @@ namespace Artefact.MenuSystem
                 });
             }
 
-            AddOption("Play Jingle", () =>
+            /*AddOption("Play Jingle", () =>
             {
                 //SwitchMenu(new SettingsMenu());
-            });
+            });*/
 
             AddBackOption(onSelection: () => GlobalSettings.Running = false);
         }

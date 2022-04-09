@@ -31,7 +31,7 @@ namespace Artefact.Entities
                     {
                         Representation = "SN";
                         MaxHealth = 3;
-                        radius = 5;
+                        radius = 3;
                         HitDamage = 1;
                         Defense = 0;
                     }

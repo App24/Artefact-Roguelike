@@ -60,17 +60,20 @@ namespace Artefact.States
                     {
                         for (int i = 0; i < enemyEntities.Count; i++)
                         {
-                            AttackEnemy(i);
+                            AttackEnemy(i, true);
                         }
                         EnemyTurn();
+                        Menu.Instance.Back(false);
                     });
 
                     for (int i = 0; i < enemyEntities.Count; i++)
                     {
+                        int index = i;
                         attackMenu.AddOption(enemyEntities[i].Representation, () =>
                         {
-                            AttackEnemy(i);
+                            AttackEnemy(index, false);
                             EnemyTurn();
+                            Menu.Instance.Back(false);
                         });
                     }
 
@@ -80,7 +83,7 @@ namespace Artefact.States
                 }
                 else
                 {
-                    AttackEnemy(0);
+                    AttackEnemy(0, false);
                     EnemyTurn();
                 }
             });
@@ -159,14 +162,15 @@ namespace Artefact.States
 
             if(enemyEntities.Count <= 0)
             {
+                PlayerEntity.Instance.Inventory.AddItem(new HealthPotionItem(Rarity.Uncommon), random.Next(1, 4));
                 StateMachine.RemoveState();
             }
         }
 
-        void AttackEnemy(int index)
+        void AttackEnemy(int index, bool sweep)
         {
             EnemyEntity enemy = enemyEntities[index];
-            enemy.Damage(PlayerEntity.Instance.HitDamage);
+            enemy.Damage((int)(PlayerEntity.Instance.HitDamage * (sweep ? 0.8f : 1f)));;
         }
 
         public override void Update()

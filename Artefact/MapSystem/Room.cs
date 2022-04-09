@@ -20,7 +20,7 @@ namespace Artefact.MapSystem
         private const int MAX_CHESTS = 3;
 
 #if !CHEATS
-        private const float CHEST_CHANCE = 0.01f;
+        private const float CHEST_CHANCE = 0.05f;
 #else
         private const float CHEST_CHANCE = 1f;
 #endif
@@ -79,13 +79,163 @@ namespace Artefact.MapSystem
                         if (random.NextDouble() <= CHEST_CHANCE)
                         {
                             ChestTile chestTile = new ChestTile();
-                            //chestTile.AddItem(new HealthPotionItem((Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1)), 3);
-                            chestTile.AddItem(new WeaponItem("Sword", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1), 1));
+                            double rarityChance = random.NextDouble();
+                            Rarity rarity;
+                            if(rarityChance < 0.5f)
+                            {
+                                rarity = Rarity.Common;
+                            }else if(rarityChance < 0.8f)
+                            {
+                                rarity = Rarity.Uncommon;
+                            }else if(rarityChance < 0.95f)
+                            {
+                                rarity = Rarity.Rare;
+                            }
+                            else
+                            {
+                                rarity = Rarity.Epic;
+                            }
 
-                            chestTile.AddItem(new ArmorItem("Helmet", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1), ArmorType.Helmet, 1));
-                            chestTile.AddItem(new ArmorItem("Chestplate", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1), ArmorType.Chestplate, 1));
-                            chestTile.AddItem(new ArmorItem("Leggings", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1), ArmorType.Leggings, 1));
-                            chestTile.AddItem(new ArmorItem("Boots", (Rarity)new Random().Next(0, ((int)Rarity.Epic) + 1), ArmorType.Boots, 1));
+                            double itemChance = random.NextDouble();
+                            chestTile.AddItem(new HealthPotionItem(rarity), random.Next(1, 6));
+
+                            if (itemChance < 0.3f)
+                            {
+                                double quality = random.NextDouble();
+                                int damage;
+                                string name;
+                                if (quality < 0.5f)
+                                {
+                                    damage = 3;
+                                    name = "Sword";
+                                }
+                                else if (quality < 0.75f)
+                                {
+                                    damage = 5;
+                                    name = "Great Sword";
+                                }
+                                else if (quality < 0.9f)
+                                {
+                                    damage = 6;
+                                    name = "Bow";
+                                }
+                                else
+                                {
+                                    damage = 7;
+                                    name = "Magic Staff";
+                                }
+                                chestTile.AddItem(new WeaponItem(name, rarity, damage));
+                            }
+
+                            if(itemChance < 0.1f)
+                            {
+                                double quality = random.NextDouble();
+                                int defense;
+                                string name;
+                                if (quality < 0.5f)
+                                {
+                                    defense = 1;
+                                    name = "Duct tape";
+                                }
+                                else if (quality < 0.75f)
+                                {
+                                    defense = 3;
+                                    name = "Cloth";
+                                }
+                                else if (quality < 0.9f)
+                                {
+                                    defense = 4;
+                                    name = "Chainmail";
+                                }
+                                else
+                                {
+                                    defense = 6;
+                                    name = "Plate";
+                                }
+                                chestTile.AddItem(new ArmorItem($"{name} Boots", rarity, ArmorType.Boots, defense));
+                            }
+                            else if(itemChance < 0.2f)
+                            {
+                                double quality = random.NextDouble();
+                                int defense;
+                                string name;
+                                if (quality < 0.5f)
+                                {
+                                    defense = 1;
+                                    name = "Duct tape";
+                                }
+                                else if (quality < 0.75f)
+                                {
+                                    defense = 3;
+                                    name = "Cloth";
+                                }
+                                else if (quality < 0.9f)
+                                {
+                                    defense = 4;
+                                    name = "Chainmail";
+                                }
+                                else
+                                {
+                                    defense = 6;
+                                    name = "Plate";
+                                }
+                                chestTile.AddItem(new ArmorItem($"{name} Helmet", rarity, ArmorType.Helmet, defense));
+                            }
+                            else if (itemChance < 0.3f)
+                            {
+                                double quality = random.NextDouble();
+                                int defense;
+                                string name;
+                                if (quality < 0.5f)
+                                {
+                                    defense = 1;
+                                    name = "Duct tape";
+                                }
+                                else if (quality < 0.75f)
+                                {
+                                    defense = 3;
+                                    name = "Cloth";
+                                }
+                                else if (quality < 0.9f)
+                                {
+                                    defense = 4;
+                                    name = "Chainmail";
+                                }
+                                else
+                                {
+                                    defense = 6;
+                                    name = "Plate";
+                                }
+                                chestTile.AddItem(new ArmorItem($"{name} Leggings", rarity, ArmorType.Leggings, defense));
+                            }
+                            else if(itemChance < 0.4f)
+                            {
+                                double quality = random.NextDouble();
+                                int defense;
+                                string name;
+                                if (quality < 0.5f)
+                                {
+                                    defense = 1;
+                                    name = "Duct tape";
+                                }
+                                else if (quality < 0.75f)
+                                {
+                                    defense = 3;
+                                    name = "Cloth";
+                                }
+                                else if (quality < 0.9f)
+                                {
+                                    defense = 4;
+                                    name = "Chainmail";
+                                }
+                                else
+                                {
+                                    defense = 6;
+                                    name = "Plate";
+                                }
+                                chestTile.AddItem(new ArmorItem($"{name} Chestplate", rarity, ArmorType.Chestplate, defense));
+                            }
+
                             chests.Add(SetTile(x, y, chestTile));
                         }
                     }

@@ -14,13 +14,13 @@ namespace Artefact.States
             Menu.SwitchMenu(null);
             Menu.SwitchMenu(new MainMenu());
 
-            /*Music.AddToQueue(
+            Music.AddToQueue(
                 new Note(Tone.B, Duration.HALF),
                 new Note(Tone.B, Duration.HALF),
                 new Note(Tone.G, Duration.HALF),
                 new Note(Tone.C, Duration.QUARTER),
                 new Note(Tone.A, Duration.QUARTER)
-                );*/
+                );
         }
 
         public override void Update()

@@ -16,7 +16,7 @@ namespace Artefact.MapSystem
         private Random random = new Random();
 
 
-        private List<Entity> entities = new List<Entity>();
+        public List<Entity> entities = new List<Entity>();
 
         public static Map Instance { get; set; }
 

@@ -34,25 +34,28 @@ namespace Artefact.Tiles
         {
             if (entity == PlayerEntity.Instance)
             {
-                List<Item> remainingItems = new List<Item>();
-
-                foreach (Item item in items)
+                if (items.Count > 0)
                 {
-                    if (!PlayerEntity.Instance.Inventory.AddItem(item, item.Quantity))
+                    List<Item> remainingItems = new List<Item>();
+
+                    foreach (Item item in items)
                     {
-                        remainingItems.Add(item);
+                        if (!PlayerEntity.Instance.Inventory.AddItem(item, item.Quantity))
+                        {
+                            remainingItems.Add(item);
+                        }
                     }
+
+                    items.Clear();
+                    items.AddRange(remainingItems);
+
+                    if (items.Count <= 0 && previousTile != null)
+                    {
+                        entity.CurrentRoom.SetTile(position, previousTile);
+                    }
+
+                    SFXSystem.AddSoundEffect(new SoundEffect(SoundEffectType.Tile, new Note(Tone.B, Duration.SIXTEENTH), new Note(Tone.B, Duration.SIXTEENTH), new Note(Tone.Gsharp, Duration.EIGHTH)));
                 }
-
-                items.Clear();
-                items.AddRange(remainingItems);
-
-                if (items.Count <= 0 && previousTile != null)
-                {
-                    entity.CurrentRoom.SetTile(position, previousTile);
-                }
-
-                SFXSystem.AddSoundEffect(new SoundEffect(SoundEffectType.Tile, new Note(Tone.B, Duration.SIXTEENTH), new Note(Tone.B, Duration.SIXTEENTH), new Note(Tone.Gsharp, Duration.EIGHTH)));
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using Artefact.InventorySystem;
 using Artefact.Items;
 using Artefact.MapSystem;
+using Artefact.Settings;
 using Artefact.Tiles;
 using Artefact.Utils;
 using System;
@@ -76,6 +77,10 @@ namespace Artefact.Entities
                     break;
                 case PlayerState.Inventory:
                     {
+                        if(Inventory.itemIndex >= Inventory.items.Count)
+                        {
+                            Inventory.itemIndex = Inventory.items.Count - 1;
+                        }
                         Item item = Inventory.items[Inventory.itemIndex];
 
                         if (InputSystem.IsKeyHeld(ConsoleKey.S))
@@ -164,19 +169,23 @@ namespace Artefact.Entities
 
         }
 
-        /*public override void Heal(int amount)
+        public override void Heal(int amount)
         {
+            if(!GameSettings.InBattle)
             ClearStat(HEALTH_POS, HEALTH_TEXT.Length, Health.ToString().Length);
             base.Heal(amount);
-            PrintHealth();
+            if (!GameSettings.InBattle)
+                PrintHealth();
         }
 
         public override void Damage(int amount)
         {
-            ClearStat(HEALTH_POS, HEALTH_TEXT.Length, Health.ToString().Length);
+            if (!GameSettings.InBattle)
+                ClearStat(HEALTH_POS, HEALTH_TEXT.Length, Health.ToString().Length);
             base.Damage(amount);
-            PrintHealth();
-        }*/
+            if (!GameSettings.InBattle)
+                PrintHealth();
+        }
 
         public void PrintHealth()
         {
