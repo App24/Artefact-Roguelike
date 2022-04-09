@@ -1,6 +1,7 @@
 ﻿using Artefact.Entities;
 using Artefact.Items;
 using Artefact.MapSystem;
+using Artefact.Settings;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -83,13 +84,15 @@ namespace Artefact.InventorySystem
             if (toRemove.Quantity <= 0)
             {
                 items.Remove(toRemove);
+                if(!GameSettings.InBattle)
                 ClearInventorySpace();
             }
 
             if (itemIndex >= items.Count)
                 itemIndex = items.Count - 1;
 
-            PrintInventory();
+            if (!GameSettings.InBattle)
+                PrintInventory();
             return true;
         }
 
@@ -182,7 +185,8 @@ namespace Artefact.InventorySystem
 
         public void Equip(EquipmentItem item)
         {
-            PlayerEntity.Instance.ClearEquipment();
+            if (!GameSettings.InBattle)
+                PlayerEntity.Instance.ClearEquipment();
             switch (item.EquipmentType)
             {
                 case EquipmentType.Weapon:
@@ -222,7 +226,8 @@ namespace Artefact.InventorySystem
                     }
                     break;
             }
-            PlayerEntity.Instance.PrintEquipment();
+            if (!GameSettings.InBattle)
+                PlayerEntity.Instance.PrintEquipment();
         }
 
         public ArmorItem GetArmor(ArmorType armorType)

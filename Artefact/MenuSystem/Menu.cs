@@ -15,12 +15,17 @@ namespace Artefact.MenuSystem
         private List<Option> options = new List<Option>();
 
         private int selectIndex;
-        protected readonly int yPlacement;
+        protected readonly Vector2 offset;
 
-        public Menu(int yPlacement = 0)
+        public Menu():this(Vector2.Zero)
+        {
+
+        }
+
+        public Menu(Vector2 offset)
         {
             parentMenu = Instance;
-            this.yPlacement = yPlacement;
+            this.offset = offset;
             AddHeadings();
             AddOptions();
         }
@@ -52,27 +57,35 @@ namespace Artefact.MenuSystem
             {
                 AddOption(text == null ? "Back" : text, () =>
                 {
-                    SwitchMenu(parentMenu, clearScreen);
+                    Back(clearScreen);
                     InputSystem.SkipNextKey = true;
                     onSelection?.Invoke();
                 });
             }
         }
 
+        public void Back(bool clearScreen=true)
+        {
+            SwitchMenu(parentMenu, clearScreen);
+        }
+
         public static void SwitchMenu(Menu menu, bool clearScreen = true)
         {
             InputSystem.SkipNextKey = true;
-            if (clearScreen)
+            if (menu != null)
             {
-                Console.Clear();
-            }
-            else
-            {
-                Console.CursorTop = menu.yPlacement;
-                Console.CursorLeft = 0;
-                for (int i = 0; i < 20; i++)
+                if (clearScreen)
                 {
-                    Console.WriteLine(new string(' ', Console.WindowWidth));
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.CursorTop = menu.offset.y;
+                    Console.CursorLeft = menu.offset.x;
+                    for (int i = 0; i < 20; i++)
+                    {
+                        Console.WriteLine(new string(' ', Console.WindowWidth));
+                    }
                 }
             }
             Instance = menu;
@@ -110,8 +123,8 @@ namespace Artefact.MenuSystem
 
             for (int i = 0; i < headings.Count; i++)
             {
-                Console.CursorLeft = 0;
-                Console.CursorTop = yPlacement + i;
+                Console.CursorLeft = offset.x;
+                Console.CursorTop = offset.y + i;
                 Console.Write(headings[i]);
             }
 
@@ -125,14 +138,14 @@ namespace Artefact.MenuSystem
 
                 Option option = options[i];
 
-                Console.CursorTop = yPlacement + i + headings.Count + 5 + spacing;
+                Console.CursorTop = offset.y + i + headings.Count + 5 + spacing;
                 if (option.resetOffset >= 0)
                 {
-                    Console.CursorLeft = option.resetOffset;
+                    Console.CursorLeft = option.resetOffset + offset.x;
                     Console.Write(new string(' ', option.resetAmount));
                 }
 
-                Console.CursorLeft = 0;
+                Console.CursorLeft = offset.x;
                 string text = option.text();
                 Console.Write(text);
                 spacing += text.Split("\n").Length;
@@ -142,7 +155,7 @@ namespace Artefact.MenuSystem
 
             if (InputSystem.IsKeyHeld(ConsoleKey.Enter))
             {
-                SFXSystem.AddSoundEffect(new SoundEffect(SoundEffectType.Tile, new Note(Tone.Fsharp, Duration.SIXTEENTH)));
+                SFXSystem.AddSoundEffect(new SoundEffect(SoundEffectType.Menu, new Note(Tone.Fsharp, Duration.SIXTEENTH)));
                 options[selectIndex].onSelect?.Invoke();
             }
         }

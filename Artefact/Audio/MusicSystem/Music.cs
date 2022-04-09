@@ -14,6 +14,8 @@ namespace Artefact.Audio.MusicSystem
 
         static List<Note> queueNotes;
 
+        static int index;
+
         public static void StartThread()
         {
             if (thread != null)
@@ -34,7 +36,7 @@ namespace Artefact.Audio.MusicSystem
                     continue;
                 }
 
-                Note note = queueNotes[0];
+                Note note = queueNotes[index];
 
                 if(note.NoteTone == Tone.REST)
                 {
@@ -45,13 +47,21 @@ namespace Artefact.Audio.MusicSystem
                     Console.Beep((int)note.NoteTone, (int)note.NoteDuration);
                 }
 
-                queueNotes.RemoveAt(0);
+                index++;
+
+                if (index >= queueNotes.Count)
+                    index = 0;
             }
         }
 
         public static void AddToQueue(params Note[] notes)
         {
             queueNotes.AddRange(notes);
+        }
+
+        public static void ClearQueue()
+        {
+            queueNotes.Clear();
         }
 
         public static void Toggle()

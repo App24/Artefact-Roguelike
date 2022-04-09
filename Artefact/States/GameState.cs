@@ -1,4 +1,6 @@
-﻿using Artefact.Entities;
+﻿using Artefact.Audio;
+using Artefact.Audio.MusicSystem;
+using Artefact.Entities;
 using Artefact.MapSystem;
 using Artefact.Utils;
 using System;
@@ -14,6 +16,14 @@ namespace Artefact.States
         public override void Init()
         {
             Map.Instance.PrintMap();
+            /*Music.AddToQueue(
+                new Note(Tone.A, Duration.EIGHTH),
+                new Note(Tone.A, Duration.EIGHTH),
+                new Note(Tone.D, Duration.QUARTER),
+                new Note(Tone.C, Duration.EIGHTH),
+                new Note(Tone.C, Duration.EIGHTH),
+                new Note(Tone.A, Duration.QUARTER)
+                );*/
         }
 
         public override void Update()
@@ -33,6 +43,17 @@ namespace Artefact.States
                 Map.Instance.PrintMap();
             }
             SkipNextDraw = false;
+            Music.Resume();
+        }
+
+        public override void Remove()
+        {
+            Music.ClearQueue();
+        }
+
+        public override void Pause()
+        {
+            Music.Pause();
         }
     }
 }

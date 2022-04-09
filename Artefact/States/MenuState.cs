@@ -1,4 +1,6 @@
-﻿using Artefact.MenuSystem;
+﻿using Artefact.Audio;
+using Artefact.Audio.MusicSystem;
+using Artefact.MenuSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +11,16 @@ namespace Artefact.States
     {
         public override void Init()
         {
+            Menu.SwitchMenu(null);
             Menu.SwitchMenu(new MainMenu());
+
+            /*Music.AddToQueue(
+                new Note(Tone.B, Duration.HALF),
+                new Note(Tone.B, Duration.HALF),
+                new Note(Tone.G, Duration.HALF),
+                new Note(Tone.C, Duration.QUARTER),
+                new Note(Tone.A, Duration.QUARTER)
+                );*/
         }
 
         public override void Update()

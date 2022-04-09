@@ -98,6 +98,7 @@ namespace Artefact.Saving
                 Save save = loadDetails.Saveable;
                 Map.Instance = save.map;
                 PlayerEntity.Instance = save.player;
+                GameSettings.Instance = save.gameSettings;
             }
             return loadDetails.LoadResult;
         }
@@ -115,6 +116,7 @@ namespace Artefact.Saving
         {
             new PlayerEntity();
             new Map(50, (int)(Console.WindowWidth * 0.35f), (int)(Console.WindowHeight * 0.8f));
+            new GameSettings();
         }
     }
 

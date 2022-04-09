@@ -1,4 +1,5 @@
-﻿using Artefact.MapSystem;
+﻿using Artefact.BattleSystem;
+using Artefact.MapSystem;
 using Artefact.Utils;
 using System;
 using System.Collections.Generic;
@@ -13,18 +14,31 @@ namespace Artefact.Entities
 
         public override int MaxHealth { get; }
 
-        public override int HitDamage => 1;
+        public override int HitDamage { get; }
+        public override int Defense { get; }
+
+        public EnemyType EnemyType { get; }
 
         [NonSerialized]
         private Random random = new Random();
         private int radius;
 
-        public EnemyEntity(string representation, int maxHealth, int radius)
+        public EnemyEntity(EnemyType enemyType)
         {
-            Representation = representation;
-            MaxHealth = maxHealth;
-            this.radius = radius;
+            switch (enemyType)
+            {
+                case EnemyType.Snake:
+                    {
+                        Representation = "SN";
+                        MaxHealth = 3;
+                        radius = 5;
+                        HitDamage = 1;
+                        Defense = 0;
+                    }
+                    break;
+            }
             Heal(MaxHealth);
+            EnemyType = enemyType;
         }
 
         public override void Move()
@@ -33,11 +47,10 @@ namespace Artefact.Entities
             {
                 if (PlayerEntity.Instance.RelativePosition.DistanceTo(RelativePosition) <= radius)
                 {
-                    if (random.NextDouble() < 0.4f)
+                    if (random.NextDouble() > 0.2f)
                     {
                         Vector2 position = AStarPathfinding.Calculate(this.position, PlayerEntity.Instance.position)[0];
-                        if (Map.Instance.GetRoom(position) == CurrentRoom)
-                            this.position = position;
+                        this.position = position;
                     }
                 }
             }
@@ -52,5 +65,15 @@ namespace Artefact.Entities
         {
 
         }
+
+        public override void OnCollide(Entity entity)
+        {
+            Battle.StartBattle(this);
+        }
+    }
+
+    enum EnemyType
+    {
+        Snake
     }
 }

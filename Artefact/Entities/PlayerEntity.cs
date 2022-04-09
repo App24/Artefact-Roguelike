@@ -18,9 +18,11 @@ namespace Artefact.Entities
 
         public override string Representation => "PL";
 
-        public override int MaxHealth => 5;
+        public override int MaxHealth => 10;
 
         public override int HitDamage => Inventory.HitDamage;
+        public override int Defense => Inventory.Defense;
+
 
         private const int HEALTH_POS = 1;
         private const int EQUIPMENT_START_POS = 3;
@@ -162,7 +164,7 @@ namespace Artefact.Entities
 
         }
 
-        public override void Heal(int amount)
+        /*public override void Heal(int amount)
         {
             ClearStat(HEALTH_POS, HEALTH_TEXT.Length, Health.ToString().Length);
             base.Heal(amount);
@@ -174,7 +176,7 @@ namespace Artefact.Entities
             ClearStat(HEALTH_POS, HEALTH_TEXT.Length, Health.ToString().Length);
             base.Damage(amount);
             PrintHealth();
-        }
+        }*/
 
         public void PrintHealth()
         {
@@ -300,6 +302,11 @@ namespace Artefact.Entities
             Console.Write(Inventory.Defense);
             Console.ResetColor();
             #endregion
+        }
+
+        public override void OnCollide(Entity entity)
+        {
+
         }
 
         private enum PlayerState

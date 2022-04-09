@@ -1,4 +1,6 @@
-﻿using Artefact.MenuSystem;
+﻿using Artefact.Audio;
+using Artefact.Audio.SoundEffectsSystem;
+using Artefact.MenuSystem;
 using Artefact.Utils;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,7 @@ namespace Artefact.States
         public override void Init()
         {
             Menu.SwitchMenu(new PauseMenu());
+            SFXSystem.AddSoundEffect(new SoundEffect(SoundEffectType.Menu, new Note(Tone.GbelowC, Duration.EIGHTH)));
         }
 
         public override void Update()

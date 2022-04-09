@@ -45,7 +45,7 @@ namespace Artefact.MapSystem
         {
             foreach (Room room in rooms)
             {
-                EnemyEntity entity = new EnemyEntity("SN", 3, 3);
+                EnemyEntity entity = new EnemyEntity(EnemyType.Snake);
                 entity.position = room.Position + room.GetRandomPosition();
                 entities.Add(entity);
             }
@@ -157,6 +157,14 @@ namespace Artefact.MapSystem
                     entity.position = previousPos + entity.CurrentRoom.Position;
                 }
                 currentTile.OnCollision(entity);
+
+                if(entity != PlayerEntity.Instance)
+                {
+                    if (entity.position == PlayerEntity.Instance.position)
+                    {
+                        entity.OnCollide(PlayerEntity.Instance);
+                    }
+                }
 
                 if (entity.CurrentRoom != previousRoom)
                 {

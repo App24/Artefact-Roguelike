@@ -25,6 +25,7 @@ namespace Artefact.MenuSystem
                 StateMachine.AddState(new GameState());
                 InputSystem.SkipNextKey = true;
                 Console.Clear();
+                Music.ClearQueue();
             });
 
             if (SaveSystem.HasSaveGame)
@@ -37,6 +38,7 @@ namespace Artefact.MenuSystem
                         StateMachine.AddState(new GameState());
                         InputSystem.SkipNextKey = true;
                         Console.Clear();
+                        Music.ClearQueue();
                     }
                     else
                     {

@@ -35,7 +35,7 @@ namespace Artefact.Utils
                         tile = tile.ParentTile;
                     }
                     if (positions.Count <= 0)
-                        positions.Insert(0, localCurrentPos);
+                        positions.Insert(0, currentPos);
                     return positions;
                 }
 

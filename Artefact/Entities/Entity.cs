@@ -28,6 +28,8 @@ namespace Artefact.Entities
         public int Health { get; private set; }
 
         public abstract int HitDamage { get; }
+        public abstract int Defense { get; }
+        public bool Defending { get; set; }
 
         public Room CurrentRoom
         {
@@ -56,7 +58,14 @@ namespace Artefact.Entities
                 return;
             }
 
-            Health -= amount;
+            int value = amount;
+
+            if (Defending)
+                value = (int)(value * 0.9f);
+
+            value = (int)(value * (1 - (Defense / 100f)));
+
+            Health -= value;
 
             if (Health < 0)
                 Die();
@@ -78,5 +87,7 @@ namespace Artefact.Entities
         protected abstract void Die();
 
         public abstract void Update();
+
+        public abstract void OnCollide(Entity entity);
     }
 }
