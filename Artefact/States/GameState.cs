@@ -15,6 +15,7 @@ namespace Artefact.States
 
         public override void Init()
         {
+            Console.Clear();
             Map.Instance.PrintMap();
             Music.AddToQueue(
                 new Note(Tone.A, Duration.EIGHTH),
@@ -58,6 +59,7 @@ namespace Artefact.States
             {
                 new Map(50, (int)(Console.WindowWidth * 0.35f), (int)(Console.WindowHeight * 0.8f));
                 StateMachine.AddState(new GameState());
+                InputSystem.SkipNextKey = true;
             }
         }
 

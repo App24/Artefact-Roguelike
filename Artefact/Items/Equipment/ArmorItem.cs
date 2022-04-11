@@ -1,5 +1,6 @@
 ﻿using Artefact.Entities;
 using Artefact.InventorySystem;
+using Artefact.MapSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Artefact.Items
         public ArmorItem(string name, Rarity rarity, ArmorType armorType, int baseDefense) : base(name, rarity, Inventory.EquipmentType.Armor)
         {
             ArmorType = armorType;
-            BaseDefense = baseDefense;
+            BaseDefense = baseDefense * Map.Instance.Level;
         }
 
         public ArmorType ArmorType { get; }

@@ -23,8 +23,14 @@ namespace Artefact.MapSystem
         public int Width { get; }
         public int Height { get; }
 
+        public int Level { get; private set; }
+
         public Map(int maxRooms, int width, int height)
         {
+            if (Instance == null)
+                Level = 1;
+            else
+                Level = Instance.Level + 1;
             Instance = this;
             Width = width;
             Height = height;
@@ -43,12 +49,15 @@ namespace Artefact.MapSystem
 
         private void SpawnEnemies()
         {
-            foreach (Room room in rooms)
+            EnemyEntity enemy = new EnemyEntity(EnemyType.Snake);
+            enemy.position=PlayerEntity.Instance.CurrentRoom.Position + PlayerEntity.Instance.CurrentRoom.GetRandomPosition();
+            entities.Add(enemy);
+            /*foreach (Room room in rooms)
             {
                 EnemyEntity entity = new EnemyEntity(EnemyType.Snake);
                 entity.position = room.Position + room.GetRandomPosition();
                 entities.Add(entity);
-            }
+            }*/
         }
 
         internal void PrintEntities()

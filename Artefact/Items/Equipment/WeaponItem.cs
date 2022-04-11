@@ -2,6 +2,7 @@
 using Artefact.Audio.SoundEffectsSystem;
 using Artefact.Entities;
 using Artefact.InventorySystem;
+using Artefact.MapSystem;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Artefact.Items
 
         public WeaponItem(string name, Rarity rarity, int baseDamage) : base(name, rarity, Inventory.EquipmentType.Weapon)
         {
-            BaseDamage = baseDamage;
+            BaseDamage = baseDamage * Map.Instance.Level;
         }
 
         public override bool OnUse()

@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Artefact.Program" Collapsed="true">
+    <Position X="16.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAEAAAAAAAAAAAAAIAAAAAAAAAAIAAAAABABgAIA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Audio.MusicSystem.Music" Collapsed="true">
+    <Position X="15" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAFAAAgAAAASAAAAABAAgCAAAAgBAAA=</HashCode>
+      <FileName>Audio\MusicSystem\Music.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Audio.SoundEffectsSystem.SFXSystem" Collapsed="true">
+    <Position X="15" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAgAAAAAAAAAABAAAAAQAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Audio\SoundEffectsSystem\SFXSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Audio.SoundEffectsSystem.SoundEffect" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBA=</HashCode>
+      <FileName>Audio\SoundEffectsSystem\SoundEffect.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Artefact.BattleSystem.Battle" Collapsed="true">
+    <Position X="20.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BattleSystem\Battle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Entities.EnemyEntity" Collapsed="true">
+    <Position X="10.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQAAAAACIAACAAgQAAAQAAAAAAAAAAAAAQAAggAAAA=</HashCode>
+      <FileName>Entities\EnemyEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Entities.Entity" Collapsed="true">
+    <Position X="11.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQQCACAAIAACACgQAAIIAAAAAAAAAAAAgAAAggAAAA=</HashCode>
+      <FileName>Entities\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Entities.PlayerEntity" Collapsed="true">
+    <Position X="12.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQQACACAAIgQCACgQggBAgCQAAAQBAAEQBAAEggQAAA=</HashCode>
+      <FileName>Entities\PlayerEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.InventorySystem.Inventory" Collapsed="true">
+    <Position X="20.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAgAgQgAhAEAAQAgAAAACgAACRAAkAAAQCpAAAAg=</HashCode>
+      <FileName>InventorySystem\Inventory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Items.ArmorItem" Collapsed="true">
+    <Position X="2.75" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAIAAAAAAAAAAAAAgAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Items\Equipment\ArmorItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Items.EquipmentItem" Collapsed="true">
+    <Position X="1.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgBAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Items\Equipment\EquipmentItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Artefact.Items.WeaponItem" Collapsed="true">
+    <Position X="0.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgACAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Items\Equipment\WeaponItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Items.BasicItem" Collapsed="true">
+    <Position X="5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Items\BasicItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Items.HealthPotionItem" Collapsed="true">
+    <Position X="7.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Items\HealthPotionItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Artefact.Items.Item" Collapsed="true">
+    <Position X="3.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAQAAAAAQAAAAAAAgAAAABA=</HashCode>
+      <FileName>Items\Item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.MapSystem.Map" Collapsed="true">
+    <Position X="22" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAAAABBAEAAAAggAJAAEBAACAAAQEAQCYBAAAAAAA=</HashCode>
+      <FileName>MapSystem\Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.MapSystem.Room" Collapsed="true">
+    <Position X="18.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARAEAAAAhAAAAAAwIAAAAEBAAgAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>MapSystem\Room.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.MenuSystem.GameOverMenu" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>MenuSystem\GameOverMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.MenuSystem.GenericMenu" Collapsed="true">
+    <Position X="2.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAABAAgAAAEAAAAAAIAAAAA=</HashCode>
+      <FileName>MenuSystem\GenericMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.MenuSystem.MainMenu" Collapsed="true">
+    <Position X="5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>MenuSystem\MainMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.MenuSystem.Menu" Collapsed="true">
+    <Position X="3.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUiAAAAAIAAAAAAABAEIAAABAAgAAAEAQAAAAIAAAAA=</HashCode>
+      <FileName>MenuSystem\Menu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.MenuSystem.PauseMenu" Collapsed="true">
+    <Position X="7.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>MenuSystem\PauseMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Saving.Save" Collapsed="true">
+    <Position X="20.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACEAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Saving\Save.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Saving.SaveSystem" Collapsed="true">
+    <Position X="22" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAQBIQgAAAAAAAABAAAAAAAAAAAAIAgAAE=</HashCode>
+      <FileName>Saving\SaveSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Settings.GameSettings" Collapsed="true">
+    <Position X="15" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAIAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Settings\GameSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Settings.GlobalSettings" Collapsed="true">
+    <Position X="16.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIQAAAAAAAAAA=</HashCode>
+      <FileName>Settings\GlobalSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.States.BattleState" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgAAAAAAAAgAAAAAAABIAAAAEAAAAhQAQCAEAAAAA=</HashCode>
+      <FileName>States\BattleState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.States.GameOverState" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>States\GameOverState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.States.GameState" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgAAAAAAAAACAAAAAABAAAAAAAAAAAAAACAAgAAAA=</HashCode>
+      <FileName>States\GameState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.States.MenuState" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>States\MenuState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.States.PauseState" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgAAAAAAAAAAAAAAAABAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>States\PauseState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.States.State" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgAAAAAAAAAAAAAAAABAAAAAAAAAAAAAACAAgAAAA=</HashCode>
+      <FileName>States\State.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.States.StateMachine" Collapsed="true">
+    <Position X="18.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIBAABAAAAACAABAAAAAAAAAAAAEACAEAAAAAAIACIA=</HashCode>
+      <FileName>States\StateMachine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Tiles.BaseTile" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Tiles\BaseTile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Tiles.ChestTile" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAgAMAAAgAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Tiles\ChestTile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Tiles.RevealTile" Collapsed="true">
+    <Position X="5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAwAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Tiles\RevealTile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Tiles.TeleportTile" Collapsed="true">
+    <Position X="7.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACgAAAAAAAAAAAAAAAAQAAAAAAEAIAAEACgAAAA=</HashCode>
+      <FileName>Tiles\TeleportTile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Tiles.Tile" Collapsed="true">
+    <Position X="3.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAgAAAAAICAAAAhAABA=</HashCode>
+      <FileName>Tiles\Tile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Artefact.Utils.ASCIIGenerator" Collapsed="true">
+    <Position X="15" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\ASCIIGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Utils.AStarPathfinding" Collapsed="true">
+    <Position X="16.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABCAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\AStarPathfinding.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Utils.AStarTileData" Collapsed="true">
+    <Position X="18.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAARABAAAAAAAABAAAAAAAAAAQA=</HashCode>
+      <FileName>Utils\AStarPathfinding.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Utils.Extensions" Collapsed="true">
+    <Position X="22" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Artefact.Utils.InputSystem" Collapsed="true">
+    <Position X="18.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAABAACAAAAAAAAAAABAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\InputSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Artefact.Audio.Note" Collapsed="true">
+    <Position X="16.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Audio\Note.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Artefact.MenuSystem.Option" Collapsed="true">
+    <Position X="18.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgABAAAAAAAAAAAAAAAAAAAAAAAAIIAAAAAAAAAAA=</HashCode>
+      <FileName>MenuSystem\Menu.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Artefact.Saving.LoadDetails&lt;T&gt;" Collapsed="true">
+    <Position X="15" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Saving\SaveSystem.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Artefact.Utils.Vector2" Collapsed="true">
+    <Position X="20.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAACA4AUAAAAAAQAAAAAACADgAAAAAiI=</HashCode>
+      <FileName>Utils\Vector2.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="Artefact.Items.IUsable" Collapsed="true">
+    <Position X="16.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Items\IUsable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Artefact.Utils.IPrototype&lt;T&gt;" Collapsed="true">
+    <Position X="15" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Utils\IPrototype.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Artefact.Audio.SoundEffectsSystem.SoundEffectType" Collapsed="true">
+    <Position X="15" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAEAAAIAAAAAAACAAAAAQA=</HashCode>
+      <FileName>Audio\SoundEffectsSystem\SFXSystem.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Artefact.Audio.Duration" Collapsed="true">
+    <Position X="16.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAADAAAAQAEAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Audio\Duration.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Artefact.Audio.Tone" Collapsed="true">
+    <Position X="16.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAoAAAABABAAAAAAAAAAAAAAAIAAAAvgkAAAI=</HashCode>
+      <FileName>Audio\Tone.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Artefact.Entities.EnemyType" Collapsed="true">
+    <Position X="18.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\EnemyEntity.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Artefact.Items.ArmorType" Collapsed="true">
+    <Position X="15" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAACAAAAAAAAAAQAAI=</HashCode>
+      <FileName>Items\Equipment\ArmorItem.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Artefact.Items.Rarity" Collapsed="true">
+    <Position X="22" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAQAAAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Items\Item.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Artefact.Saving.LoadResult" Collapsed="true">
+    <Position X="20.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAgAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Saving\SaveSystem.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

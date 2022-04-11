@@ -19,7 +19,17 @@ namespace Artefact.Entities
 
         public override string Representation => "PL";
 
-        public override int MaxHealth => 10;
+        const int START_HEALTH = 10;
+
+        public override int MaxHealth
+        {
+            get
+            {
+                if(Map.Instance == null)
+                    return START_HEALTH;
+                return Map.Instance.Level * START_HEALTH;
+            }
+        }
 
         public override int HitDamage => Inventory.HitDamage;
         public override int Defense => Inventory.Defense;

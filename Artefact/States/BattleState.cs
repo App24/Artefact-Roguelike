@@ -170,7 +170,7 @@ namespace Artefact.States
         void AttackEnemy(int index, bool sweep)
         {
             EnemyEntity enemy = enemyEntities[index];
-            enemy.Damage((int)(PlayerEntity.Instance.HitDamage * (sweep ? 0.8f : 1f)));;
+            enemy.Damage((int)Math.Ceiling(PlayerEntity.Instance.HitDamage * (sweep ? 0.8f : 1f)));;
         }
 
         public override void Update()

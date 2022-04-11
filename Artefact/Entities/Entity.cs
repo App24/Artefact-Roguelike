@@ -61,9 +61,9 @@ namespace Artefact.Entities
             int value = amount;
 
             if (Defending)
-                value = (int)(value * 0.9f);
+                value = (int)MathF.Ceiling(value * 0.9f);
 
-            value = (int)(value * (1 - (Defense / 100f)));
+            value = (int)MathF.Ceiling((value * (1 - (Defense / 100f))));
 
             Health -= value;
 

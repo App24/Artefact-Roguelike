@@ -30,10 +30,10 @@ namespace Artefact.Entities
                 case EnemyType.Snake:
                     {
                         Representation = "SN";
-                        MaxHealth = 3;
+                        MaxHealth = 3 * Map.Instance.Level;
                         radius = 3;
-                        HitDamage = 1;
-                        Defense = 0;
+                        HitDamage = 1 * Map.Instance.Level;
+                        Defense = 2 * Map.Instance.Level;
                     }
                     break;
             }
