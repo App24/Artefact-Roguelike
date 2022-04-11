@@ -1,5 +1,6 @@
 ﻿using Artefact.Audio;
 using Artefact.Audio.MusicSystem;
+using Artefact.MapSystem;
 using Artefact.MenuSystem;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Artefact.States
     {
         public override void Init()
         {
+            Map.Instance = null;
             Menu.SwitchMenu(null);
             Menu.SwitchMenu(new MainMenu());
 

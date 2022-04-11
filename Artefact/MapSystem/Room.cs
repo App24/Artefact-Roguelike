@@ -58,7 +58,7 @@ namespace Artefact.MapSystem
                 {
                     for (int x = -radius; x <= radius; x++)
                     {
-                        if((x*x)+(y*y) <= (radius* radius) * Math.Clamp(random.NextDouble(), 0.25f, 1f))
+                        if ((x * x) + (y * y) <= (radius * radius) * Math.Clamp(random.NextDouble(), 0.25f, 1f))
                         {
                             SetTile(x + midX, y + midY, Tile.WallTile);
                         }
@@ -81,13 +81,15 @@ namespace Artefact.MapSystem
                             ChestTile chestTile = new ChestTile();
                             double rarityChance = random.NextDouble();
                             Rarity rarity;
-                            if(rarityChance < 0.5f)
+                            if (rarityChance < 0.5f)
                             {
                                 rarity = Rarity.Common;
-                            }else if(rarityChance < 0.8f)
+                            }
+                            else if (rarityChance < 0.8f)
                             {
                                 rarity = Rarity.Uncommon;
-                            }else if(rarityChance < 0.95f)
+                            }
+                            else if (rarityChance < 0.95f)
                             {
                                 rarity = Rarity.Rare;
                             }
@@ -127,7 +129,7 @@ namespace Artefact.MapSystem
                                 chestTile.AddItem(new WeaponItem(name, rarity, damage));
                             }
 
-                            if(itemChance < 0.1f)
+                            if (itemChance < 0.1f)
                             {
                                 double quality = random.NextDouble();
                                 int defense;
@@ -154,7 +156,7 @@ namespace Artefact.MapSystem
                                 }
                                 chestTile.AddItem(new ArmorItem($"{name} Boots", rarity, ArmorType.Boots, defense));
                             }
-                            else if(itemChance < 0.2f)
+                            else if (itemChance < 0.2f)
                             {
                                 double quality = random.NextDouble();
                                 int defense;
@@ -208,7 +210,7 @@ namespace Artefact.MapSystem
                                 }
                                 chestTile.AddItem(new ArmorItem($"{name} Leggings", rarity, ArmorType.Leggings, defense));
                             }
-                            else if(itemChance < 0.4f)
+                            else if (itemChance < 0.4f)
                             {
                                 double quality = random.NextDouble();
                                 int defense;

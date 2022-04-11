@@ -14,7 +14,7 @@ namespace Artefact.Audio.SoundEffectsSystem
 
         public SoundEffect(SoundEffectType soundEffectType, params Note[] notes)
         {
-            this.notes=new List<Note>(notes);
+            this.notes = new List<Note>(notes);
             this.soundEffectType = soundEffectType;
         }
 

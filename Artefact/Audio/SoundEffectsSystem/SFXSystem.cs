@@ -8,15 +8,14 @@ namespace Artefact.Audio.SoundEffectsSystem
 {
     internal static class SFXSystem
     {
-        static Dictionary<SoundEffectType, List<SoundEffect>> soundEffects;
-
-        static List<Thread> threads;
+        private static Dictionary<SoundEffectType, List<SoundEffect>> soundEffects;
+        private static List<Thread> threads;
 
         public static void StartThreads()
         {
-            if(threads != null)
+            if (threads != null)
                 return;
-            soundEffects=new Dictionary<SoundEffectType, List<SoundEffect>>();
+            soundEffects = new Dictionary<SoundEffectType, List<SoundEffect>>();
             threads = new List<Thread>();
             for (int i = 0; i < (int)SoundEffectType.Last; i++)
             {
@@ -29,14 +28,14 @@ namespace Artefact.Audio.SoundEffectsSystem
             }
         }
 
-        static void Play(SoundEffectType scope)
+        private static void Play(SoundEffectType scope)
         {
             while (GlobalSettings.Running)
             {
                 List<SoundEffect> list;
                 soundEffects.TryGetValue(scope, out list);
 
-                if(list.Count <= 0)
+                if (list.Count <= 0)
                 {
                     Thread.Sleep(1);
                     continue;
@@ -73,7 +72,7 @@ namespace Artefact.Audio.SoundEffectsSystem
         }
     }
 
-    enum SoundEffectType
+    internal enum SoundEffectType
     {
         Entity,
         Item,

@@ -72,7 +72,7 @@ namespace Artefact.Entities
         }
     }
 
-    enum EnemyType
+    internal enum EnemyType
     {
         Snake
     }

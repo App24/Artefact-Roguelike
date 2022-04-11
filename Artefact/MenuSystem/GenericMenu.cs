@@ -7,7 +7,7 @@ namespace Artefact.MenuSystem
 {
     internal class GenericMenu : Menu
     {
-        public GenericMenu(Vector2 offset):base(offset)
+        public GenericMenu(Vector2 offset) : base(offset)
         {
 
         }

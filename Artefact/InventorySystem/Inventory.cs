@@ -18,6 +18,7 @@ namespace Artefact.InventorySystem
         private const int MAX_STACK = 99;
 
         public int itemIndex = -1;
+        private const int MAP_OFFSET = 3;
 
         public WeaponItem EquippedWeapon { get; private set; }
         public int HitDamage
@@ -84,8 +85,8 @@ namespace Artefact.InventorySystem
             if (toRemove.Quantity <= 0)
             {
                 items.Remove(toRemove);
-                if(!GameSettings.InBattle)
-                ClearInventorySpace();
+                if (!GameSettings.InBattle)
+                    ClearInventorySpace();
             }
 
             if (itemIndex >= items.Count)
@@ -113,7 +114,7 @@ namespace Artefact.InventorySystem
         {
             for (int i = 0; i < MAX_ITEMS_PER_LINE; i++)
             {
-                Console.SetCursorPosition(0, Map.Instance.Height + 2 + i);
+                Console.SetCursorPosition(0, Map.Instance.Height + MAP_OFFSET + i);
                 Console.Write(new String(' ', Console.WindowWidth));
             }
         }
@@ -122,7 +123,7 @@ namespace Artefact.InventorySystem
         {
             int xPos = GetEndOfInventory();
 
-            for (int i = Map.Instance.Height + 2; i < Console.WindowHeight; i++)
+            for (int i = Map.Instance.Height + MAP_OFFSET; i < Console.WindowHeight; i++)
             {
                 Console.SetCursorPosition(xPos, i);
                 Console.Write(new string(' ', Console.WindowWidth - xPos));
@@ -139,7 +140,7 @@ namespace Artefact.InventorySystem
             ClearItemUsage();
 
             int xPos = GetEndOfInventory();
-            Console.SetCursorPosition(xPos, Map.Instance.Height + 2);
+            Console.SetCursorPosition(xPos, Map.Instance.Height + MAP_OFFSET);
             Console.Write(item.Name);
             Console.CursorTop++;
             Console.CursorLeft = xPos;
@@ -159,7 +160,7 @@ namespace Artefact.InventorySystem
             for (int i = 0; i < items.Count; i++)
             {
                 int xPos = ((i / MAX_ITEMS_PER_LINE)) * ITEM_SPACING;
-                Console.SetCursorPosition(xPos, Map.Instance.Height + 2 + (i % MAX_ITEMS_PER_LINE));
+                Console.SetCursorPosition(xPos, Map.Instance.Height + MAP_OFFSET + (i % MAX_ITEMS_PER_LINE));
                 Console.Write(new string(' ', ITEM_SPACING));
                 Console.CursorLeft = xPos;
                 Item item = items[i];
@@ -167,7 +168,7 @@ namespace Artefact.InventorySystem
                 if (itemIndex == i)
                 {
                     PrintItemUsage(item);
-                    Console.SetCursorPosition(xPos, Map.Instance.Height + 2 + (i % MAX_ITEMS_PER_LINE));
+                    Console.SetCursorPosition(xPos, Map.Instance.Height + MAP_OFFSET + (i % MAX_ITEMS_PER_LINE));
 
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Write(">> ");

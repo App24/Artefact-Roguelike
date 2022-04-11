@@ -55,7 +55,7 @@ namespace Artefact.States
                 InputSystem.SkipNextKey = true;
             }
 
-            if(Map.Instance.entities.Count <= 1)
+            if (Map.Instance.entities.Count <= 1)
             {
                 new Map(50, (int)(Console.WindowWidth * 0.35f), (int)(Console.WindowHeight * 0.8f));
                 StateMachine.AddState(new GameState());

@@ -49,15 +49,12 @@ namespace Artefact.MapSystem
 
         private void SpawnEnemies()
         {
-            EnemyEntity enemy = new EnemyEntity(EnemyType.Snake);
-            enemy.position=PlayerEntity.Instance.CurrentRoom.Position + PlayerEntity.Instance.CurrentRoom.GetRandomPosition();
-            entities.Add(enemy);
-            /*foreach (Room room in rooms)
+            foreach (Room room in rooms)
             {
-                EnemyEntity entity = new EnemyEntity(EnemyType.Snake);
-                entity.position = room.Position + room.GetRandomPosition();
-                entities.Add(entity);
-            }*/
+                EnemyEntity enemy = new EnemyEntity(EnemyType.Snake);
+                enemy.position = room.Position + room.GetRandomPosition();
+                entities.Add(enemy);
+            }
         }
 
         internal void PrintEntities()
@@ -167,7 +164,7 @@ namespace Artefact.MapSystem
                 }
                 currentTile.OnCollision(entity);
 
-                if(entity != PlayerEntity.Instance)
+                if (entity != PlayerEntity.Instance)
                 {
                     if (entity.position == PlayerEntity.Instance.position)
                     {
@@ -216,6 +213,9 @@ namespace Artefact.MapSystem
                     continue;
                 PrintRoom(room);
             }
+
+            Console.SetCursorPosition(0, Height + 1);
+            Console.Write($"Reincarnation: {Level - 1}");
 
             PrintEntities();
 

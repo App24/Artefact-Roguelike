@@ -8,13 +8,10 @@ namespace Artefact.Audio.MusicSystem
 {
     internal static class Music
     {
-        static Thread thread;
-
-        static bool playing;
-
-        static List<Note> queueNotes;
-
-        static int index;
+        private static Thread thread;
+        private static bool playing;
+        private static List<Note> queueNotes;
+        private static int index;
 
         public static void StartThread()
         {
@@ -28,7 +25,7 @@ namespace Artefact.Audio.MusicSystem
             playing = true;
         }
 
-        static void Play()
+        private static void Play()
         {
             while (GlobalSettings.Running)
             {
@@ -40,7 +37,7 @@ namespace Artefact.Audio.MusicSystem
 
                 Note note = queueNotes[index];
 
-                if(note.NoteTone == Tone.REST)
+                if (note.NoteTone == Tone.REST)
                 {
                     Thread.Sleep((int)note.NoteDuration);
                 }

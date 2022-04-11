@@ -12,11 +12,9 @@ namespace Artefact.States
 {
     internal class BattleState : State
     {
-        List<EnemyEntity> enemyEntities;
-
-        const int Y_OFFSET = 6;
-
-        Random random = new Random();
+        private List<EnemyEntity> enemyEntities;
+        private const int Y_OFFSET = 6;
+        private Random random = new Random();
 
         public BattleState(List<EnemyEntity> enemyEntities)
         {
@@ -52,7 +50,7 @@ namespace Artefact.States
             GenericMenu battleMenu = new GenericMenu(offset);
             battleMenu.AddOption("Attack", () =>
             {
-                if(enemyEntities.Count > 1)
+                if (enemyEntities.Count > 1)
                 {
                     GenericMenu attackMenu = new GenericMenu(offset);
 
@@ -99,12 +97,12 @@ namespace Artefact.States
             {
                 List<Item> usableItems = PlayerEntity.Instance.Inventory.items.FindAll(i => i is IUsable);
                 GenericMenu itemsMenu = new GenericMenu(offset);
-                if(usableItems.Count > 0)
+                if (usableItems.Count > 0)
                 {
-                    foreach(Item item in usableItems)
+                    foreach (Item item in usableItems)
                     {
                         IUsable usable = (IUsable)item;
-                        itemsMenu.AddOption(() => $"{item.Name}: {item.Quantity}", () =>
+                        itemsMenu.AddOption(() => $"{item.Name} [{item.Rarity}]: {item.Quantity}", () =>
                         {
                             if (usable.OnUse())
                             {
@@ -128,7 +126,7 @@ namespace Artefact.States
             Menu.SwitchMenu(battleMenu, false);
         }
 
-        void EnemyTurn()
+        private void EnemyTurn()
         {
             enemyEntities.RemoveAll(e => e.Health <= 0);
 
@@ -160,17 +158,17 @@ namespace Artefact.States
             WritePlayerStats();
             WriteEnemiesStats();
 
-            if(enemyEntities.Count <= 0)
+            if (enemyEntities.Count <= 0)
             {
                 PlayerEntity.Instance.Inventory.AddItem(new HealthPotionItem(Rarity.Uncommon), random.Next(1, 4));
                 StateMachine.RemoveState();
             }
         }
 
-        void AttackEnemy(int index, bool sweep)
+        private void AttackEnemy(int index, bool sweep)
         {
             EnemyEntity enemy = enemyEntities[index];
-            enemy.Damage((int)Math.Ceiling(PlayerEntity.Instance.HitDamage * (sweep ? 0.8f : 1f)));;
+            enemy.Damage((int)Math.Ceiling(PlayerEntity.Instance.HitDamage * (sweep ? 0.8f : 1f))); ;
         }
 
         public override void Update()
@@ -195,12 +193,12 @@ namespace Artefact.States
             Console.Write(PlayerEntity.Instance.Representation);
         }
 
-        int GetPlayerStatsPosition()
+        private int GetPlayerStatsPosition()
         {
             return Y_OFFSET + (enemyEntities.Count * 2) + 3;
         }
 
-        void WritePlayerStats()
+        private void WritePlayerStats()
         {
             int pos = GetPlayerStatsPosition();
             Console.CursorLeft = 0;
@@ -223,7 +221,7 @@ namespace Artefact.States
             Console.ResetColor();
         }
 
-        void WriteEnemiesStats()
+        private void WriteEnemiesStats()
         {
             int xOffset = 20;
             for (int i = 0; i < enemyEntities.Count; i++)

@@ -19,7 +19,7 @@ namespace Artefact.Items
                 {
                     case Rarity.Common:
                         {
-                            return ConsoleColor.White;
+                            return ConsoleColor.DarkGray;
                         }
                     case Rarity.Uncommon:
                         {

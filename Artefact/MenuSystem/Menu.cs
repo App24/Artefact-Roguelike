@@ -17,7 +17,7 @@ namespace Artefact.MenuSystem
         private int selectIndex;
         protected readonly Vector2 offset;
 
-        public Menu():this(Vector2.Zero)
+        public Menu() : this(Vector2.Zero)
         {
 
         }
@@ -64,7 +64,7 @@ namespace Artefact.MenuSystem
             }
         }
 
-        public void Back(bool clearScreen=true)
+        public void Back(bool clearScreen = true)
         {
             SwitchMenu(parentMenu, clearScreen);
         }

@@ -19,13 +19,13 @@ namespace Artefact.Entities
 
         public override string Representation => "PL";
 
-        const int START_HEALTH = 10;
+        private const int START_HEALTH = 10;
 
         public override int MaxHealth
         {
             get
             {
-                if(Map.Instance == null)
+                if (Map.Instance == null)
                     return START_HEALTH;
                 return Map.Instance.Level * START_HEALTH;
             }
@@ -87,7 +87,7 @@ namespace Artefact.Entities
                     break;
                 case PlayerState.Inventory:
                     {
-                        if(Inventory.itemIndex >= Inventory.items.Count)
+                        if (Inventory.itemIndex >= Inventory.items.Count)
                         {
                             Inventory.itemIndex = Inventory.items.Count - 1;
                         }
@@ -181,8 +181,8 @@ namespace Artefact.Entities
 
         public override void Heal(int amount)
         {
-            if(!GameSettings.InBattle)
-            ClearStat(HEALTH_POS, HEALTH_TEXT.Length, Health.ToString().Length);
+            if (!GameSettings.InBattle)
+                ClearStat(HEALTH_POS, HEALTH_TEXT.Length, Health.ToString().Length);
             base.Heal(amount);
             if (!GameSettings.InBattle)
                 PrintHealth();

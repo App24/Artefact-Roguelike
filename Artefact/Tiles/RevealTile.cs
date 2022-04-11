@@ -14,8 +14,7 @@ namespace Artefact.Tiles
     {
         private Room room;
         private List<TeleportTile> tiles = new List<TeleportTile>();
-
-        bool revealed = false;
+        private bool revealed = false;
 
         public RevealTile(List<TeleportTile> tiles, Room room) : base(" ", false, ConsoleColor.White)
         {
