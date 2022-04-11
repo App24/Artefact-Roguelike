@@ -19,7 +19,15 @@ namespace Artefact.BattleSystem
 
             for (int i = 0; i < enemyCount; i++)
             {
-                enemies.Add(new EnemyEntity(enemy.EnemyType));
+                bool different = random.NextBool();
+                if (different)
+                {
+                    enemies.Add(new EnemyEntity((EnemyType)random.Next((int)EnemyType.Last)));
+                }
+                else
+                {
+                    enemies.Add(new EnemyEntity(enemy.EnemyType));
+                }
             }
 
             enemies.Add(enemy);

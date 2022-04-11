@@ -51,7 +51,7 @@ namespace Artefact.MapSystem
         {
             foreach (Room room in rooms)
             {
-                EnemyEntity enemy = new EnemyEntity(EnemyType.Snake);
+                EnemyEntity enemy = new EnemyEntity((EnemyType)random.Next((int)EnemyType.Last));
                 enemy.position = room.Position + room.GetRandomPosition();
                 entities.Add(enemy);
             }

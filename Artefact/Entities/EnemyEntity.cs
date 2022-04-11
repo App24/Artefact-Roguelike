@@ -30,13 +30,38 @@ namespace Artefact.Entities
                 case EnemyType.Snake:
                     {
                         Representation = "SN";
-                        MaxHealth = 3 * Map.Instance.Level;
+                        MaxHealth = 3;
                         radius = 3;
-                        HitDamage = 1 * Map.Instance.Level;
-                        Defense = 2 * Map.Instance.Level;
+                        HitDamage = 1;
+                        Defense = 2;
                     }
                     break;
+                case EnemyType.Bat:
+                    {
+                        Representation = "BA";
+                        MaxHealth = 2;
+                        radius = 3;
+                        HitDamage = 1;
+                        Defense = 1;
+                    }
+                    break;
+                case EnemyType.Troll:
+                    {
+                        Representation = "TR";
+                        MaxHealth = 5;
+                        radius = 3;
+                        HitDamage = 2;
+                        Defense = 3;
+                    }
+                    break;
+                default:
+                    {
+                        throw new Exception($"Unknown EnemyType {enemyType}");
+                    }
             }
+            MaxHealth *= Map.Instance.Level;
+            HitDamage *= Map.Instance.Level;
+            Defense *= Map.Instance.Level;
             Heal(MaxHealth);
             EnemyType = enemyType;
         }
@@ -74,6 +99,9 @@ namespace Artefact.Entities
 
     internal enum EnemyType
     {
-        Snake
+        Snake,
+        Bat,
+        Troll,
+        Last
     }
 }
